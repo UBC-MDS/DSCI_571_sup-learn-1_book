@@ -1,0 +1,50 @@
+project:
+  type: book
+
+book:
+  title: "DSCI 571: Supervised Learning I"
+  reader-mode: true
+  page-navigation: true
+  favicon: "book/img/mds-hex-sticker.png"
+
+  sidebar:
+    style: floating
+    collapse-level: 2
+    logo: "book/img/mds-hex-sticker.png"
+
+  navbar:
+    background: "#002145"
+    foreground: "#FFFFFF"
+
+  chapters:
+    - index.qmd
+    - learning-objectives.qmd
+    - book/00_intro.ipynb
+    - part: "Lectures"
+      chapters:
+        - book/01_terminology-baselines-decision-trees.ipynb
+        - book/02_ml-fundamentals.ipynb
+        - book/03_kNNs-SVM-RBF.ipynb
+        - book/04_preprocessing-pipelines.ipynb
+        - book/05_column-transformer-text-feats.ipynb
+        - book/06_hyperparameter-optimization.ipynb
+        - book/07_linear-models.ipynb
+        - book/08_loss-functions-multiclass-conclusion.ipynb
+
+format:
+  html:
+    theme: cosmo
+    css: style.css
+    toc: true
+    toc-depth: 4
+    number-sections: false
+    code-copy: true
+    math: katex
+    # anchor-sections: true
+    smooth-scroll: true
+    mermaid: {}
+    grid:
+      sidebar-width: 250px
+      body-width: 960px
+      margin-width: 200px
+      gutter-width: 1.3em
