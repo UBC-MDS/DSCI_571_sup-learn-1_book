@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 8: Loss Functions, Multiclass Classification, and Conclusions – DSCI 571: Supervised Learning I</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../book/07_linear-models.html" rel="prev">
+<link href="../book/img/mds-hex-sticker.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-2572b9132d58aad174b438d6c78acffa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DSCI 571: Supervised Learning I</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/08_loss-functions-multiclass-conclusion.html"><span class="chapter-title">Chapter 8: Loss Functions, Multiclass Classification, and Conclusions</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../book/img/mds-hex-sticker.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../book/img/mds-hex-sticker.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../learning-objectives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Detailed Learning Objectives</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/00_intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Course Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/01_terminology-baselines-decision-trees.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: From Data to a First Model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/02_ml-fundamentals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Machine Learning Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/03_kNNs-SVM-RBF.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Similarity-Based Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/04_preprocessing-pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Preprocessing and Pipelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/05_column-transformer-text-feats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Column Transformers and Text Features</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/06_hyperparameter-optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 6: Hyperparameter Optimization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/07_linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 7: Linear Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 8: Loss Functions, Multiclass Classification, and Conclusions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#which-mistakes-should-count-most" id="toc-which-mistakes-should-count-most" class="nav-link active" data-scroll-target="#which-mistakes-should-count-most">Which mistakes should count most?</a></li>
+  <li><a href="#loss-fitting-objective-and-evaluation-score" id="toc-loss-fitting-objective-and-evaluation-score" class="nav-link" data-scroll-target="#loss-fitting-objective-and-evaluation-score">Loss, fitting objective, and evaluation score</a>
+  <ul>
+  <li><a href="#exercise-8.1-what-changed-inside-the-search" id="toc-exercise-8.1-what-changed-inside-the-search" class="nav-link" data-scroll-target="#exercise-8.1-what-changed-inside-the-search">Exercise 8.1: What changed inside the search?</a></li>
+  </ul></li>
+  <li><a href="#evaluating-probabilities-with-log-loss" id="toc-evaluating-probabilities-with-log-loss" class="nav-link" data-scroll-target="#evaluating-probabilities-with-log-loss">Evaluating probabilities with log loss</a></li>
+  <li><a href="#more-than-two-classes" id="toc-more-than-two-classes" class="nav-link" data-scroll-target="#more-than-two-classes">More than two classes</a>
+  <ul>
+  <li><a href="#a-complete-multiclass-example" id="toc-a-complete-multiclass-example" class="nav-link" data-scroll-target="#a-complete-multiclass-example">A complete multiclass example</a></li>
+  <li><a href="#exercise-8.2-same-class-prediction-different-evidence" id="toc-exercise-8.2-same-class-prediction-different-evidence" class="nav-link" data-scroll-target="#exercise-8.2-same-class-prediction-different-evidence">Exercise 8.2: Same class prediction, different evidence</a></li>
+  </ul></li>
+  <li><a href="#bringing-the-workflow-together" id="toc-bringing-the-workflow-together" class="nav-link" data-scroll-target="#bringing-the-workflow-together">Bringing the workflow together</a>
+  <ul>
+  <li><a href="#exercise-8.3-review-a-proposed-workflow" id="toc-exercise-8.3-review-a-proposed-workflow" class="nav-link" data-scroll-target="#exercise-8.3-review-a-proposed-workflow">Exercise 8.3: Review a proposed workflow</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/08_loss-functions-multiclass-conclusion.html"><span class="chapter-title">Chapter 8: Loss Functions, Multiclass Classification, and Conclusions</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Chapter 8: Loss Functions, Multiclass Classification, and Conclusions</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout-lo">
+<p>By the end of this chapter, you should be able to:</p>
+<ul>
+<li>Compare how squared error and absolute error penalize regression mistakes.</li>
+<li>Distinguish a loss function, a regularized fitting objective, and an evaluation score.</li>
+<li>Explain why accuracy and log loss can rank probability predictions differently.</li>
+<li>Explain how multinomial logistic regression turns class scores into probabilities.</li>
+<li>Fit and evaluate a multiclass logistic-regression pipeline.</li>
+<li>Critique a supervised learning workflow from problem formulation to final evaluation.</li>
+</ul>
+</div>
+<p>Chapter 7 introduced linear models and the losses used to fit them. We now look more closely at what a loss rewards. Two models can make the same class predictions yet assign very different probabilities, and two regression models can have similar typical errors while differing in their largest mistakes. How we measure those differences affects which model we prefer.</p>
+<p>We will then extend logistic regression from two classes to several classes. The chapter ends by returning to the central task of this course: building a workflow that gives us credible evidence about predictions on new data.</p>
+<div id="chapter8-03" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:43.968049Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:43.967918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.025150Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.024569Z&quot;}}" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, log_loss</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, train_test_split</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="which-mistakes-should-count-most" class="level2">
+<h2 class="anchored" data-anchor-id="which-mistakes-should-count-most">Which mistakes should count most?</h2>
+<p>Suppose two models predict delivery times in minutes. On four validation examples, model A’s prediction errors are 0, 0, 0, and 8 minutes, while model B’s errors are 3, 3, 3, and 3 minutes. Model A is usually exact but makes one larger mistake. Model B is consistently a little wrong. Which would you prefer?</p>
+<p>The answer depends partly on the consequences of an error. <strong>Mean absolute error (MAE)</strong> averages the magnitudes of the errors. <strong>Mean squared error (MSE)</strong> averages their squares. Let <span class="math inline">\(e_i=\hat y_i-y_i\)</span> denote prediction minus observed target for example <span class="math inline">\(i\)</span>. With <span class="math inline">\(n\)</span> examples,</p>
+<p><span class="math display">\[
+\operatorname{MAE}=\frac{1}{n}\sum_{i=1}^n |e_i|,
+\qquad
+\operatorname{MSE}=\frac{1}{n}\sum_{i=1}^n e_i^2.
+\]</span></p>
+<p>The summation symbol means to add the contribution from each example. Both measures are zero for perfect predictions and increase as errors grow. Neither distinguishes an early prediction from a late one of the same magnitude.</p>
+<div id="chapter8-05" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:48.026945Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:48.026775Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.036149Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.035582Z&quot;}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>errors <span class="op">=</span> pd.DataFrame({<span class="st">"Model A"</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">8</span>], <span class="st">"Model B"</span>: [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>]})</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAE (minutes)"</span>: errors.<span class="bu">abs</span>().mean(),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MSE (minutes squared)"</span>: errors.<span class="bu">pow</span>(<span class="dv">2</span>).mean(),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">MAE (minutes)</th>
+<th data-quarto-table-cell-role="th">MSE (minutes squared)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Model A</th>
+<td>2.0</td>
+<td>16.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Model B</th>
+<td>3.0</td>
+<td>9.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>MAE favours model A: its average absolute error is 2 minutes, compared with 3 for model B. MSE favours model B: its mean squared error is 9, compared with 16 for model A. Squaring makes the single 8-minute error contribute 64 to the sum.</p>
+<p>Doubling an error doubles its absolute loss but quadruples its squared loss. Squared error therefore gives large mistakes relatively more influence. This can be useful when large errors are especially costly, but it also makes the fitting procedure more sensitive to unusual target values. Absolute error grows more slowly; it does not make unusual observations irrelevant.</p>
+<p>MAE is expressed in the target’s units, while MSE is expressed in squared units. Do not compare their numerical values as though a smaller number across different metrics identifies the better metric. Choose a measure whose behaviour helps answer the application question. If predicting a delivery too early has a different cost from predicting it too late, neither of these symmetric losses fully captures that difference.</p>
+</section>
+<section id="loss-fitting-objective-and-evaluation-score" class="level2">
+<h2 class="anchored" data-anchor-id="loss-fitting-objective-and-evaluation-score">Loss, fitting objective, and evaluation score</h2>
+<p>A <strong>loss</strong> measures disagreement between a prediction and its target. A <strong>fitting objective</strong> combines the losses over training examples and may add a regularization penalty. An <strong>evaluation score</strong> summarizes performance on the data we use to assess the fitted model. A loss can also serve as an evaluation measure: for example, we can compute MSE on validation predictions.</p>
+<p>For scikit-learn’s <code>Ridge</code>, the fitting objective is</p>
+<p><span class="math display">\[
+\sum_{i=1}^n (\hat y_i-y_i)^2 + \alpha\sum_{j=1}^d w_j^2.
+\]</span></p>
+<p>Here, <span class="math inline">\(d\)</span> is the number of features, <span class="math inline">\(w_j\)</span> is a coefficient, and <span class="math inline">\(\alpha\)</span> controls the penalty. The first term is a <strong>sum</strong> of squared errors, rather than a mean. Without a penalty, minimizing the sum or the mean gives the same fitted predictions. With a penalty, changing the scale of the loss changes its balance with the penalty unless we also rescale <span class="math inline">\(\alpha\)</span>. This is one reason to check an estimator’s exact objective before interpreting a regularization value. See the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">Ridge documentation</a>.</p>
+<p>Changing the <code>scoring</code> argument of a search does not replace the estimator’s fitting objective. For example, comparing <code>Ridge</code> models using validation MAE still fits each candidate using its squared-error objective and penalty. The search chooses among those fitted candidates according to MAE.</p>
+<p>Scikit-learn’s search tools maximize scores. For losses, scorer names such as <code>neg_mean_absolute_error</code> and <code>neg_log_loss</code> return the negative of the loss so that larger is better. A score of <span class="math inline">\(-2\)</span> is better than <span class="math inline">\(-5\)</span> because it corresponds to a smaller loss. Estimator defaults also differ: <code>Ridge.score</code> reports <span class="math inline">\(R^2\)</span>, while <code>LogisticRegression.score</code> reports accuracy. Always establish which quantity you are comparing.</p>
+<section id="exercise-8.1-what-changed-inside-the-search" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.1-what-changed-inside-the-search">Exercise 8.1: What changed inside the search?</h3>
+<p>A colleague changes <code>GridSearchCV(ridge_pipeline, ..., scoring="r2")</code> to use <code>scoring="neg_mean_absolute_error"</code>. They conclude that <code>Ridge.fit</code> now minimizes absolute error. Explain the mistake. Could the selected <code>alpha</code> still change?</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Each candidate still fits using Ridge’s squared-error objective and regularization penalty. The search now compares its validation predictions using negative MAE, so the ranking of candidates—and the selected <code>alpha</code>—can change. We should choose the comparison measure before inspecting final test results.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="evaluating-probabilities-with-log-loss" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-probabilities-with-log-loss">Evaluating probabilities with log loss</h2>
+<p>Accuracy uses the predicted class, so it cannot distinguish two models that make identical class predictions. Log loss uses the probability assigned to the observed class. As in Chapter 7, the loss for one example is</p>
+<p><span class="math display">\[
+-\log(p_{\text{observed}}),
+\]</span></p>
+<p>where <span class="math inline">\(\log\)</span> is the natural logarithm. Giving the observed class a probability near 1 produces a loss near zero. Assigning it a probability close to zero produces a large loss.</p>
+<p>Consider four messages whose observed labels are not spam, not spam, spam, and spam. Before running the code, compare the two sets of spam probabilities. Both models predict all four labels correctly using a 0.5 threshold. Which assigns more probability to the observed outcomes?</p>
+<div id="chapter8-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:48.037365Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:48.037283Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.045181Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.044755Z&quot;}}" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y_messages <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>spam_probabilities <span class="op">=</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hesitant"</span>: np.array([<span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.6</span>]),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Confident"</span>: np.array([<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.9</span>]),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, p_spam <span class="kw">in</span> spam_probabilities.items():</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    probabilities <span class="op">=</span> np.column_stack([<span class="dv">1</span> <span class="op">-</span> p_spam, p_spam])</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: accuracy_score(y_messages, p_spam <span class="op">&gt;</span> <span class="fl">0.5</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Log loss"</span>: log_loss(y_messages, probabilities, labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>]),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Accuracy</th>
+<th data-quarto-table-cell-role="th">Log loss</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Hesitant</th>
+<td>1.0</td>
+<td>0.510826</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Confident</th>
+<td>1.0</td>
+<td>0.105361</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Both models have accuracy 1, but the confident model has lower log loss. This does not mean that making probabilities more extreme always helps. Confidence helps here because these predictions are correct. If the last message were actually not spam, assigning it a spam probability of 0.99 would incur much more loss than assigning it 0.6.</p>
+<p>Log loss evaluates more than the hard class decision, but a low value on one dataset does not guarantee reliable probabilities for every group or for future data. The same concerns about representative evaluation data and overfitting still apply.</p>
+</section>
+<section id="more-than-two-classes" class="level2">
+<h2 class="anchored" data-anchor-id="more-than-two-classes">More than two classes</h2>
+<p>Suppose we want to route a support request to billing, technical support, or account management. Each request has one of three possible labels. This is <strong>multiclass classification</strong>. It differs from a problem in which one request can receive several labels at once; here, exactly one class is the target for each example.</p>
+<p><strong>Multinomial logistic regression</strong> extends logistic regression by computing a linear score for each class. For class <span class="math inline">\(k\)</span>,</p>
+<p><span class="math display">\[
+z_k=\mathbf{w}_k^{\mathsf T}\mathbf{x}+b_k.
+\]</span></p>
+<p>Each class has its own coefficients and intercept. We convert the scores into a single set of probabilities using <strong>softmax</strong>:</p>
+<p><span class="math display">\[
+p_k=\frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}},
+\]</span></p>
+<p>where <span class="math inline">\(K\)</span> is the number of classes. Exponentiating makes every contribution positive, and dividing by their sum makes the probabilities sum to 1. A class with a higher score receives a higher probability. It is the relative scores that matter: increasing one class’s score while holding the others fixed raises its probability and lowers the others.</p>
+<p>For example, scores of 2, 1, and 0 give the following probabilities.</p>
+<div id="chapter8-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:48.046394Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:48.046332Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.048698Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.048358Z&quot;}}" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Subtracting the maximum leaves softmax unchanged and avoids large exponentials.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>weights <span class="op">=</span> np.exp(scores <span class="op">-</span> scores.<span class="bu">max</span>())</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pd.Series(weights <span class="op">/</span> weights.<span class="bu">sum</span>(), index<span class="op">=</span>[<span class="st">"billing"</span>, <span class="st">"technical"</span>, <span class="st">"account"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>billing      0.665241
+technical    0.244728
+account      0.090031
+dtype: float64</code></pre>
+</div>
+</div>
+<p>The largest probability is approximately 0.665, so the predicted class is billing. A multiclass prediction does not require any class to exceed 0.5: probabilities of 0.40, 0.35, and 0.25 would also select billing.</p>
+<p>Applying a separate sigmoid to every score would not generally produce probabilities that sum to 1. Softmax makes the classes compete within one distribution. With two classes, softmax’s probability for the second class is the sigmoid of the difference between its score and the first class’s score, connecting this construction to binary logistic regression.</p>
+<p>Fitting uses the same observed-class log loss as before, now with more possible classes, together with regularization. For an observed technical-support request, probabilities of 0.1, 0.8, and 0.1 yield a loss of <span class="math inline">\(-\log(0.8)\approx0.223\)</span>. The label’s numeric encoding does not represent an order or a distance between classes.</p>
+<section id="a-complete-multiclass-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-complete-multiclass-example">A complete multiclass example</h3>
+<p>We will use scikit-learn’s small Iris dataset, which contains four flower measurements and a target identifying one of three iris species. It is included with scikit-learn and requires no download. It is useful for tracing the workflow, though success on this small dataset is limited evidence about other classification tasks.</p>
+<p>We reserve test data before tuning. <code>stratify=y</code> keeps class proportions approximately the same in the two subsets. We then search over <code>C</code> with preprocessing inside the pipeline. The <code>lbfgs</code> solver fits multinomial logistic regression for this three-class target; see the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">LogisticRegression documentation</a>.</p>
+<div id="chapter8-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:48.049706Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:48.049644Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.122811Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.122482Z&quot;}}" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    iris.data, iris.target, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">571</span>, stratify<span class="op">=</span>iris.target</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> make_pipeline(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    StandardScaler(), LogisticRegression(solver<span class="op">=</span><span class="st">"lbfgs"</span>, max_iter<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    pipeline,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"logisticregression__C"</span>: [<span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="fl">10.0</span>]},</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">"neg_log_loss"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>search.fit(X_train, y_train)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Selected settings:"</span>, search.best_params_)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Selected mean validation log loss:"</span>, <span class="op">-</span>search.best_score_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Selected settings: {'logisticregression__C': 10.0}
+Selected mean validation log loss: 0.08148409214713796</code></pre>
+</div>
+</div>
+<p>The search refits the selected pipeline on all training data. We now evaluate that model and a baseline that always returns the training class proportions. We selected log loss as our primary comparison measure because this example focuses on probabilities; we also report accuracy to describe the hard predictions. We do not use either test result to restart tuning.</p>
+<div id="chapter8-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:48.123756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:48.123701Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.128803Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.128446Z&quot;}}" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"prior"</span>).fit(X_train, y_train)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> [(<span class="st">"Baseline"</span>, baseline), (<span class="st">"Logistic regression"</span>, search.best_estimator_)]:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    results.append({</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Test accuracy"</span>: accuracy_score(y_test, model.predict(X_test)),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Test log loss"</span>: log_loss(y_test, model.predict_proba(X_test), labels<span class="op">=</span>model.classes_),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(results).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Test accuracy</th>
+<th data-quarto-table-cell-role="th">Test log loss</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Model</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Baseline</th>
+<td>0.315789</td>
+<td>1.099159</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Logistic regression</th>
+<td>0.947368</td>
+<td>0.111436</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="chapter8-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-09-12T19:29:48.129752Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-09-12T19:29:48.129703Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-09-12T19:29:48.133374Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-09-12T19:29:48.133054Z&quot;}}" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> search.best_estimator_</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>probabilities <span class="op">=</span> model.predict_proba(X_test.iloc[:<span class="dv">5</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>class_names <span class="op">=</span> iris.target_names[model.classes_]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>prediction_table <span class="op">=</span> pd.DataFrame(probabilities, columns<span class="op">=</span>class_names)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>prediction_table[<span class="st">"Predicted"</span>] <span class="op">=</span> iris.target_names[model.predict(X_test.iloc[:<span class="dv">5</span>])]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>prediction_table[<span class="st">"Observed"</span>] <span class="op">=</span> iris.target_names[y_test.iloc[:<span class="dv">5</span>].to_numpy()]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>prediction_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">setosa</th>
+<th data-quarto-table-cell-role="th">versicolor</th>
+<th data-quarto-table-cell-role="th">virginica</th>
+<th data-quarto-table-cell-role="th">Predicted</th>
+<th data-quarto-table-cell-role="th">Observed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1.577641e-06</td>
+<td>0.014345</td>
+<td>9.856533e-01</td>
+<td>virginica</td>
+<td>virginica</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>9.953823e-01</td>
+<td>0.004618</td>
+<td>4.904486e-13</td>
+<td>setosa</td>
+<td>setosa</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>9.980563e-01</td>
+<td>0.001944</td>
+<td>2.130821e-13</td>
+<td>setosa</td>
+<td>setosa</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>8.853663e-02</td>
+<td>0.911299</td>
+<td>1.639312e-04</td>
+<td>versicolor</td>
+<td>versicolor</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>1.383787e-08</td>
+<td>0.001374</td>
+<td>9.986261e-01</td>
+<td>virginica</td>
+<td>virginica</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Each probability column corresponds to an entry of <code>classes_</code>; we use that order when attaching species names. The largest probability identifies the predicted species. The model still has linear pairwise decision boundaries in the represented feature space, so adding classes does not remove the limitations of a linear model.</p>
+</section>
+<section id="exercise-8.2-same-class-prediction-different-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.2-same-class-prediction-different-evidence">Exercise 8.2: Same class prediction, different evidence</h3>
+<p>Two models assign probabilities to billing, technical support, and account management. Model A returns (0.40, 0.35, 0.25), while model B returns (0.90, 0.05, 0.05).</p>
+<p>What does each model predict? Which receives lower log loss if the observed class is billing? What if it is technical support? Explain why accuracy alone cannot distinguish these models on this request.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Both predict billing. If billing is observed, model B has lower loss because it assigned 0.90 to that class rather than 0.40. If technical support is observed, model A has lower loss because it assigned 0.35 rather than 0.05. Accuracy counts both as correct in the first case and both as incorrect in the second; it ignores their probabilities.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bringing-the-workflow-together" class="level2">
+<h2 class="anchored" data-anchor-id="bringing-the-workflow-together">Bringing the workflow together</h2>
+<p>The models in this book use different prediction rules, but the questions surrounding them recur. What is one example? What are we predicting? Which features will be available at prediction time? What simple baseline should the model improve on? An unclear answer to one of these questions can undermine a technically correct call to <code>fit</code>.</p>
+<p>Once the task is defined, reserve data for final evaluation and keep learned preprocessing inside the workflow used for cross-validation. Compare plausible models and hyperparameters using training data, with a measure that reflects what you need predictions to do. A larger search is not automatically better evidence: repeated comparisons can make the winning validation result optimistic.</p>
+<p>After choosing the workflow, evaluate it on the held-out test data and explain the result relative to a baseline. Report limitations as part of the result: which mistakes remain, how the evaluation data might differ from future cases, and what the analysis cannot establish. A predictive association does not establish causation, and a strong score does not by itself justify using a model to make consequential decisions.</p>
+<section id="exercise-8.3-review-a-proposed-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.3-review-a-proposed-workflow">Exercise 8.3: Review a proposed workflow</h3>
+<p>A team wants to route support requests to three departments. It includes a field recording which department eventually resolved each request, builds a text vocabulary using all requests, and then creates a train/test split. It tries many values of <code>C</code>, keeps the one with the best test accuracy, and reports that accuracy as evidence that its probability predictions are reliable.</p>
+<p>Identify the problems and propose a corrected workflow using tools from this book. Explain which choices must be settled before final test evaluation.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The resolving department is not available when a new request arrives and would reveal information about the outcome. Remove it and check the availability of the remaining inputs. Reserve the test set before learning a vocabulary; place <code>CountVectorizer</code> and the model in a pipeline so that each cross-validation fold learns its vocabulary only from that fold’s training portion. Use training-data cross-validation to choose <code>C</code>, and compare against a baseline. Decide whether the intended use requires hard routing decisions, probability estimates, or both, and choose evaluation measures accordingly. Accuracy alone does not assess the assigned probabilities. Evaluate the selected workflow once on the test set and explain the limits of that evidence.</p>
+</div>
+</div>
+</div>
+<p>You now have the components of a supervised learning workflow: a clearly defined target, a suitable representation, a baseline, candidate models, and a disciplined way to compare them. Using these components well means checking the assumptions around the code as carefully as the code itself. The next time you face a new prediction problem, start with those questions and build the simplest workflow that can provide useful evidence.</p>
+
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../book/07_linear-models.html" class="pagination-link" aria-label="Chapter 7: Linear Models">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Chapter 7: Linear Models</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Course Introduction – DSCI 571: Supervised Learning I</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../book/01_terminology-baselines-decision-trees.html" rel="next">
+<link href="../learning-objectives.html" rel="prev">
+<link href="../book/img/mds-hex-sticker.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-2572b9132d58aad174b438d6c78acffa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DSCI 571: Supervised Learning I</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/00_intro.html"><span class="chapter-title">Course Introduction</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../book/img/mds-hex-sticker.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../book/img/mds-hex-sticker.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../learning-objectives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Detailed Learning Objectives</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/00_intro.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Course Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/01_terminology-baselines-decision-trees.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 1: From Data to a First Model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/02_ml-fundamentals.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 2: Machine Learning Fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/03_kNNs-SVM-RBF.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 3: Similarity-Based Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/04_preprocessing-pipelines.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 4: Preprocessing and Pipelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/05_column-transformer-text-feats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 5: Column Transformers and Text Features</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/06_hyperparameter-optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 6: Hyperparameter Optimization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/07_linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 7: Linear Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 8: Loss Functions, Multiclass Classification, and Conclusions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
+  <li><a href="#what-are-ai-ml-and-dl" id="toc-what-are-ai-ml-and-dl" class="nav-link" data-scroll-target="#what-are-ai-ml-and-dl">What are AI, ML, and DL?</a></li>
+  <li><a href="#why-machine-learning-ml-video" id="toc-why-machine-learning-ml-video" class="nav-link" data-scroll-target="#why-machine-learning-ml-video">Why machine learning (ML)? [video]</a>
+  <ul>
+  <li><a href="#when-is-machine-learning-a-useful-approach" id="toc-when-is-machine-learning-a-useful-approach" class="nav-link" data-scroll-target="#when-is-machine-learning-a-useful-approach">When is machine learning a useful approach?</a></li>
+  <li><a href="#from-writing-rules-to-learning-patterns" id="toc-from-writing-rules-to-learning-patterns" class="nav-link" data-scroll-target="#from-writing-rules-to-learning-patterns">From writing rules to learning patterns</a></li>
+  <li><a href="#learning-patterns-in-images" id="toc-learning-patterns-in-images" class="nav-link" data-scroll-target="#learning-patterns-in-images">Learning patterns in images</a></li>
+  <li><a href="#learning-patterns-in-preferences" id="toc-learning-patterns-in-preferences" class="nav-link" data-scroll-target="#learning-patterns-in-preferences">Learning patterns in preferences</a></li>
+  <li><a href="#learning-patterns-without-labels" id="toc-learning-patterns-without-labels" class="nav-link" data-scroll-target="#learning-patterns-without-labels">Learning patterns without labels</a></li>
+  <li><a href="#one-recurring-idea" id="toc-one-recurring-idea" class="nav-link" data-scroll-target="#one-recurring-idea">One recurring idea</a></li>
+  </ul></li>
+  <li><a href="#different-kinds-of-machine-learning" id="toc-different-kinds-of-machine-learning" class="nav-link" data-scroll-target="#different-kinds-of-machine-learning">Different kinds of machine learning</a>
+  <ul>
+  <li><a href="#supervised-learning-predict-an-outcome" id="toc-supervised-learning-predict-an-outcome" class="nav-link" data-scroll-target="#supervised-learning-predict-an-outcome">Supervised learning: predict an outcome</a></li>
+  <li><a href="#unsupervised-learning-find-structure" id="toc-unsupervised-learning-find-structure" class="nav-link" data-scroll-target="#unsupervised-learning-find-structure">Unsupervised learning: find structure</a></li>
+  <li><a href="#reinforcement-learning-learn-through-actions-and-rewards" id="toc-reinforcement-learning-learn-through-actions-and-rewards" class="nav-link" data-scroll-target="#reinforcement-learning-learn-through-actions-and-rewards">Reinforcement learning: learn through actions and rewards</a></li>
+  <li><a href="#recommendation-systems-suggest-something-relevant" id="toc-recommendation-systems-suggest-something-relevant" class="nav-link" data-scroll-target="#recommendation-systems-suggest-something-relevant">Recommendation systems: suggest something relevant</a></li>
+  <li><a href="#generative-ai-produce-content" id="toc-generative-ai-produce-content" class="nav-link" data-scroll-target="#generative-ai-produce-content">Generative AI: produce content</a></li>
+  </ul></li>
+  <li><a href="#our-focus-in-dsci-571" id="toc-our-focus-in-dsci-571" class="nav-link" data-scroll-target="#our-focus-in-dsci-571">Our focus in DSCI 571</a></li>
+  <li><a href="#supervised-machine-learning" id="toc-supervised-machine-learning" class="nav-link" data-scroll-target="#supervised-machine-learning">Supervised machine learning</a>
+  <ul>
+  <li><a href="#learning-from-inputs-and-known-outcomes" id="toc-learning-from-inputs-and-known-outcomes" class="nav-link" data-scroll-target="#learning-from-inputs-and-known-outcomes">Learning from inputs and known outcomes</a></li>
+  <li><a href="#example-1-predict-whether-a-message-is-spam-or-not" id="toc-example-1-predict-whether-a-message-is-spam-or-not" class="nav-link" data-scroll-target="#example-1-predict-whether-a-message-is-spam-or-not">Example 1: Predict whether a message is spam or not</a>
+  <ul class="collapse">
+  <li><a href="#input-features-x-and-target-y" id="toc-input-features-x-and-target-y" class="nav-link" data-scroll-target="#input-features-x-and-target-y">Input features <span class="math inline">\(X\)</span> and target <span class="math inline">\(y\)</span></a></li>
+  <li><a href="#training-a-supervised-machine-learning-model-with-x-and-y" id="toc-training-a-supervised-machine-learning-model-with-x-and-y" class="nav-link" data-scroll-target="#training-a-supervised-machine-learning-model-with-x-and-y">Training a supervised machine learning model with <span class="math inline">\(X\)</span> and <span class="math inline">\(y\)</span></a></li>
+  <li><a href="#predicting-on-unseen-data-using-the-trained-model" id="toc-predicting-on-unseen-data-using-the-trained-model" class="nav-link" data-scroll-target="#predicting-on-unseen-data-using-the-trained-model">Predicting on unseen data using the trained model</a></li>
+  </ul></li>
+  <li><a href="#example-2-classify-images-with-a-pretrained-model" id="toc-example-2-classify-images-with-a-pretrained-model" class="nav-link" data-scroll-target="#example-2-classify-images-with-a-pretrained-model">Example 2: Classify images with a pretrained model</a></li>
+  <li><a href="#example-3-predict-housing-prices" id="toc-example-3-predict-housing-prices" class="nav-link" data-scroll-target="#example-3-predict-housing-prices">Example 3: Predict housing prices</a></li>
+  <li><a href="#evas-questions" id="toc-evas-questions" class="nav-link" data-scroll-target="#evas-questions">Eva’s questions</a></li>
+  <li><a href="#supervised-machine-learning-workflow" id="toc-supervised-machine-learning-workflow" class="nav-link" data-scroll-target="#supervised-machine-learning-workflow">Supervised machine learning workflow</a></li>
+  <li><a href="#who-or-what-should-solve-the-problem" id="toc-who-or-what-should-solve-the-problem" class="nav-link" data-scroll-target="#who-or-what-should-solve-the-problem">Who or what should solve the problem?</a></li>
+  <li><a href="#try-framing-an-ml-problem" id="toc-try-framing-an-ml-problem" class="nav-link" data-scroll-target="#try-framing-an-ml-problem">Try framing an ML problem</a></li>
+  <li><a href="#questions-for-you" id="toc-questions-for-you" class="nav-link" data-scroll-target="#questions-for-you">❓❓ Questions for you</a></li>
+  <li><a href="#exercise-0.1" id="toc-exercise-0.1" class="nav-link" data-scroll-target="#exercise-0.1">Exercise 0.1</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Course Introduction</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In Block 1, you learned to make things happen with Python: work with data, write functions, and express decisions in code. Now imagine being asked to write a function that decides whether a message is spam. What would you put inside it?</p>
+<p>Start by examining these messages and their labels. <strong>What patterns might help you distinguish spam from non-spam?</strong> Think of a rule you could express in Python before reading on.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Message</th>
+<th style="text-align: center;">Spam?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">🎉 CONGRATULATIONS! YOU WON $1000!</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Your package has shipped</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Assignment due tomorrow</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">YOU WON A FREE PRIZE 🎁!</td>
+<td style="text-align: center;">Yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dinner tonight?</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Can we meet at 3 PM?</td>
+<td style="text-align: center;">No</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Are you free for lunch?</td>
+<td style="text-align: center;">No</td>
+</tr>
+</tbody>
+</table>
+<p>Perhaps you noticed mentions of prizes or money, capital letters, or the word “free.” Let’s try one simple rule: if a message contains “free,” label it as spam. The function below returns <code>True</code> for spam and <code>False</code> for not spam. Calling <code>.lower()</code> makes the check ignore capitalization.</p>
+<p><strong>Before running the code or reading its output, predict the label it will assign to each message.</strong> Where will the rule disagree with the table?</p>
+<div id="cell-2" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_spam(message):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"free"</span> <span class="kw">in</span> message.lower()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> [</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"🎉 CONGRATULATIONS! YOU WON $1000!"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Your package has shipped"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Assignment due tomorrow"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"YOU WON A FREE PRIZE 🎁!"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dinner tonight?"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Can we meet at 3 PM?"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Are you free for lunch?"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> message <span class="kw">in</span> messages:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> <span class="st">"spam"</span> <span class="cf">if</span> is_spam(message) <span class="cf">else</span> <span class="st">"not spam"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>message<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>not spam: 🎉 CONGRATULATIONS! YOU WON $1000!
+not spam: Your package has shipped
+not spam: Assignment due tomorrow
+spam: YOU WON A FREE PRIZE 🎁!
+not spam: Dinner tonight?
+not spam: Can we meet at 3 PM?
+spam: Are you free for lunch?</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Pause and reflect">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Pause and reflect
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Which messages does the function label incorrectly? What is the consequence of each kind of mistake?</li>
+<li>How would you change the rule? Can you invent a message that would break your revised rule?</li>
+<li>How would you check whether your changes improved the detector overall, rather than just fixing these examples?</li>
+</ol>
+<p>Try proposing a revised rule before reading on.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Discussion">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Discussion
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The lunch invitation is labelled as spam because it contains “free.” The “CONGRATULATIONS” message is labelled as spam in our table, but the function misses it because it does not contain that word. One mistake could hide a message we want to read; the other could let an unwanted message into our inbox.</p>
+<p>Adding “won” might catch the missed spam message, but it would also flag “Our team won the game!” Capital letters and emoji are not reliable rules either: genuine messages can use both. We can keep adding exceptions, but it becomes difficult to anticipate all the ways people write messages.</p>
+<p>To assess a revised rule, we would want a larger, varied collection of messages with known spam or non-spam labels, including messages we did not use to design the rule. Fixing these examples alone would not tell us how well the detector handles new messages.</p>
+</div>
+</div>
+</div>
+<p>The Python code does exactly what we asked. The difficulty is choosing rules that work across many different messages.</p>
+<p><strong>What if we used examples of spam and non-spam messages to learn useful patterns?</strong></p>
+<p>In the Python function above, we supplied the rule ourselves. In <strong>supervised machine learning</strong>, we instead supply examples with known answers to a learning algorithm, which produces a <strong>model</strong>. We then use that model to predict answers for new inputs.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/traditional-programming-vs-ML.png" class="img-fluid figure-img"></p>
+<figcaption>Traditional programming uses inputs and explicit rules to produce outputs. Supervised machine learning uses training inputs and known outputs to learn a model, which then predicts outputs for new inputs.</figcaption>
+</figure>
+</div>
+<p>There is still code in both approaches. What changes is whether we write the prediction rules ourselves or learn them from data. Learning from examples can help, but we will still need to check the predictions: a learned model can make both kinds of mistake too.</p>
+<p>Welcome to DSCI 571: Supervised Learning I. If machine learning is new to you, you are in the right place. We will build from your programming experience, introducing the concepts and mathematical ideas as we need them. Your Python skills will help you put those ideas into practice; you do not need to arrive knowing how an ML model works.</p>
+<p>Work through this chapter before the first lecture. It gives you a tour of the wider ML field before introducing our course’s focus: supervised learning with scikit-learn. Pause at the examples and try making a prediction yourself. For now, aim to understand what a system learns from and what we want it to do. The details of the code will come later.</p>
+<section id="learning-outcomes" class="level2 unnumbered callout-lo">
+<h2 class="unnumbered anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
+<p>By the end of this chapter, you should be able to:</p>
+<ul>
+<li>Explain the relationship between artificial intelligence (AI), machine learning (ML), and deep learning (DL).</li>
+<li>Distinguish supervised, unsupervised, and reinforcement learning by the information available to the learner.</li>
+<li>Describe recommendation systems and generative AI, and explain why they can overlap with these learning approaches.</li>
+<li>Distinguish learning from examples from programming explicit rules, and judge when each approach is useful.</li>
+<li>Identify the inputs and target in a supervised learning problem, and distinguish predicting a category from predicting a number.</li>
+<li>Describe DSCI 571’s focus on building and evaluating supervised learning workflows with scikit-learn.</li>
+</ul>
+</section>
+<p><br><br></p>
+<p><strong>Meet Eva, a fellow learner</strong></p>
+<p><img src="img/eva-hi.png" class="img-fluid"></p>
+<p>Eva is a fictitious MDS student who has just finished Block 1. She can write Python functions and work with data, but she has never trained a machine learning model. When she hears that a model “learns,” she wonders: “What does that actually mean? Someone still has to write the code, right?”</p>
+<p>She also wonders how she would check her spam detector. Testing a function against a few expected outputs feels familiar. But how could she test it against all the different messages people might send tomorrow?</p>
+<p>We will return to Eva’s questions throughout the book. Try answering them as you go, and keep track of your own questions too.</p>
+<p><br><br></p>
+<section id="what-are-ai-ml-and-dl" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-ai-ml-and-dl">What are AI, ML, and DL?</h2>
+<p>You may have encountered AI in a chatbot, a news story, or a discussion about technology. Before we go further, let’s place machine learning within that bigger picture. These three terms are related, but they mean different things.</p>
+<p><strong>Artificial intelligence (AI)</strong> is a broad field concerned with building systems that perform tasks such as reasoning, recognizing images, understanding language, and making decisions. Some AI systems use rules written by people; others learn from data.</p>
+<p><strong>Machine learning (ML)</strong> is a part of AI in which systems learn patterns from data rather than having people explicitly write every rule for the task. For example, a spam filter can learn from messages that have been marked as spam or non-spam. People still write the learning software and choose the data and learning task.</p>
+<p><strong>Deep learning (DL)</strong> is a part of ML that uses neural networks with multiple layers to learn representations and patterns in data. It is used in many image, speech, and language systems. You do not need to know how neural networks work to follow this chapter.</p>
+<p><img src="img/ai-ml-dl.png" class="img-fluid"></p>
+<p>These terms describe nested fields, not competing alternatives. Next, we will look at some problems that motivate learning from data, then use them to distinguish different kinds of ML.</p>
+<p><br><br><br><br></p>
+</section>
+<section id="why-machine-learning-ml-video" class="level2">
+<h2 class="anchored" data-anchor-id="why-machine-learning-ml-video">Why machine learning (ML)? [<a href="https://www.youtube.com/watch?v=-1hTcS5ZE4w&amp;t=1s">video</a>]</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="See also">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>See also
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Check out <a href="https://www.youtube.com/watch?v=-1hTcS5ZE4w&amp;t=1s">the accompanying video</a> on this material.</p>
+</div>
+</div>
+<section id="when-is-machine-learning-a-useful-approach" class="level3">
+<h3 class="anchored" data-anchor-id="when-is-machine-learning-a-useful-approach">When is machine learning a useful approach?</h3>
+<p>Machine learning is especially useful when we have many examples and expect useful patterns in them, but the relationship is too complicated and noisy to express as a reliable set of hand-written rules. Image recognition, spam filtering, and personalized recommendations all have this character.</p>
+<p>ML is not automatically the right tool for every problem:</p>
+<ul>
+<li>Use <strong>explicit rules</strong> when the logic is known, stable, and deterministic.</li>
+<li>Use <strong>human judgment</strong> when the task depends heavily on context, empathy, values, or accountability.</li>
+<li>Consider <strong>machine learning</strong> when useful rules are difficult to specify but representative data and a meaningful way to evaluate errors are available.</li>
+</ul>
+<p>Real systems often combine all three. Before building a model, we should ask what role (if any) ML ought to play and what the consequences of its mistakes would be.</p>
+</section>
+<section id="from-writing-rules-to-learning-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="from-writing-rules-to-learning-patterns">From writing rules to learning patterns</h3>
+<p>For the spam detector, we could keep adding rules whenever we find a mistake. But each exception makes the program harder to maintain, and new messages may still slip through. An alternative is to collect examples and use a learning algorithm to find patterns that help distinguish spam from non-spam.</p>
+<p>Before looking at an algorithm, try doing the pattern-finding yourself. In the next few examples, ask: <strong>What information helps me decide, and what might make my guess wrong?</strong></p>
+</section>
+<section id="learning-patterns-in-images" class="level3 smaller">
+<h3 class="smaller anchored" data-anchor-id="learning-patterns-in-images">Learning patterns in images</h3>
+<p>Imagine that we want to write a program that can tell cats and foxes apart. What patterns might help?</p>
+<p><img src="img/cat-or-fox.png" class="img-fluid"></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 21%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 15%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Image ID</th>
+<th>Whiskers Present</th>
+<th>Ear Size</th>
+<th>Face Shape</th>
+<th>Fur Color</th>
+<th>Eye Shape</th>
+<th>Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Yes</td>
+<td>Large</td>
+<td>Round</td>
+<td>Mixed</td>
+<td>Round</td>
+<td>Cat</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Yes</td>
+<td>Medium</td>
+<td>Round</td>
+<td>Brown</td>
+<td>Almond</td>
+<td>Cat</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Yes</td>
+<td>Large</td>
+<td>Pointed</td>
+<td>Red</td>
+<td>Narrow</td>
+<td>Fox</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Yes</td>
+<td>Large</td>
+<td>Pointed</td>
+<td>Red</td>
+<td>Narrow</td>
+<td>Fox</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Yes</td>
+<td>Small</td>
+<td>Round</td>
+<td>Mixed</td>
+<td>Round</td>
+<td>Cat</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Yes</td>
+<td>Large</td>
+<td>Pointed</td>
+<td>Red</td>
+<td>Narrow</td>
+<td>Fox</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Yes</td>
+<td>Small</td>
+<td>Round</td>
+<td>Grey</td>
+<td>Round</td>
+<td>Cat</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Yes</td>
+<td>Small</td>
+<td>Round</td>
+<td>Black</td>
+<td>Round</td>
+<td>Cat</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Yes</td>
+<td>Large</td>
+<td>Pointed</td>
+<td>Red</td>
+<td>Narrow</td>
+<td>Fox</td>
+</tr>
+</tbody>
+</table>
+<p>Which patterns would you use to classify a new image?</p>
+<p>In this small dataset, <strong>fur colour, face shape, and eye shape seem informative</strong>: the foxes have red fur, pointed faces, and narrow eyes, whereas the cats tend to have non-red fur and rounder faces and eyes. <strong>Whiskers are not informative here</strong> because every example has them; a feature that does not vary cannot help distinguish the two classes. Ear size may provide some information, but it does not separate the classes perfectly because some cats also have large ears.</p>
+<p>These are patterns in the observed examples, not universal rules about all cats and foxes. More varied data could reveal exceptions or different useful patterns.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The table uses human-interpretable features to develop intuition. Modern image classifiers usually learn useful representations directly from pixel values.</p>
+</div>
+</div>
+</section>
+<section id="learning-patterns-in-preferences" class="level3">
+<h3 class="anchored" data-anchor-id="learning-patterns-in-preferences">Learning patterns in preferences</h3>
+<p>Imagine that you want to recommend a movie to Pat. Based on these examples, what would you recommend?</p>
+<p><img src="img/toy-movie-pattern.png" class="img-fluid"></p>
+<p>What pattern connects Sam’s and Pat’s preferences? How confident are you in your recommendation?</p>
+<p>Sam and Pat both rate <em>The Lion King</em>, <em>The Little Mermaid</em>, and <em>Bambi</em> highly, suggesting that their movie preferences may be similar. Because Sam also likes <em>Toy Story</em>, it could be a reasonable recommendation for Pat. This is the basic intuition behind <strong>collaborative filtering</strong>: interactions from people with similar preferences can help fill in a missing preference. Recommendation systems often combine this idea with information about the items or users, so they do not fit neatly into only one learning category.</p>
+<p>Our confidence should be limited, however: the pattern is based on only a few overlapping ratings, and we know very little about the other factors that shape either person’s preferences.</p>
+</section>
+<section id="learning-patterns-without-labels" class="level3">
+<h3 class="anchored" data-anchor-id="learning-patterns-without-labels">Learning patterns without labels</h3>
+<p>Suppose we have a large collection of food photographs but no category labels. How might you organize these images into useful groups?</p>
+<p><img src="img/food-clustering-activity.png" class="img-fluid" alt="A collage of many foods, including desserts, pasta, salads, soup, and breakfast dishes"></p>
+<p>A <strong>clustering</strong> method looks for groups of similar examples without being told the correct group for each image. To do this, we first need a numerical <strong>representation</strong> of each image, perhaps features learned by a neural network, and a way to describe which representations are similar. The method might then group foods by visual appearance, ingredients, cuisine, or some other pattern encoded by that representation. Unlike cat-versus-fox classification, there is no supplied target label and often no single correct grouping.</p>
+<p>The resulting clusters do not explain themselves. People must examine and interpret them—and check whether the discovered grouping is useful or merely reflects incidental features such as plate colour, lighting, or background.</p>
+</section>
+<section id="one-recurring-idea" class="level3">
+<h3 class="anchored" data-anchor-id="one-recurring-idea">One recurring idea</h3>
+<p>These systems all learn from examples:</p>
+<ul>
+<li>Image classifiers learn patterns in visual information.</li>
+<li>Recommenders learn patterns in preferences and interactions.</li>
+<li>Spam filters learn patterns in language.</li>
+<li>Clustering methods look for structure among examples that do not have labels.</li>
+</ul>
+<p>The data and methods differ, but the goal is similar: <strong>learn from observed examples and generalize to new cases.</strong></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A learned pattern is not necessarily meaningful or reliable. It may reflect accidents or biases in the training data.</p>
+</div>
+</div>
+<p><br><br></p>
+</section>
+</section>
+<section id="different-kinds-of-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="different-kinds-of-machine-learning">Different kinds of machine learning</h2>
+<p>A spam detector is one small part of a much larger field. Here is a quick tour of five areas you may encounter. For now, aim to explain the main idea of each with an example; we will build the foundations in this course and explore more of the field in later ML courses.</p>
+<section id="supervised-learning-predict-an-outcome" class="level3">
+<h3 class="anchored" data-anchor-id="supervised-learning-predict-an-outcome">Supervised learning: predict an outcome</h3>
+<p><strong>Learn from examples with known answers.</strong> Our spam detector learns from messages labelled spam or non-spam, then predicts a label for a new message. The answer can also be a number, such as a home’s sale price.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ml-tour-supervised.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Labelled messages are used to learn how to predict whether a new message is spam.</figcaption>
+</figure>
+</div>
+</section>
+<section id="unsupervised-learning-find-structure" class="level3">
+<h3 class="anchored" data-anchor-id="unsupervised-learning-find-structure">Unsupervised learning: find structure</h3>
+<p><strong>Look for patterns without supplied answer labels.</strong> We might group the food photos we saw earlier by similarity, without telling the system which foods belong together. This is called <strong>clustering</strong>; we then examine whether the groups are useful.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ml-tour-unsupervised.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Mixed circles, triangles, and squares become groups of similar shapes, illustrating clustering.</figcaption>
+</figure>
+</div>
+</section>
+<section id="reinforcement-learning-learn-through-actions-and-rewards" class="level3">
+<h3 class="anchored" data-anchor-id="reinforcement-learning-learn-through-actions-and-rewards">Reinforcement learning: learn through actions and rewards</h3>
+<p><strong>Learn how to act from feedback.</strong> A robot in a simulation tries moving around a room and receives rewards for reaching its destination and penalties for collisions. It learns to choose actions that lead to more reward over time.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ml-tour-reinforcement.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>A robot takes an action and receives a reward and a new situation, which inform future actions.</figcaption>
+</figure>
+</div>
+</section>
+<section id="recommendation-systems-suggest-something-relevant" class="level3">
+<h3 class="anchored" data-anchor-id="recommendation-systems-suggest-something-relevant">Recommendation systems: suggest something relevant</h3>
+<p><strong>Use preferences and interactions to suggest items.</strong> Recall Sam and Pat’s movie ratings: their shared favourites give us a reason to recommend another movie Sam enjoyed to Pat. Music and shopping services face similar tasks.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ml-tour-recommendations.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Sam and Pat both like movies A and B. Sam also likes C, so C is suggested to Pat.</figcaption>
+</figure>
+</div>
+</section>
+<section id="generative-ai-produce-content" class="level3">
+<h3 class="anchored" data-anchor-id="generative-ai-produce-content">Generative AI: produce content</h3>
+<p><strong>Use learned patterns to generate text, images, audio, or code.</strong> For example, a language model can draft a study-group invitation from a short instruction, called a <strong>prompt</strong>. We still need to check whether the result is suitable and accurate.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ml-tour-generative.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>A prompt asking for a study-group invitation leads to a generated draft invitation.</figcaption>
+</figure>
+</div>
+<p>These areas overlap. Supervised, unsupervised, and reinforcement learning describe ways of learning; recommendations and generative AI describe what a system does and can draw on more than one learning approach.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Explain it to a classmate">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Explain it to a classmate
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Choose one area and describe a use for it in one or two sentences. What would the system learn from, and what would you want it to do?</p>
+</div>
+</div>
+<p>You do not need to master all of these areas now. Our starting point is <strong>supervised learning</strong>: learning from known outcomes and checking how well we predict new ones.</p>
+</section>
+</section>
+<section id="our-focus-in-dsci-571" class="level2">
+<h2 class="anchored" data-anchor-id="our-focus-in-dsci-571">Our focus in DSCI 571</h2>
+<p>DSCI 571: Supervised Learning I builds the foundations for working with machine learning, with a focus on <strong>supervised learning using scikit-learn</strong> (imported in Python as <code>sklearn</code>). We will learn how to frame a prediction problem, prepare data, train models, and evaluate how well they work on new examples. Think of this as extending your Python toolkit: you will still write code and work with data, but you will also learn how to judge predictions that can be wrong even when the code runs correctly. Choosing and fitting an algorithm is only one part of that workflow.</p>
+<p>This course is the starting point for the program’s ML sequence. Later ML courses will cover <strong>unsupervised learning, deep learning, and generative AI</strong>, building on the foundations we develop here. The map below shows how DSCI 571 connects to courses on improving supervised learning workflows (DSCI 573), unsupervised learning (DSCI 563), deep learning (DSCI 572), and natural language processing (DSCI 575).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/MDS-ML-map.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Map of the MDS machine learning courses. DSCI 571 provides foundations for DSCI 573 and DSCI 563. DSCI 573 connects to DSCI 572, and both DSCI 572 and DSCI 563 connect to DSCI 575.</figcaption>
+</figure>
+</div>
+<p>You do not need to understand every term in the map yet. For now, notice how the ability to build and evaluate a simple supervised learning workflow supports the work that follows. Across these courses, we will return to shared questions: What can the data tell us? How should we evaluate the result? What could go wrong when the system is used?</p>
+<p>Chapter 0 provides this independent-study introduction before the eight lectures. The lecture chapters build a supervised learning workflow step by step.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Chapter</th>
+<th>Focus</th>
+<th>Guiding question</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td>Terminology, baselines, and decision trees</td>
+<td>How do we turn data into a first prediction model?</td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td>Machine learning fundamentals</td>
+<td>How can we estimate performance on new data?</td>
+</tr>
+<tr class="odd">
+<td><strong>3</strong></td>
+<td>Similarity-based models</td>
+<td>When are nearby examples useful for prediction?</td>
+</tr>
+<tr class="even">
+<td><strong>4</strong></td>
+<td>Preprocessing and pipelines</td>
+<td>How do we prepare features without leaking information?</td>
+</tr>
+<tr class="odd">
+<td><strong>5</strong></td>
+<td>Column transformers and text features</td>
+<td>How do we combine different kinds of inputs?</td>
+</tr>
+<tr class="even">
+<td><strong>6</strong></td>
+<td>Hyperparameter optimization</td>
+<td>How do we compare model settings systematically?</td>
+</tr>
+<tr class="odd">
+<td><strong>7</strong></td>
+<td>Linear models</td>
+<td>How do weighted sums support regression and classification?</td>
+</tr>
+<tr class="even">
+<td><strong>8</strong></td>
+<td>Loss functions, multiclass classification, and conclusions</td>
+<td>What do models optimize, and how do we assess the complete workflow?</td>
+</tr>
+</tbody>
+</table>
+<p>The rest of this introduction previews supervised learning through three examples: detecting spam, classifying images with a pretrained model, and predicting housing prices. Focus on what each model receives and what it predicts; later chapters explain how to build and evaluate supervised learning workflows with scikit-learn. The image and housing demonstrations also use libraries beyond scikit-learn.</p>
+</section>
+<section id="supervised-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-machine-learning">Supervised machine learning</h2>
+<section id="learning-from-inputs-and-known-outcomes" class="level3">
+<h3 class="anchored" data-anchor-id="learning-from-inputs-and-known-outcomes">Learning from inputs and known outcomes</h3>
+<p>Recall the spam example: each training message comes with a known outcome, spam or non-spam. These paired examples are our <strong>training data</strong>. The information we give the model is called the <strong>input features</strong>, commonly written as <span class="math inline">\(X\)</span>, and the outcome we want to predict is the <strong>target</strong>, written as <span class="math inline">\(y\)</span>. For text, we need to convert the messages into numerical features before the model can use them.</p>
+<p>During <strong>training</strong>, also called <strong>fitting</strong>, a learning algorithm uses these pairs to construct a model that relates inputs to targets. We often write this model as a function <span class="math inline">\(f\)</span>: it takes an input and produces a prediction. Once trained, the model can predict a target for a new example whose outcome we do not yet know.</p>
+<p><img src="img/sup-learning.png" class="img-fluid"></p>
+<p>The aim is to make useful predictions on new examples, not merely to reproduce the training answers. We therefore keep some examples separate from training to help assess how well the model <strong>generalizes</strong> to unseen data.</p>
+<p>Predicting a category, such as spam or non-spam, is called <strong>classification</strong>. Predicting a numerical value, such as a home’s sale price, is called <strong>regression</strong>. Both are supervised learning tasks because the training examples include known targets.</p>
+</section>
+<section id="example-1-predict-whether-a-message-is-spam-or-not" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-predict-whether-a-message-is-spam-or-not">Example 1: Predict whether a message is spam or not</h3>
+<section id="input-features-x-and-target-y" class="level4">
+<h4 class="anchored" data-anchor-id="input-features-x-and-target-y">Input features <span class="math inline">\(X\)</span> and target <span class="math inline">\(y\)</span></h4>
+<p>Let’s return to the spam detector from the opening of the chapter. This time, we will give a learning algorithm examples instead of writing our own word-matching rules. We will train it using messages with known labels, then ask it to predict labels for messages kept separate from training. The dataset uses <code>ham</code> to mean non-spam.</p>
+<p>You will recognize some Python ingredients below: imports, variables, and function calls. The unfamiliar names are tools we will learn to use throughout the course. <code>CountVectorizer</code> turns text into numerical word counts, <code>LogisticRegression</code> is a classification model, and <code>make_pipeline</code> connects the two steps. You do not need to memorize these names yet.</p>
+<p>As you read, follow three steps: <strong>set aside some messages, learn from the remaining examples, and predict labels for the messages we set aside.</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Download SMS Spam Collection Dataset from <a href="https://www.kaggle.com/uciml/sms-spam-collection-dataset">here</a>.</p>
+</div>
+</div>
+</section>
+<section id="training-a-supervised-machine-learning-model-with-x-and-y" class="level4">
+<h4 class="anchored" data-anchor-id="training-a-supervised-machine-learning-model-with-x-and-y">Training a supervised machine learning model with <span class="math inline">\(X\)</span> and <span class="math inline">\(y\)</span></h4>
+<div id="05be1ee9-5aa2-4b6c-9b20-ccb6d482a60a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;slideshow&quot;,&quot;value&quot;:{&quot;slide_type&quot;:&quot;skip&quot;}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.max_colwidth"</span>, <span class="dv">200</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="f4511fed-6251-4301-9217-240723c2075e" class="cell" data-tags="[&quot;hide-input&quot;]" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sms_df <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">"spam.csv"</span>, encoding<span class="op">=</span><span class="st">"latin-1"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sms_df <span class="op">=</span> sms_df.drop(columns <span class="op">=</span> [<span class="st">"Unnamed: 2"</span>, <span class="st">"Unnamed: 3"</span>, <span class="st">"Unnamed: 4"</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sms_df <span class="op">=</span> sms_df.rename(columns<span class="op">=</span>{<span class="st">"v1"</span>: <span class="st">"target"</span>, <span class="st">"v2"</span>: <span class="st">"sms"</span>})</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(sms_df, test_size<span class="op">=</span><span class="fl">0.10</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>HTML(train_df.head().to_html(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">target</th>
+<th data-quarto-table-cell-role="th">sms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>spam</td>
+<td>LookAtMe!: Thanks for your purchase of a video clip from LookAtMe!, you've been charged 35p. Think you can do better? Why not send a video in a MMSto 32323.</td>
+</tr>
+<tr class="even">
+<td>ham</td>
+<td>Aight, I'll hit you up when I get some cash</td>
+</tr>
+<tr class="odd">
+<td>ham</td>
+<td>Don no da:)whats you plan?</td>
+</tr>
+<tr class="even">
+<td>ham</td>
+<td>Going to take your babe out ?</td>
+</tr>
+<tr class="odd">
+<td>ham</td>
+<td>No need lar. Jus testing e phone card. Dunno network not gd i thk. Me waiting 4 my sis 2 finish bathing so i can bathe. Dun disturb u liao u cleaning ur room.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="6f38510c-ad87-4d48-b267-cfe7bf44aa83" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;slideshow&quot;,&quot;value&quot;:{&quot;slide_type&quot;:&quot;-&quot;}}" data-tags="[]" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> train_df[<span class="st">"sms"</span>], train_df[<span class="st">"target"</span>]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> test_df[<span class="st">"sms"</span>], test_df[<span class="st">"target"</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> make_pipeline(CountVectorizer(max_features<span class="op">=</span><span class="dv">5000</span>), LogisticRegression(max_iter<span class="op">=</span><span class="dv">5000</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>clf.fit(X_train, y_train)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="predicting-on-unseen-data-using-the-trained-model" class="level4">
+<h4 class="anchored" data-anchor-id="predicting-on-unseen-data-using-the-trained-model">Predicting on unseen data using the trained model</h4>
+<div id="e20d2921-a8d0-4b63-8756-3bb5fb5c869a" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(X_test[<span class="dv">0</span>:<span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">sms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3245</th>
+<td>Funny fact Nobody teaches volcanoes 2 erupt, tsunamis 2 arise, hurricanes 2 sway aroundn no 1 teaches hw 2 choose a wife Natural disasters just happens</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">944</th>
+<td>I sent my scores to sophas and i had to do secondary application for a few schools. I think if you are thinking of applying, do a research on cost also. Contact joke ogunrinde, her school is one m...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1044</th>
+<td>We know someone who you know that fancies you. Call 09058097218 to find out who. POBox 6, LS15HB 150p</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2484</th>
+<td>Only if you promise your getting out as SOON as you can. And you'll text me in the morning to let me know you made it in ok.</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="ec41e07b-5c3b-4a44-ad64-519c9dc4bda7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;slideshow&quot;,&quot;value&quot;:{&quot;slide_type&quot;:&quot;slide&quot;}}" data-tags="[]" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pred_dict <span class="op">=</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sms"</span>: X_test[<span class="dv">0</span>:<span class="dv">4</span>],</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"spam_predictions"</span>: clf.predict(X_test[<span class="dv">0</span>:<span class="dv">4</span>]),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>pred_df <span class="op">=</span> pd.DataFrame(pred_dict)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>pred_df.style.set_properties(<span class="op">**</span>{<span class="st">"text-align"</span>: <span class="st">"left"</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<style type="text/css">
+#T_b243e_row0_col0, #T_b243e_row0_col1, #T_b243e_row1_col0, #T_b243e_row1_col1, #T_b243e_row2_col0, #T_b243e_row2_col1, #T_b243e_row3_col0, #T_b243e_row3_col1 {
+  text-align: left;
+}
+</style>
+
+<table id="T_b243e" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_b243e_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">sms</th>
+<th id="T_b243e_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">spam_predictions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th id="T_b243e_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">3245</th>
+<td id="T_b243e_row0_col0" class="data row0 col0">Funny fact Nobody teaches volcanoes 2 erupt, tsunamis 2 arise, hurricanes 2 sway aroundn no 1 teaches hw 2 choose a wife Natural disasters just happens</td>
+<td id="T_b243e_row0_col1" class="data row0 col1">ham</td>
+</tr>
+<tr class="even">
+<th id="T_b243e_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">944</th>
+<td id="T_b243e_row1_col0" class="data row1 col0">I sent my scores to sophas and i had to do secondary application for a few schools. I think if you are thinking of applying, do a research on cost also. Contact joke ogunrinde, her school is one me the less expensive ones</td>
+<td id="T_b243e_row1_col1" class="data row1 col1">ham</td>
+</tr>
+<tr class="odd">
+<th id="T_b243e_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">1044</th>
+<td id="T_b243e_row2_col0" class="data row2 col0">We know someone who you know that fancies you. Call 09058097218 to find out who. POBox 6, LS15HB 150p</td>
+<td id="T_b243e_row2_col1" class="data row2 col1">spam</td>
+</tr>
+<tr class="even">
+<th id="T_b243e_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">2484</th>
+<td id="T_b243e_row3_col0" class="data row3 col0">Only if you promise your getting out as SOON as you can. And you'll text me in the morning to let me know you made it in ok.</td>
+<td id="T_b243e_row3_col1" class="data row3 col1">ham</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Before accepting these predictions, read the messages yourself. Do the predicted labels seem reasonable? Which message, if any, would you be least sure about?</p>
+<p>To check the predictions, we need to compare them with the known targets. But even if all four are correct, that leaves Eva’s question: how well would the detector work on tomorrow’s messages? A few plausible predictions are a starting point, not enough evidence that the detector is reliable. Learning how to gather that evidence is a central part of this course.</p>
+<p><br><br></p>
+</section>
+</section>
+<section id="example-2-classify-images-with-a-pretrained-model" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-classify-images-with-a-pretrained-model">Example 2: Classify images with a pretrained model</h3>
+<p>What if the input is a photograph instead of a message? An image classifier takes pixel values as input and predicts a category. Before looking at the predictions, try describing each image yourself. Would you expect one label to capture everything in it?</p>
+<p>Here we reuse a <strong>pretrained model</strong>: someone else has already trained it on labelled images. We do not call <code>fit</code> on our photographs. The helper function <code>classify_image</code> loads the model, prepares each image, and returns its highest-scoring categories. You do not need to understand those steps yet; deep learning will be covered in later courses.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Running the image example">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Running the image example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This example uses PyTorch and torchvision. Its first run downloads the pretrained model, so the cell is not executed automatically when building the book. You can run it in the notebook with the project dependencies installed and internet access for the initial download.</p>
+</div>
+</div>
+<div id="cell-40" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>sys.path.append(<span class="bu">str</span>(Path(<span class="st">"code"</span>).resolve()))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> img_classify <span class="im">import</span> classify_image</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>image_paths <span class="op">=</span> <span class="bu">sorted</span>((DATA_DIR <span class="op">/</span> <span class="st">"test_images"</span>).glob(<span class="st">"*.*"</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> image_path <span class="kw">in</span> image_paths:</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> Image.<span class="bu">open</span>(image_path) <span class="im">as</span> image:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        plt.imshow(image.convert(<span class="st">"RGB"</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        plt.show()</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> classify_image(image_path)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(predictions.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">60</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="00_intro_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Class  Probability score
+     cheetah              0.973
+     leopard              0.024
+      jaguar              0.002
+snow leopard              0.001
+------------------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="00_intro_files/figure-html/cell-8-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     Class  Probability score
+               EntleBucher              0.237
+Greater Swiss Mountain dog              0.235
+                    beagle              0.162
+               Appenzeller              0.152
+------------------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="00_intro_files/figure-html/cell-8-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Class  Probability score
+     pizza              0.996
+frying pan              0.002
+    potpie              0.001
+ meat loaf              0.000
+------------------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="00_intro_files/figure-html/cell-8-output-7.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Class  Probability score
+   tiger cat              0.345
+Egyptian cat              0.338
+       tabby              0.060
+   washbasin              0.047
+------------------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="00_intro_files/figure-html/cell-8-output-9.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Class  Probability score
+car mirror              0.212
+       tub              0.092
+sunglasses              0.077
+  fountain              0.076
+------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>The output lists predicted categories and their probability scores. A high score does not guarantee a correct prediction. The model chooses among the categories it learned during training, which may not match how you would describe the photograph.</p>
+<p>This is still a classification example even though we skipped training here: we are using a model that learned from labelled examples elsewhere.</p>
+</section>
+<section id="example-3-predict-housing-prices" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-predict-housing-prices">Example 3: Predict housing prices</h3>
+<p>A spam label or an image category is one of several possible categories. A home’s sale price is a number, so predicting it is a <strong>regression</strong> task. Suppose we have records of past house sales, including attributes such as size and location. Can we use them to predict prices for other homes?</p>
+<p>As in the spam example, we set aside some records before training. Here, the known answer for each training example is its sale price.</p>
+<div id="cell-42" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>housing_df <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">"kc_house_data.csv"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>housing_df <span class="op">=</span> housing_df.drop(columns<span class="op">=</span>[<span class="st">"id"</span>, <span class="st">"date"</span>])</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>housing_df <span class="op">=</span> housing_df.rename(columns<span class="op">=</span>{<span class="st">"price"</span>: <span class="st">"target"</span>})</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>housing_train, housing_test <span class="op">=</span> train_test_split(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    housing_df, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">4</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>HTML(housing_train.head().to_html(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">target</th>
+<th data-quarto-table-cell-role="th">bedrooms</th>
+<th data-quarto-table-cell-role="th">bathrooms</th>
+<th data-quarto-table-cell-role="th">sqft_living</th>
+<th data-quarto-table-cell-role="th">sqft_lot</th>
+<th data-quarto-table-cell-role="th">floors</th>
+<th data-quarto-table-cell-role="th">waterfront</th>
+<th data-quarto-table-cell-role="th">view</th>
+<th data-quarto-table-cell-role="th">condition</th>
+<th data-quarto-table-cell-role="th">grade</th>
+<th data-quarto-table-cell-role="th">sqft_above</th>
+<th data-quarto-table-cell-role="th">sqft_basement</th>
+<th data-quarto-table-cell-role="th">yr_built</th>
+<th data-quarto-table-cell-role="th">yr_renovated</th>
+<th data-quarto-table-cell-role="th">zipcode</th>
+<th data-quarto-table-cell-role="th">lat</th>
+<th data-quarto-table-cell-role="th">long</th>
+<th data-quarto-table-cell-role="th">sqft_living15</th>
+<th data-quarto-table-cell-role="th">sqft_lot15</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>509000.0</td>
+<td>2</td>
+<td>1.50</td>
+<td>1930</td>
+<td>3521</td>
+<td>2.0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>8</td>
+<td>1930</td>
+<td>0</td>
+<td>1989</td>
+<td>0</td>
+<td>98007</td>
+<td>47.6092</td>
+<td>-122.146</td>
+<td>1840</td>
+<td>3576</td>
+</tr>
+<tr class="even">
+<td>675000.0</td>
+<td>5</td>
+<td>2.75</td>
+<td>2570</td>
+<td>12906</td>
+<td>2.0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>8</td>
+<td>2570</td>
+<td>0</td>
+<td>1987</td>
+<td>0</td>
+<td>98075</td>
+<td>47.5814</td>
+<td>-122.050</td>
+<td>2580</td>
+<td>12927</td>
+</tr>
+<tr class="odd">
+<td>420000.0</td>
+<td>3</td>
+<td>1.00</td>
+<td>1150</td>
+<td>5120</td>
+<td>1.0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>6</td>
+<td>800</td>
+<td>350</td>
+<td>1946</td>
+<td>0</td>
+<td>98116</td>
+<td>47.5588</td>
+<td>-122.392</td>
+<td>1220</td>
+<td>5120</td>
+</tr>
+<tr class="even">
+<td>680000.0</td>
+<td>8</td>
+<td>2.75</td>
+<td>2530</td>
+<td>4800</td>
+<td>2.0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>7</td>
+<td>1390</td>
+<td>1140</td>
+<td>1901</td>
+<td>0</td>
+<td>98112</td>
+<td>47.6241</td>
+<td>-122.305</td>
+<td>1540</td>
+<td>4800</td>
+</tr>
+<tr class="odd">
+<td>357823.0</td>
+<td>3</td>
+<td>1.50</td>
+<td>1240</td>
+<td>9196</td>
+<td>1.0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>8</td>
+<td>1240</td>
+<td>0</td>
+<td>1968</td>
+<td>0</td>
+<td>98072</td>
+<td>47.7562</td>
+<td>-122.094</td>
+<td>1690</td>
+<td>10800</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We give the model the home attributes as inputs and the sale prices as targets. This demonstration uses LightGBM, a library with a scikit-learn-style <code>fit</code> and <code>predict</code> interface. Focus on those two steps for now; understanding this particular algorithm is not a prerequisite for the course.</p>
+<div id="cell-44" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lightgbm.sklearn <span class="im">import</span> LGBMRegressor</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>X_housing_train <span class="op">=</span> housing_train.drop(columns<span class="op">=</span>[<span class="st">"target"</span>])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>y_housing_train <span class="op">=</span> housing_train[<span class="st">"target"</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>X_housing_test <span class="op">=</span> housing_test.drop(columns<span class="op">=</span>[<span class="st">"target"</span>])</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>y_housing_test <span class="op">=</span> housing_test[<span class="st">"target"</span>]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>housing_model <span class="op">=</span> LGBMRegressor(random_state<span class="op">=</span><span class="dv">123</span>, verbose<span class="op">=-</span><span class="dv">1</span>, n_jobs<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>housing_model.fit(X_housing_train, y_housing_train)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now compare predictions with the actual prices for four homes kept out of training. Before looking at the results, would you expect the predicted prices to match the actual prices exactly?</p>
+<div id="cell-46" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>housing_predictions <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Predicted price"</span>: housing_model.predict(X_housing_test.iloc[:<span class="dv">4</span>]),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Actual price"</span>: y_housing_test.iloc[:<span class="dv">4</span>].to_numpy(),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>housing_predictions.<span class="bu">round</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Predicted price</th>
+<th data-quarto-table-cell-role="th">Actual price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>345832.0</td>
+<td>311100.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>601042.0</td>
+<td>535000.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>311310.0</td>
+<td>271000.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>597556.0</td>
+<td>705000.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>A predicted price can be wrong by a little or a lot. That differs from checking whether a spam label is correct, so we will need ways to measure the size of prediction errors. Four homes only give us a glimpse; later we will evaluate predictions across a larger set of held-out examples.</p>
+<p>Across all three examples, the model uses inputs to predict a target. The inputs can be text, images, or rows of home attributes; the target can be a category or a number. We can train a model ourselves or reuse one trained elsewhere, but in either case we need evidence that its predictions are useful for our task.</p>
+<p><br><br></p>
+</section>
+<section id="evas-questions" class="level3">
+<h3 class="anchored" data-anchor-id="evas-questions">Eva’s questions</h3>
+<p>Eva can follow the broad steps of the spam example, but she still has questions:</p>
+<ul>
+<li>“What changes inside the model when we call <code>fit</code>?”</li>
+<li>“How can it classify a message it has never seen before?”</li>
+<li>“If my Python code runs without errors, how could my model still be poor?”</li>
+<li>“What happens if it sends an important message to the spam folder?”</li>
+<li>“How much evidence would convince me to use it on my own messages?”</li>
+</ul>
+<p>You do not need to answer all of these yet. They give us a reason to study the methods and evaluation tools in the coming chapters. By the end of the course, you should be able to explain how you would investigate them.</p>
+<p><img src="img/eva-qm.png" class="img-fluid"></p>
+</section>
+<section id="supervised-machine-learning-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="supervised-machine-learning-workflow">Supervised machine learning workflow</h3>
+<p>In Python, getting a function to run is a milestone. You still need to check that it does what you intended. With machine learning, we also need to check whether a relationship learned from past examples is useful for new ones.</p>
+<p><img src="img/ml-workflow.png" class="img-fluid"></p>
+<p>Throughout this course, we will revisit this workflow: frame the problem, examine the data, build and evaluate a model, study its limitations, and communicate the results. Each step helps us answer a practical question about whether we can use the predictions with confidence.</p>
+<p><br><br></p>
+</section>
+<section id="who-or-what-should-solve-the-problem" class="level3">
+<h3 class="anchored" data-anchor-id="who-or-what-should-solve-the-problem">Who or what should solve the problem?</h3>
+<p>Before choosing a model, ask whether the task is better suited to a human, an explicit set of rules, or a system that learns patterns from data.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Best starting point</th>
+<th>Example problems</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Human judgment</strong></td>
+<td>Giving a student feedback on a personal essay; deciding how to support a patient after a difficult diagnosis; resolving an unusual dispute between two people</td>
+<td>The task depends on context, empathy, values, or accountability. There may be no single correct answer.</td>
+</tr>
+<tr class="even">
+<td><strong>Rule-based system</strong></td>
+<td>Checking whether an email address ends in <code>@student.ubc.ca</code>; calculating sales tax; rejecting a password shorter than 12 characters</td>
+<td>The rules are known, stable, easy to state, and should be applied consistently.</td>
+</tr>
+<tr class="odd">
+<td><strong>Machine learning system</strong></td>
+<td>Filtering spam; predicting which songs a listener may enjoy; recognizing objects in photographs</td>
+<td>Useful patterns exist in data, but writing complete and reliable rules by hand would be difficult. Some errors are expected.</td>
+</tr>
+</tbody>
+</table>
+<p>The boundary is not always sharp. A real system may combine all three: an ML model flags suspicious credit-card transactions, rules automatically block clearly impossible transactions, and a human reviews ambiguous or high-impact cases.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The fact that ML <em>can</em> make a prediction does not mean it should make the final decision. Consider the cost of errors, who is affected, and who should be accountable.</p>
+</div>
+</div>
+</section>
+<section id="try-framing-an-ml-problem" class="level3">
+<h3 class="anchored" data-anchor-id="try-framing-an-ml-problem">Try framing an ML problem</h3>
+<p>Think of a problem that might benefit from machine learning. Before choosing an algorithm, discuss these questions:</p>
+<ol type="1">
+<li>What would the inputs and desired outputs be?</li>
+<li>How is the problem handled now? Are there useful human heuristics or explicit rules?</li>
+<li>What data already exist, and what additional data could reasonably be collected?</li>
+<li>What kinds of mistakes could the system make, and who would be affected?</li>
+<li>Would ML support a person, automate part of the process, or make the final decision?</li>
+</ol>
+<p>These questions connect model building to the real-world problem it is meant to address.</p>
+</section>
+<section id="questions-for-you" class="level3">
+<h3 class="anchored" data-anchor-id="questions-for-you">❓❓ Questions for you</h3>
+</section>
+<section id="exercise-0.1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-0.1">Exercise 0.1</h3>
+<p><strong>For each problem, what is the best starting point?</strong></p>
+<ul>
+<li><strong>H:</strong> human judgment</li>
+<li><strong>R:</strong> a rule-based system</li>
+<li><strong>M:</strong> a machine learning system</li>
+</ul>
+<p>Classify each problem as <strong>H</strong>, <strong>R</strong>, or <strong>M</strong>.</p>
+<ol type="1">
+<li>Checking whether a UBC email address ends with <code>@student.ubc.ca</code> before allowing login</li>
+<li>Giving a student constructive feedback on a personal essay</li>
+<li>Predicting which songs a listener might enjoy based on their listening history</li>
+<li>Calculating the shipping fee from a published table of package weights and destinations</li>
+<li>Recognizing which species of bird appears in a photograph</li>
+<li>Resolving a disagreement between two project teammates after hearing both perspectives</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Suggested answers">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Suggested answers
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>R</strong> — the condition is explicit and deterministic.</li>
+<li><strong>H</strong> — good feedback depends on meaning, goals, context, and care.</li>
+<li><strong>M</strong> — preferences involve complex patterns that can be learned from data.</li>
+<li><strong>R</strong> — the published table completely specifies the calculation.</li>
+<li><strong>M</strong> — visual categories are difficult to describe with exhaustive hand-written rules.</li>
+<li><strong>H</strong> — the task requires context, communication, and accountable judgment.</li>
+</ol>
+<p>These are starting points, not universal answers. For example, ML might help retrieve relevant writing examples, but a person should remain responsible for personal feedback.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li><strong>From rules to examples:</strong> in ML, we use data to learn patterns rather than write every prediction rule ourselves.</li>
+<li><strong>Different tasks, different approaches:</strong> supervised learning predicts known kinds of outcomes; unsupervised learning finds structure; reinforcement learning learns actions through rewards. Recommenders suggest items, and generative AI produces content.</li>
+<li><strong>Our starting point:</strong> DSCI 571 builds supervised learning foundations with scikit-learn. Later courses explore more of the ML field.</li>
+<li><strong>Categories or numbers:</strong> classification predicts a category, such as spam or non-spam; regression predicts a number, such as a house price.</li>
+<li><strong>Running code is not enough:</strong> check predictions on examples the model did not learn from, and consider whether its mistakes are acceptable for the task.</li>
+</ul>
+<p><img src="img/eva-seeyou.png" class="img-fluid"></p>
+
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../learning-objectives.html" class="pagination-link" aria-label="Detailed Learning Objectives">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Detailed Learning Objectives</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../book/01_terminology-baselines-decision-trees.html" class="pagination-link" aria-label="Chapter 1: From Data to a First Model">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 1: From Data to a First Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
