@@ -1,0 +1,45 @@
+# Detailed Learning Objectives {.unnumbered}
+
+DSCI 571 introduces the foundations of supervised learning, with an emphasis on the practical judgment needed to build and evaluate prediction models. The objectives below expand the five broad goals introduced in the preface and describe what you should be able to do after working through this book.
+
+## 1. Frame the problem {.unnumbered}
+
+- Translate a real-world question into a supervised learning task, identifying what one example represents, the available input features, the prediction target, and the intended use of the predictions.
+- Distinguish classification from regression and explain how supervised learning differs from learning without labelled outcomes.
+- Explain when learning from examples may be useful and when explicit rules or human judgment may be more appropriate.
+- Identify whether proposed input features would actually be available when a prediction is needed.
+
+## 2. Choose the ingredients {.unnumbered}
+
+- Establish a simple baseline and explain why a more complex model should be compared with it.
+- Explain how decision trees, $k$-nearest neighbours, RBF support vector machines, and linear models make predictions, and compare their strengths and limitations.
+- Choose appropriate preprocessing for numerical and categorical features, including missing-value imputation, scaling, ordinal encoding, and one-hot encoding.
+- Represent text using bag-of-words features and explain what information this representation preserves and loses.
+- Combine transformations for different columns with `ColumnTransformer` and combine preprocessing with a model in a pipeline.
+
+## 3. Build and evaluate a prototype {.unnumbered}
+
+- Use the `scikit-learn` `fit`, `predict`, and `score` interface to train models, make predictions, and evaluate them.
+- Distinguish the roles of training, validation, and test data, and use cross-validation to compare candidate models without using the test set to guide choices.
+- Diagnose underfitting and overfitting from training and validation results, and explain how model complexity affects generalization.
+- Identify data leakage and keep learned preprocessing steps inside the pipeline evaluated by cross-validation.
+- Distinguish learned parameters from hyperparameters, and use grid search and randomized search to tune a pipeline within a computational budget.
+- Explain why the best cross-validation score from a search can be optimistic, and use a held-out test set for final evaluation.
+- Explain how loss functions and regularization guide the fitting of linear models, and how regularization strength affects model complexity.
+- Compare squared error, absolute error, and log loss, and distinguish the fitting objective from the measure used for model selection or final evaluation.
+- Use multinomial logistic regression for a target with more than two classes, and interpret its class probabilities and predictions.
+
+## 4. Recognize limitations {.unnumbered}
+
+- Explain why strong training performance does not establish that a model will perform well on new data, and why evaluation results depend on how well the evaluation data represent future cases.
+- Explain how feature scaling, irrelevant features, and high-dimensional representations can affect distance-based methods.
+- Interpret linear-model coefficients in the context of feature encoding, scale, and the other features in the model, without treating them as evidence of causation.
+- Distinguish logistic regression's scores, predicted probabilities, and class predictions, and explain why a confident prediction can still be wrong.
+- Explain why a model's predictive score alone does not establish that it is useful or appropriate for its intended use.
+
+## 5. Communicate responsibly {.unnumbered}
+
+- Explain a prediction task, preprocessing choices, model comparison, and final evaluation in language appropriate to the intended audience.
+- Use tables and visualizations of model behaviour and evaluation results to support conclusions about model choice.
+- Report results relative to a baseline and distinguish evidence of performance on held-out data from claims about future performance.
+- Document data splits, preprocessing, hyperparameter choices, and relevant random seeds so that others can understand and reproduce the workflow.
