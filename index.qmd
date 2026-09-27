@@ -2,7 +2,7 @@
 
 ![](book/img/571_banner.png){fig-alt="DSCI 571: Supervised Learning I" width="100%"}
 
-This book accompanies DSCI 571: Supervised Learning I, an eight-lecture course in the Master of Data Science program at the University of British Columbia. It is adapted from materials developed for CPSC 330: Applied Machine Learning, with a focus on the foundations of supervised learning.
+This book accompanies DSCI 571: Supervised Learning I, an eight-lecture course in the Master of Data Science program at the University of British Columbia. It is adapted from materials developed for [CPSC 330: Applied Machine Learning](https://ubc-cs.github.io/cpsc330-book/), with a focus on the foundations of supervised learning.
 
 In supervised learning, we use examples with known outcomes to learn how to predict outcomes for new cases. Predicting a home's sale price from its characteristics and identifying spam from the contents of a message are two examples. Fitting a model is only part of the work: we also need to decide what information it should use and how to assess whether its predictions will be useful on new data.
 
@@ -21,7 +21,7 @@ Our goal is to help you build and evaluate a supervised learning workflow and ex
 1. **Frame the problem:** identify what to predict, what information is available, and whether machine learning is an appropriate approach.
 2. **Choose the ingredients:** select suitable data representations, preprocessing steps, and supervised learning methods.
 3. **Build and evaluate a prototype:** combine these components into a working solution and assess its performance on unseen data.
-4. **Recognize limitations:** identify common workflow mistakes and explain what model predictions and evaluation results can—and cannot—tell us.
+4. **Recognize limitations:** identify common workflow mistakes and explain what model predictions and evaluation results can and cannot tell us.
 5. **Communicate responsibly:** explain your choices, results, and limitations clearly enough for others to assess the work.
 
 These broad goals are developed through the [detailed learning objectives](learning-objectives.qmd).
@@ -36,11 +36,11 @@ Students taking DSCI 571 should follow the schedule and assessment instructions 
 
 ## Acknowledgments {.unnumbered}
 
-These notes have evolved over multiple offerings of CPSC 330 and have benefited from the contributions and feedback of instructors, teaching assistants, and students.
+These notes have evolved over multiple offerings of DSCI 571 and CPSC 330 and have benefited from the contributions and feedback of instructors, teaching assistants, and students.
 
-The original course notes were developed by Mike Gelbart, who taught the first two offerings of CPSC 330. Varada Kolhatkar subsequently expanded and substantially revised the notes, added examples, and created accompanying videos.
+The original course notes were developed by Mike Gelbart in 2018. Varada Kolhatkar subsequently expanded and substantially revised the notes, added examples, and created accompanying videos.
 
-Over the years, several instructors (Giulia Toti, Firas Moosvi, Mehrdad Oveisi, and Mathias Lécuyer), teaching assistants, and students have contributed to the course materials and provided valuable feedback that has helped improve these notes. Thank you all! 
+Over the years, several instructors (Tom Beuzen, Prajeet Bajpai, Kehan (Sky) Feng, teaching assistants, and students have contributed to the course materials and provided valuable feedback that has helped improve these notes. Thank you all! 
 
 ## License {.unnumbered}
 
@@ -90,7 +90,7 @@ MIT license.
 
 MIT License
 
-Copyright (c) 2024 Varada Kolhatkar and Mike Gelbart
+Copyright (c) 2026 Varada Kolhatkar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
