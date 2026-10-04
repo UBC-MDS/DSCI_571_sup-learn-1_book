@@ -42,6 +42,8 @@ The original course notes were developed by Mike Gelbart in 2018. Varada Kolhatk
 
 Over the years, several instructors (Tom Beuzen, Prajeet Bajpai, Kehan (Sky) Sheng, teaching assistants, and students have contributed to the course materials and provided valuable feedback that has helped improve these notes. Thank you all! 
 
+OpenAI's Codex was used to adapt the lecture notes into textbook format and to revise the prose for clarity and flow. All revisions were reviewed by the author (Varada Kolhatkar), who takes responsibility for the final content.
+
 ## License {.unnumbered}
 
 ### Instructional Material
