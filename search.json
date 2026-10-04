@@ -44,7 +44,7 @@
     "href": "index.html#acknowledgments",
     "title": "DSCI 571: Supervised Learning I",
     "section": "Acknowledgments",
-    "text": "Acknowledgments\nThese notes have evolved over multiple offerings of DSCI 571 and CPSC 330 and have benefited from the contributions and feedback of instructors, teaching assistants, and students.\nThe original course notes were developed by Mike Gelbart in 2018. Varada Kolhatkar subsequently expanded and substantially revised the notes, added examples, and created accompanying videos.\nOver the years, several instructors (Tom Beuzen, Prajeet Bajpai, Kehan (Sky) Sheng, teaching assistants, and students have contributed to the course materials and provided valuable feedback that has helped improve these notes. Thank you all!",
+    "text": "Acknowledgments\nThese notes have evolved over multiple offerings of DSCI 571 and CPSC 330 and have benefited from the contributions and feedback of instructors, teaching assistants, and students.\nThe original course notes were developed by Mike Gelbart in 2018. Varada Kolhatkar subsequently expanded and substantially revised the notes, added examples, and created accompanying videos.\nOver the years, several instructors (Tom Beuzen, Prajeet Bajpai, Kehan (Sky) Sheng, teaching assistants, and students have contributed to the course materials and provided valuable feedback that has helped improve these notes. Thank you all!\nOpenAI’s Codex was used to adapt the lecture notes into textbook format and to revise the prose for clarity and flow. All revisions were reviewed by the author (Varada Kolhatkar), who takes responsibility for the final content.",
     "crumbs": [
       "Preface"
     ]
