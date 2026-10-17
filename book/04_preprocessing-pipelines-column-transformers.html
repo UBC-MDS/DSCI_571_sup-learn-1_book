@@ -379,7 +379,7 @@ window.Quarto = {
 <section id="why-preprocessing-matters" class="level2">
 <h2 class="anchored" data-anchor-id="why-preprocessing-matters">Why preprocessing matters</h2>
 <p>Suppose we want to match a student with a compatible roommate. We use two features, the number of quiet hours each student prefers per week and their number of followers on social media, and measure similarity using Euclidean distance. Our student prefers 40 quiet hours per week and has 25,000 followers.</p>
-<div id="2927b40b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.203256Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.203159Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.210806Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.210448Z&quot;}}">
+<div id="2927b40b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.203256Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.203159Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.210806Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.210448Z&quot;}}" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>roommate_candidates <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"quiet_hours_per_week"</span>: [<span class="dv">35</span>, <span class="dv">37</span>, <span class="dv">40</span>, <span class="dv">10</span>],</span>
@@ -394,7 +394,10 @@ window.Quarto = {
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>).sort_values(</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"distance"</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
@@ -431,6 +434,8 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+
+</div>
 </div>
 </div>
 <p>The calculation identifies D as the nearest neighbour, with a distance of 30. This is surprising: D prefers 30 fewer quiet hours per week than our student, whereas B differs by only 3 quiet hours and has 5,000 more followers. Nevertheless, B’s distance is about 5,000 because the follower-count difference overwhelms the quiet-hour difference. C prefers exactly the same 40 quiet hours as our student, yet is ranked as the farthest away, with a distance of 25,000, entirely because C has 25,000 more followers. For roommate compatibility, we might reasonably care much more about similar living preferences than similar follower counts.</p>
@@ -440,7 +445,7 @@ window.Quarto = {
 <p>One common solution is <strong>standardization</strong>. For each feature, <code>StandardScaler</code> subtracts the mean and divides by the standard deviation:</p>
 <p><span class="math display">\[z = \frac{x - \mu}{\sigma}.\]</span></p>
 <p>After this transformation, each feature in the training data has mean 0 and standard deviation 1. Values are now measured in standard deviations from that feature’s training mean. Standardization does not force values into a fixed minimum and maximum, and it does not make unlike quantities identical. It simply puts their numerical variation on a comparable scale.</p>
-<div id="7760334f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.211934Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.211871Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.221218Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.220798Z&quot;}}">
+<div id="7760334f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.211934Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.211871Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.221218Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.220798Z&quot;}}" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>candidates_scaled <span class="op">=</span> scaler.fit_transform(roommate_candidates)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>student_scaled <span class="op">=</span> scaler.transform(student.to_frame().T)</span>
@@ -452,7 +457,10 @@ window.Quarto = {
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>).assign(</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    distance<span class="op">=</span>np.sqrt(((candidates_scaled <span class="op">-</span> student_scaled) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>))</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>).sort_values(<span class="st">"distance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
@@ -489,6 +497,8 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+
+</div>
 </div>
 </div>
 <p>The nearest neighbours change after scaling because quiet-hour preferences can now contribute meaningfully to the distance. This is why scaling is usually important for <span class="math inline">\(k\)</span>-NN and RBF SVM models. It is also important for many models introduced later in the book. Decision trees are generally insensitive to scaling: replacing a split such as <code>quiet_hours_per_week &lt;= 35</code> with its equivalent on a standardized feature does not change which examples fall on either side.</p>
@@ -1037,12 +1047,12 @@ Number of test examples:  (5, 10)</code></pre>
 <h3 class="anchored" data-anchor-id="nominal-categories-and-onehotencoder">Nominal categories and <code>OneHotEncoder</code></h3>
 <p>A categorical feature records membership in a set of categories, such as a neighbourhood, product type, or spoken language. Most <code>scikit-learn</code> estimators require numeric feature matrices, so these categories need a numerical representation. The representation should reflect what the categories mean.</p>
 <p>For a nominal feature, <strong>one-hot encoding</strong> creates one binary feature for each observed category. Exactly one of these new features is 1 for each original value, and the rest are 0. This avoids imposing an arbitrary order.</p>
-<div id="c79603d4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.254150Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.254101Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.257959Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.257693Z&quot;}}" data-execution_count="10">
+<div id="c79603d4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.254150Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.254101Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.257959Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.257693Z&quot;}}" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>majors <span class="op">=</span> X_train[[<span class="st">"major"</span>]]</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>one_hot_encoder <span class="op">=</span> OneHotEncoder(sparse_output<span class="op">=</span><span class="va">False</span>).set_output(transform<span class="op">=</span><span class="st">"pandas"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>one_hot_encoder.fit_transform(majors).head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -1128,7 +1138,7 @@ Number of test examples:  (5, 10)</code></pre>
 <h3 class="anchored" data-anchor-id="ordered-categories-and-ordinalencoder">Ordered categories and <code>OrdinalEncoder</code></h3>
 <p><code>OrdinalEncoder</code> represents each category with a different number. This is appropriate when the categories have a meaningful order, such as <code>poor</code>, <code>average</code>, and <code>good</code>, and we explicitly supply that order.</p>
 <p>For an unordered—or <strong>nominal</strong>—feature such as language, arbitrary integer codes are usually misleading. A distance-based model would interpret categories coded 0 and 1 as closer than categories coded 0 and 4. The numerical ordering came from the encoding, not the problem.</p>
-<div id="e74b12cd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.250210Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.250163Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.253251Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.252893Z&quot;}}" data-execution_count="9">
+<div id="e74b12cd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-11T14:34:59.250210Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-11T14:34:59.250163Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-11T14:34:59.253251Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-11T14:34:59.252893Z&quot;}}" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>attendance <span class="op">=</span> X_train[[<span class="st">"class_attendance"</span>]]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ordinal_encoder <span class="op">=</span> OrdinalEncoder(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    categories<span class="op">=</span>[[<span class="st">"Poor"</span>, <span class="st">"Average"</span>, <span class="st">"Good"</span>, <span class="st">"Excellent"</span>]]</span>
@@ -1137,7 +1147,7 @@ Number of test examples:  (5, 10)</code></pre>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>attendance.assign(</span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    attendance_encoded<span class="op">=</span>ordinal_encoder.fit_transform(attendance).ravel()</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>).head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
