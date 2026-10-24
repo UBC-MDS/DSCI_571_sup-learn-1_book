@@ -275,9 +275,10 @@ window.Quarto = {
   <li><a href="#from-two-classes-to-several" id="toc-from-two-classes-to-several" class="nav-link" data-scroll-target="#from-two-classes-to-several">From two classes to several</a></li>
   <li><a href="#from-class-scores-to-probabilities" id="toc-from-class-scores-to-probabilities" class="nav-link" data-scroll-target="#from-class-scores-to-probabilities">From class scores to probabilities</a></li>
   <li><a href="#cross-entropy-extending-binary-classification" id="toc-cross-entropy-extending-binary-classification" class="nav-link" data-scroll-target="#cross-entropy-extending-binary-classification">Cross-entropy: extending binary classification</a></li>
+  <li><a href="#exercise-8.1-is-a-log-loss-of-1.60-good" id="toc-exercise-8.1-is-a-log-loss-of-1.60-good" class="nav-link" data-scroll-target="#exercise-8.1-is-a-log-loss-of-1.60-good">Exercise 8.1: Is a log loss of 1.60 good?</a></li>
   <li><a href="#predicting-penguin-species" id="toc-predicting-penguin-species" class="nav-link" data-scroll-target="#predicting-penguin-species">Predicting penguin species</a></li>
   <li><a href="#class-predictions-versus-probability-predictions" id="toc-class-predictions-versus-probability-predictions" class="nav-link" data-scroll-target="#class-predictions-versus-probability-predictions">Class predictions versus probability predictions</a></li>
-  <li><a href="#exercise-8.1-same-class-prediction-different-evidence" id="toc-exercise-8.1-same-class-prediction-different-evidence" class="nav-link" data-scroll-target="#exercise-8.1-same-class-prediction-different-evidence">Exercise 8.1: Same class prediction, different evidence</a></li>
+  <li><a href="#exercise-8.2-same-class-prediction-different-evidence" id="toc-exercise-8.2-same-class-prediction-different-evidence" class="nav-link" data-scroll-target="#exercise-8.2-same-class-prediction-different-evidence">Exercise 8.2: Same class prediction, different evidence</a></li>
   </ul></li>
   <li><a href="#how-loss-functions-shape-learning" id="toc-how-loss-functions-shape-learning" class="nav-link" data-scroll-target="#how-loss-functions-shape-learning">How loss functions shape learning</a>
   <ul>
@@ -289,7 +290,7 @@ window.Quarto = {
   <li><a href="#a-brief-extension-exponential-loss" id="toc-a-brief-extension-exponential-loss" class="nav-link" data-scroll-target="#a-brief-extension-exponential-loss">A brief extension: exponential loss</a></li>
   </ul></li>
   <li><a href="#fitting-loss-regularization-and-evaluation-scores" id="toc-fitting-loss-regularization-and-evaluation-scores" class="nav-link" data-scroll-target="#fitting-loss-regularization-and-evaluation-scores">Fitting loss, regularization, and evaluation scores</a></li>
-  <li><a href="#exercise-8.2-what-changed-inside-the-search" id="toc-exercise-8.2-what-changed-inside-the-search" class="nav-link" data-scroll-target="#exercise-8.2-what-changed-inside-the-search">Exercise 8.2: What changed inside the search?</a></li>
+  <li><a href="#exercise-8.3-what-changed-inside-the-search" id="toc-exercise-8.3-what-changed-inside-the-search" class="nav-link" data-scroll-target="#exercise-8.3-what-changed-inside-the-search">Exercise 8.3: What changed inside the search?</a></li>
   </ul></li>
   <li><a href="#model-interpretation-examining-coefficients" id="toc-model-interpretation-examining-coefficients" class="nav-link" data-scroll-target="#model-interpretation-examining-coefficients">Model interpretation: examining coefficients</a>
   <ul>
@@ -311,7 +312,7 @@ window.Quarto = {
   <li><a href="#this-weeks-addition-interpretation" id="toc-this-weeks-addition-interpretation" class="nav-link" data-scroll-target="#this-weeks-addition-interpretation">This week’s addition: interpretation</a></li>
   <li><a href="#how-the-workflow-will-grow-in-dsci-573" id="toc-how-the-workflow-will-grow-in-dsci-573" class="nav-link" data-scroll-target="#how-the-workflow-will-grow-in-dsci-573">How the workflow will grow in DSCI 573</a></li>
   <li><a href="#communicating-findings-and-limitations" id="toc-communicating-findings-and-limitations" class="nav-link" data-scroll-target="#communicating-findings-and-limitations">Communicating findings and limitations</a></li>
-  <li><a href="#exercise-8.3-review-a-proposed-workflow" id="toc-exercise-8.3-review-a-proposed-workflow" class="nav-link" data-scroll-target="#exercise-8.3-review-a-proposed-workflow">Exercise 8.3: Review a proposed workflow</a></li>
+  <li><a href="#exercise-8.4-review-a-proposed-workflow" id="toc-exercise-8.4-review-a-proposed-workflow" class="nav-link" data-scroll-target="#exercise-8.4-review-a-proposed-workflow">Exercise 8.4: Review a proposed workflow</a></li>
   </ul></li>
   <li><a href="#what-you-can-do-now-and-what-comes-next" id="toc-what-you-can-do-now-and-what-comes-next" class="nav-link" data-scroll-target="#what-you-can-do-now-and-what-comes-next">What you can do now and what comes next</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
@@ -481,6 +482,37 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 <div class="callout-body-container callout-body">
 <p>For several examples, use <span class="math inline">\(y_{ik}\)</span> and <span class="math inline">\(\hat p_{ik}\)</span> to identify both example <span class="math inline">\(i\)</span> and class <span class="math inline">\(k\)</span>. The mean cross-entropy is <span class="math inline">\(-\frac{1}{n}\sum_{i=1}^{n}\sum_{k=1}^{K}y_{ik}\log(\hat p_{ik})\)</span>.</p>
 <p>One-hot target notation is distinct from one-hot encoding input features. Scikit-learn accepts ordinary class labels for <code>LogisticRegression</code>; you do not need to construct these target vectors. The numerical class labels identify categories, not an order or distance between species or departments.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-8.1-is-a-log-loss-of-1.60-good" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.1-is-a-log-loss-of-1.60-good">Exercise 8.1: Is a log loss of 1.60 good?</h3>
+<p>A model achieves a mean validation log loss of 1.60 on a five-class classification problem, using natural logarithms.</p>
+<ol type="1">
+<li>What loss would a baseline receive if it assigned probability 0.20 to every class for every example?</li>
+<li>Does the model’s result provide convincing evidence of useful predictions?</li>
+<li>If some classes are much more common than others, what additional baseline would you compare against?</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The uniform-probability baseline always assigns the true class probability <span class="math inline">\(1/5\)</span>, so its loss on every example, and therefore its mean loss, is</p>
+<p><span class="math display">\[
+-\log(1/5)=\log(5)\approx1.609.
+\]</span></p>
+<p>The model’s loss of 1.60 is only slightly lower. This comparison alone provides little evidence of a meaningful improvement; the difference could reflect variation in the validation sample. A loss needs a reference point, not just a judgment that its numerical value looks small.</p>
+<p>If classes are imbalanced, also compare with a baseline that predicts the <strong>training-set class proportions</strong>, evaluated on the same validation data. That baseline can improve on uniform probabilities without using any features.</p>
+<p>Assigning uniform probabilities is different from randomly guessing a single class. Log loss evaluates a probability distribution over all classes, not just a chosen class label.</p>
 </div>
 </div>
 </div>
@@ -688,12 +720,12 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 <p>Both models have accuracy 1, but the confident model has lower log loss. This does not mean that making probabilities more extreme always helps. Confidence helps here because these predictions are correct. If the last message were actually not spam, assigning it a spam probability of 0.99 would incur much more loss than assigning it 0.6.</p>
 <p>Log loss evaluates more than the hard class decision, but a low value on one dataset does not guarantee reliable probabilities for every group or for future data. The same concerns about representative evaluation data and overfitting still apply.</p>
 </section>
-<section id="exercise-8.1-same-class-prediction-different-evidence" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-8.1-same-class-prediction-different-evidence">Exercise 8.1: Same class prediction, different evidence</h3>
+<section id="exercise-8.2-same-class-prediction-different-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.2-same-class-prediction-different-evidence">Exercise 8.2: Same class prediction, different evidence</h3>
 <p>Two models assign probabilities to billing, technical support, and account management. Model A returns (0.40, 0.35, 0.25), while model B returns (0.90, 0.05, 0.05).</p>
 <p>What does each model predict? Which receives lower log loss if the true class is billing? What if it is technical support? Explain why accuracy alone cannot distinguish these models on this request.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -702,7 +734,7 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Both predict billing. If billing is observed, model B has lower loss because it assigned 0.90 to that class rather than 0.40. If technical support is observed, model A has lower loss because it assigned 0.35 rather than 0.05. Accuracy counts both as correct in the first case and both as incorrect in the second; it ignores their probabilities.</p>
 </div>
@@ -898,11 +930,11 @@ m=yz.
 <p>Changing the <code>scoring</code> argument of a search does not replace the estimator’s fitting objective. For example, comparing <code>Ridge</code> models using validation MAE still fits each candidate using its squared-error objective and penalty. The search chooses among those fitted candidates according to MAE.</p>
 <p>Scikit-learn’s search tools maximize scores. For losses, scorer names such as <code>neg_mean_absolute_error</code> and <code>neg_log_loss</code> return the negative of the loss so that larger is better. A score of <span class="math inline">\(-2\)</span> is better than <span class="math inline">\(-5\)</span> because it corresponds to a smaller loss. Estimator defaults also differ: <code>Ridge.score</code> reports <span class="math inline">\(R^2\)</span>, while <code>LogisticRegression.score</code> reports accuracy. Always establish which quantity you are comparing.</p>
 </section>
-<section id="exercise-8.2-what-changed-inside-the-search" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-8.2-what-changed-inside-the-search">Exercise 8.2: What changed inside the search?</h3>
+<section id="exercise-8.3-what-changed-inside-the-search" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.3-what-changed-inside-the-search">Exercise 8.3: What changed inside the search?</h3>
 <p>A colleague changes <code>GridSearchCV(ridge_pipeline, ..., scoring="r2")</code> to use <code>scoring="neg_mean_absolute_error"</code>. They conclude that <code>Ridge.fit</code> now minimizes absolute error. Explain the mistake. Could the selected <code>alpha</code> still change?</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -911,7 +943,7 @@ m=yz.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Each candidate still fits using Ridge’s squared-error objective and regularization penalty. The search now compares its validation predictions using negative MAE, so the ranking of candidates—and the selected <code>alpha</code>—can change. We should choose the comparison measure before inspecting final test results.</p>
 </div>
@@ -1271,12 +1303,12 @@ dtype: object</code></pre>
 <p>Report the task, the comparison with a baseline, the evaluation procedure, and the important types of mistakes. Be clear about which data and situations the results describe. A good average score does not establish that every kind of example is predicted well or that performance will remain the same in a different setting.</p>
 <p>Communicate limitations honestly, without exaggerating accuracy, reliability, or understanding. Predictive associations do not establish causal effects, and plausible-looking coefficients do not prove that a model has captured the true relationship. If final test results disappoint, report them rather than repeatedly tuning against the same test set. These habits remain essential as the workflow grows more sophisticated.</p>
 </section>
-<section id="exercise-8.3-review-a-proposed-workflow" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-8.3-review-a-proposed-workflow">Exercise 8.3: Review a proposed workflow</h3>
+<section id="exercise-8.4-review-a-proposed-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.4-review-a-proposed-workflow">Exercise 8.4: Review a proposed workflow</h3>
 <p>A team wants to route support requests to three departments. It includes a field recording which department eventually resolved each request, builds a text vocabulary using all requests, and then creates a train/test split. It tries many values of <code>C</code>, keeps the one with the best test accuracy, and reports that accuracy as evidence that its probability predictions are reliable.</p>
 <p>Identify the problems and propose a corrected workflow using tools from this book. Explain which choices must be settled before final test evaluation.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1285,7 +1317,7 @@ dtype: object</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The resolving department is not available when a new request arrives and would reveal information about the outcome. Remove it and check the availability of the remaining inputs. Reserve the test set before learning a vocabulary; place <code>CountVectorizer</code> and the model in a pipeline so that each cross-validation fold learns its vocabulary only from that fold’s training portion. Use training-data cross-validation to choose <code>C</code>, and compare against a baseline. Decide whether the intended use requires hard routing decisions, probability estimates, or both, and choose evaluation measures accordingly. Accuracy alone does not assess the assigned probabilities. Evaluate the selected workflow once on the test set and explain the limits of that evidence.</p>
 </div>
