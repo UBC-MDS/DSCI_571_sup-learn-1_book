@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 7: Linear Models – DSCI 571: Supervised Learning I</title>
+<title>Chapter 7: Linear Models and Loss Functions – DSCI 571: Supervised Learning I</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../book/08_loss-functions-multiclass-conclusion.html" rel="next">
+<link href="../book/08_multiclass-loss-functions-conclusion.html" rel="next">
 <link href="../book/06_hyperparameter-optimization.html" rel="prev">
 <link href="../book/img/mds-hex-sticker.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -175,7 +175,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/07_linear-models.html"><span class="chapter-title">Chapter 7: Linear Models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/07_linear-models-loss-functions.html"><span class="chapter-title">Chapter 7: Linear Models and Loss Functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -251,12 +251,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../book/07_linear-models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 7: Linear Models</span></a>
+  <a href="../book/07_linear-models-loss-functions.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 7: Linear Models and Loss Functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></a>
+  <a href="../book/08_multiclass-loss-functions-conclusion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></a>
   </div>
 </li>
       </ul>
@@ -318,9 +318,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/07_linear-models.html"><span class="chapter-title">Chapter 7: Linear Models</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/07_linear-models-loss-functions.html"><span class="chapter-title">Chapter 7: Linear Models and Loss Functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Chapter 7: Linear Models</span></h1>
+<h1 class="title"><span class="chapter-title">Chapter 7: Linear Models and Loss Functions</span></h1>
 </div>
 
 
@@ -1636,7 +1636,7 @@ forceTheme('sk-container-id-1');</script>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07_linear-models_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="07_linear-models-loss-functions_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2423,7 +2423,7 @@ z = \mathbf{w}^{\mathsf T}\mathbf{x}+b.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07_linear-models_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="07_linear-models-loss-functions_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2456,7 +2456,7 @@ z = \mathbf{w}^{\mathsf T}\mathbf{x}+b.
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07_linear-models_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="07_linear-models-loss-functions_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2611,7 +2611,7 @@ dtype: float64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07_linear-models_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="07_linear-models-loss-functions_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2789,7 +2789,7 @@ dtype: float64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="07_linear-models_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="07_linear-models-loss-functions_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -3469,7 +3469,7 @@ dtype: float64</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../book/08_loss-functions-multiclass-conclusion.html" class="pagination-link" aria-label="Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions">
+      <a href="../book/08_multiclass-loss-functions-conclusion.html" class="pagination-link" aria-label="Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions">
         <span class="nav-page-text"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
