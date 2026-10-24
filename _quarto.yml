@@ -28,8 +28,8 @@ book:
         - book/04_preprocessing-pipelines-column-transformers.ipynb
         - book/05_more-preprocessing-bag-of-words.ipynb
         - book/06_hyperparameter-optimization.ipynb
-        - book/07_linear-models.ipynb
-        - book/08_loss-functions-multiclass-conclusion.ipynb
+        - book/07_linear-models-loss-functions.ipynb
+        - book/08_multiclass-loss-functions-conclusion.ipynb
 
 format:
   html:
