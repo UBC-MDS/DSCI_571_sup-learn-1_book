@@ -256,7 +256,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 8: Extending Linear Models and Completing the Workflow</span></a>
+  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></a>
   </div>
 </li>
       </ul>
@@ -306,7 +306,11 @@ window.Quarto = {
   <li><a href="#check-your-understanding-scores-probabilities-and-log-loss-multiple-select" id="toc-check-your-understanding-scores-probabilities-and-log-loss-multiple-select" class="nav-link" data-scroll-target="#check-your-understanding-scores-probabilities-and-log-loss-multiple-select">Check your understanding: Scores, probabilities, and log loss (multiple select)</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#strengths-and-limitations-of-linear-models" id="toc-strengths-and-limitations-of-linear-models" class="nav-link" data-scroll-target="#strengths-and-limitations-of-linear-models">Strengths and limitations of linear models</a></li>
+  <li><a href="#strengths-and-limitations-of-linear-models" id="toc-strengths-and-limitations-of-linear-models" class="nav-link" data-scroll-target="#strengths-and-limitations-of-linear-models">Strengths and limitations of linear models</a>
+  <ul>
+  <li><a href="#what-does-a-fitted-model-retain" id="toc-what-does-a-fitted-model-retain" class="nav-link" data-scroll-target="#what-does-a-fitted-model-retain">What does a fitted model retain?</a></li>
+  <li><a href="#when-are-linear-models-useful" id="toc-when-are-linear-models-useful" class="nav-link" data-scroll-target="#when-are-linear-models-useful">When are linear models useful?</a></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
@@ -340,7 +344,7 @@ window.Quarto = {
 <li>Explain how squared-error loss and binary cross-entropy guide fitting, and distinguish fitting loss from evaluation score.</li>
 <li>Fit and use <code>Ridge</code> and <code>LogisticRegression</code> in preprocessing pipelines, explaining how <code>alpha</code> and <code>C</code> control regularization.</li>
 <li>Connect logistic-regression scores, decision boundaries, probabilities, and class predictions.</li>
-<li>Interpret coefficients with appropriate caveats and explain when linear models are useful or limited.</li>
+<li>Interpret coefficients with appropriate caveats, distinguish parametric from non-parametric models, and explain linear models’ strengths and limitations.</li>
 </ul>
 </div>
 <p>In Chapter 6, we learned how to compare pipelines and search for useful hyperparameters. We can now ask a different question: what does a fitted model learn, and how does it turn a new example into a prediction? A decision tree follows a sequence of splits, while <span class="math inline">\(k\)</span>-nearest neighbours consults nearby training examples. A <strong>linear model</strong> learns a weight for each feature and adds up the weighted feature values.</p>
@@ -2973,20 +2977,83 @@ dtype: float64</code></pre>
 </section>
 <section id="strengths-and-limitations-of-linear-models" class="level2">
 <h2 class="anchored" data-anchor-id="strengths-and-limitations-of-linear-models">Strengths and limitations of linear models</h2>
+<section id="what-does-a-fitted-model-retain" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-a-fitted-model-retain">What does a fitted model retain?</h3>
+<p>Suppose we double the number of training examples while keeping the same features. Does the fitted model need to store twice as much information to make predictions?</p>
+<p>For a linear model, fitting learns coefficients and an intercept. With 100 represented features, a linear-regression or binary logistic-regression model has 100 coefficients and one intercept, whether it learns from 1,000 examples or one million. More training examples can change their fitted values, but not their number. We call this a <strong>parametric model</strong>: the number of parameters is fixed for a fixed feature representation and prediction task.</p>
+<p>By contrast, <span class="math inline">\(k\)</span>-NN retains the training examples and their targets to consult during prediction. Doubling the training set increases what it stores, and a straightforward neighbour search has more examples to examine. It is commonly called <strong>non-parametric</strong> because its fitted representation is not restricted to a fixed-size collection of parameters as training data grow.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Linear model</th>
+<th><span class="math inline">\(k\)</span>-NN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What does fitting retain for prediction?</td>
+<td>Coefficients and an intercept</td>
+<td>Training examples and targets</td>
+</tr>
+<tr class="even">
+<td>What changes when training rows are added?</td>
+<td>Parameter values can change; their number stays fixed for fixed features and task</td>
+<td>Stored examples grow</td>
+</tr>
+<tr class="odd">
+<td>How are predictions calculated?</td>
+<td>A weighted sum, with a sigmoid for binary logistic regression</td>
+<td>Targets of nearby training examples</td>
+</tr>
+</tbody>
+</table>
+<p>“Non-parametric” does not mean “no hyperparameters”: <span class="math inline">\(k\)</span>-NN still has settings such as the number of neighbours. “Parametric” does not mean small or unable to overfit: 100,000 word features give a binary linear classifier 100,001 parameters.</p>
+<p>The fixed-representation qualification matters. If fitting a vectorizer on more documents expands its vocabulary, the number of features changes and a linear model can gain coefficients. More rows alone do not increase its parameter count when the represented features and classes stay fixed.</p>
+<div class="callout-reflection" title="What changed: examples or features?">
+<p>A team doubles its text training data and finds that logistic regression now has more coefficients. Does this contradict its description as parametric? What would you check?</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Check whether the learned vocabulary or the set of target classes changed. The fixed-parameter-count statement assumes both stay fixed. More training rows alone do not add coefficients when the representation and classes are unchanged.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="when-are-linear-models-useful" class="level3">
+<h3 class="anchored" data-anchor-id="when-are-linear-models-useful">When are linear models useful?</h3>
 <p>Linear models are often strong baselines. They are typically fast to predict with, scale to many examples and features, and work well with sparse representations such as bag-of-words. Their coefficients make the calculation behind a prediction relatively transparent. Regularization provides a direct way to control model complexity.</p>
 <p>Their central restriction is also clear: the prediction is linear in the represented features. Logistic regression separates classes with a hyperplane, and linear regression assigns the same coefficient to a feature throughout the feature space. Curved relationships, local patterns, and interactions may therefore be missed unless useful transformed or interaction features are supplied.</p>
-<p>This limitation does not mean the raw data must literally follow a straight line. A linear model is linear in its <strong>features</strong>. Later feature-engineering techniques can create features that let a linear model represent some nonlinear relationships, although every transformation introduces new assumptions and potential complexity. For a practical starting point, try a regularized linear model when the representation has many sparse features, fast prediction matters, or an additive rule is plausible. Compare it with a more flexible model using training-data cross-validation when local patterns or curved relationships seem important. Inspect mistakes as well as aggregate scores.</p>
+<p>This limitation does not mean the raw data must literally follow a straight line. A linear model is linear in its <strong>features</strong>. Later feature-engineering techniques can create features that let a linear model represent some nonlinear relationships, although every transformation introduces new assumptions and potential complexity.</p>
+<p>For a practical starting point, try a regularized linear model when the representation has many sparse features, fast prediction matters, or an additive rule is plausible. Compare it with a more flexible model using training-data cross-validation when local patterns or curved relationships seem important. Inspect mistakes as well as aggregate scores.</p>
 <p>The weighted sum we developed here also appears inside neural networks. Combining learned weighted sums with nonlinear transformations allows those models to represent more complex relationships. Simply stacking linear operations without nonlinear transformations would still produce a linear rule.</p>
+</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
-<li>Linear models predict using a weighted sum of represented features and an intercept. Vector and matrix notation expresses the same calculation for one example or a complete dataset.</li>
-<li>Linear regression predicts numeric targets. Mean squared error (MSE) measures the average squared residual, where a residual is the observed target minus the prediction.</li>
-<li>Ridge balances squared-error loss with a penalty on large coefficients. Larger <code>alpha</code> means stronger regularization, which can reduce overfitting but can also cause underfitting.</li>
-<li>Logistic regression converts a linear score into a class probability using the sigmoid function. It fits using binary cross-entropy (log loss) together with regularization, penalizing confident mistakes particularly strongly.</li>
-<li>Larger <code>C</code> means weaker regularization in logistic regression, the opposite direction from Ridge’s <code>alpha</code>. Select these hyperparameters using training-data cross-validation.</li>
-<li>Coefficients explain the fitted calculation, with care about scaling, correlated features, and the distinction between prediction and causation. Linear models may miss relationships their feature representation cannot express, and high predicted probabilities do not guarantee correct predictions.</li>
+<li><p>Linear models predict using a weighted sum of represented features and an intercept. Vector and matrix notation expresses the same calculation for one example or a complete dataset.</p></li>
+<li><p>Linear regression predicts numeric targets. Mean squared error (MSE) measures the average squared residual, where a residual is the observed target minus the prediction.</p></li>
+<li><p>Ridge balances squared-error loss with a penalty on large coefficients. Larger <code>alpha</code> means stronger regularization, which can reduce overfitting but can also cause underfitting.</p></li>
+<li><p>Logistic regression converts a linear score into a class probability using the sigmoid function. It fits using binary cross-entropy (log loss) together with regularization, penalizing confident mistakes particularly strongly.</p></li>
+<li><p>Larger <code>C</code> means weaker regularization in logistic regression, the opposite direction from Ridge’s <code>alpha</code>. Select these hyperparameters using training-data cross-validation.</p></li>
+<li><p>Coefficients explain the fitted calculation, with care about scaling, correlated features, and the distinction between prediction and causation. Linear models may miss relationships their feature representation cannot express, and high predicted probabilities do not guarantee correct predictions.</p></li>
+<li><p>Linear models are parametric: their parameter count stays fixed for fixed features and classes. Non-parametric models such as <span class="math inline">\(k\)</span>-NN retain a representation that grows with training data, and can still have hyperparameters.</p></li>
 </ul>
 <p>In Chapter 8, we will extend classification to more than two classes, compare ways of measuring prediction errors, and bring these models into the complete supervised-learning workflow.</p>
 
@@ -3402,8 +3469,8 @@ dtype: float64</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../book/08_loss-functions-multiclass-conclusion.html" class="pagination-link" aria-label="Chapter 8: Extending Linear Models and Completing the Workflow">
-        <span class="nav-page-text"><span class="chapter-title">Chapter 8: Extending Linear Models and Completing the Workflow</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../book/08_loss-functions-multiclass-conclusion.html" class="pagination-link" aria-label="Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions">
+        <span class="nav-page-text"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

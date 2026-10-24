@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 8: Extending Linear Models and Completing the Workflow – DSCI 571: Supervised Learning I</title>
+<title>Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions – DSCI 571: Supervised Learning I</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -174,7 +174,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/08_loss-functions-multiclass-conclusion.html"><span class="chapter-title">Chapter 8: Extending Linear Models and Completing the Workflow</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/08_loss-functions-multiclass-conclusion.html"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -255,7 +255,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 8: Extending Linear Models and Completing the Workflow</span></a>
+  <a href="../book/08_loss-functions-multiclass-conclusion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></a>
   </div>
 </li>
       </ul>
@@ -303,16 +303,17 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#recover-feature-names-and-interpret-their-units" id="toc-recover-feature-names-and-interpret-their-units" class="nav-link" data-scroll-target="#recover-feature-names-and-interpret-their-units">Recover feature names and interpret their units</a></li>
   </ul></li>
+  <li><a href="#interpreting-coefficients-with-care" id="toc-interpreting-coefficients-with-care" class="nav-link" data-scroll-target="#interpreting-coefficients-with-care">Interpreting coefficients with care</a></li>
   </ul></li>
   <li><a href="#putting-the-complete-workflow-together" id="toc-putting-the-complete-workflow-together" class="nav-link" data-scroll-target="#putting-the-complete-workflow-together">Putting the complete workflow together</a>
   <ul>
-  <li><a href="#from-problem-definition-to-model-selection" id="toc-from-problem-definition-to-model-selection" class="nav-link" data-scroll-target="#from-problem-definition-to-model-selection">From problem definition to model selection</a></li>
-  <li><a href="#inspecting-development-errors" id="toc-inspecting-development-errors" class="nav-link" data-scroll-target="#inspecting-development-errors">Inspecting development errors</a></li>
-  <li><a href="#inspecting-the-selected-model-and-evaluating-on-test-data" id="toc-inspecting-the-selected-model-and-evaluating-on-test-data" class="nav-link" data-scroll-target="#inspecting-the-selected-model-and-evaluating-on-test-data">Inspecting the selected model and evaluating on test data</a></li>
+  <li><a href="#our-supervised-learning-workflow-so-far" id="toc-our-supervised-learning-workflow-so-far" class="nav-link" data-scroll-target="#our-supervised-learning-workflow-so-far">Our supervised-learning workflow so far</a></li>
+  <li><a href="#this-weeks-addition-interpretation" id="toc-this-weeks-addition-interpretation" class="nav-link" data-scroll-target="#this-weeks-addition-interpretation">This week’s addition: interpretation</a></li>
+  <li><a href="#how-the-workflow-will-grow-in-dsci-573" id="toc-how-the-workflow-will-grow-in-dsci-573" class="nav-link" data-scroll-target="#how-the-workflow-will-grow-in-dsci-573">How the workflow will grow in DSCI 573</a></li>
   <li><a href="#communicating-findings-and-limitations" id="toc-communicating-findings-and-limitations" class="nav-link" data-scroll-target="#communicating-findings-and-limitations">Communicating findings and limitations</a></li>
   <li><a href="#exercise-8.3-review-a-proposed-workflow" id="toc-exercise-8.3-review-a-proposed-workflow" class="nav-link" data-scroll-target="#exercise-8.3-review-a-proposed-workflow">Exercise 8.3: Review a proposed workflow</a></li>
   </ul></li>
-  <li><a href="#what-you-can-do-nowand-what-comes-next" id="toc-what-you-can-do-nowand-what-comes-next" class="nav-link" data-scroll-target="#what-you-can-do-nowand-what-comes-next">What you can do now—and what comes next</a></li>
+  <li><a href="#what-you-can-do-now-and-what-comes-next" id="toc-what-you-can-do-now-and-what-comes-next" class="nav-link" data-scroll-target="#what-you-can-do-now-and-what-comes-next">What you can do now and what comes next</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
@@ -320,9 +321,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/08_loss-functions-multiclass-conclusion.html"><span class="chapter-title">Chapter 8: Extending Linear Models and Completing the Workflow</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book/01_terminology-baselines-decision-trees.html">Lectures</a></li><li class="breadcrumb-item"><a href="../book/08_loss-functions-multiclass-conclusion.html"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Chapter 8: Extending Linear Models and Completing the Workflow</span></h1>
+<h1 class="title"><span class="chapter-title">Chapter 8: Multiclass Classification, More on Loss Functions, and Conclusions</span></h1>
 </div>
 
 
@@ -345,7 +346,6 @@ window.Quarto = {
 <li>Explain multiclass logistic-regression predictions using class scores, softmax, and cross-entropy.</li>
 <li>Compare squared, absolute, logistic, hinge, and exponential losses, and distinguish fitting objectives from evaluation scores.</li>
 <li>Inspect linear-model coefficients, individual feature contributions, and residuals with appropriate caveats.</li>
-<li>Distinguish parametric and non-parametric models for a fixed feature representation.</li>
 <li>Build and critique a complete supervised-learning workflow, and explain what its results can support.</li>
 </ul>
 </div>
@@ -359,17 +359,16 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> make_column_transformer</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier, DummyRegressor</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression, Ridge</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, log_loss, mean_absolute_error, mean_squared_error</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, cross_validate, cross_val_predict, train_test_split</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, log_loss</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_validate, train_test_split</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder, StandardScaler</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="multiclass-classification" class="level2">
 <h2 class="anchored" data-anchor-id="multiclass-classification">Multiclass classification</h2>
@@ -1145,7 +1144,7 @@ dtype: object</code></pre>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>housing_pipeline <span class="op">=</span> make_pipeline(housing_preprocessor, Ridge())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We will compare initial models and tune the Ridge pipeline later in the workflow section. For now, fit a fixed <code>alpha=1</code> model on training data to inspect how it computes predictions. We do not evaluate test performance during this exploration.</p>
+<p>Fit a fixed <code>alpha=1</code> model on training data to inspect how it computes predictions. This demonstration focuses on interpreting coefficients after preprocessing; choosing and evaluating a final model follows the workflow you have practised in your labs. We leave the test data untouched here.</p>
 <section id="recover-feature-names-and-interpret-their-units" class="level4">
 <h4 class="anchored" data-anchor-id="recover-feature-names-and-interpret-their-units">Recover feature names and interpret their units</h4>
 <div id="26af7fd3" class="cell" data-execution_count="15">
@@ -1222,400 +1221,62 @@ dtype: object</code></pre>
 <p>The transformed names link each coefficient to the feature actually received by Ridge. For standardized numerical features, a one-unit increase represents one training-set standard deviation; the coefficient is the corresponding change in predicted dollars with other represented inputs held fixed. One-hot ZIP-code indicators remain 0 or 1, so their coefficients have a different interpretation and should not be ranked alongside standardized numerical coefficients as interchangeable measures of importance.</p>
 <p>We retained all ZIP-code categories, so there is no single omitted reference ZIP code. Switching between two known ZIP codes changes two indicators: one turns off and another turns on. Their coefficient difference gives the model’s predicted change when the numerical features stay fixed. Because ZIP code and coordinates overlap in information, the individual coefficients depend on the representation and regularization. They are not causal neighbourhood effects.</p>
 <p>The negative bedroom coefficient from Chapter 7 illustrated the same issue: changing bedroom count while holding living area fixed is different from adding a bedroom by extending a house.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Optional comparison: Parametric and non-parametric models">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Optional comparison: Parametric and non-parametric models
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For fixed represented features and classes, a linear model has a fixed number of coefficients and intercepts. Adding training rows changes their fitted values, not their number. This is a <strong>parametric</strong> prediction rule.</p>
-<p>By contrast, <span class="math inline">\(k\)</span>-NN retains training examples and targets to consult during prediction. What it stores grows with the training set; it is commonly called <strong>non-parametric</strong>. Non-parametric does not mean it has no hyperparameters: the number of neighbours is one.</p>
-<p>If a text model gains coefficients after receiving more training documents, check whether its learned vocabulary grew. The representation changed, so the fixed-feature qualification no longer applies. Parametric also does not imply small or unable to overfit: a model with 100,000 word features still has many coefficients.</p>
-</div>
-</div>
-</div>
 </section>
+</section>
+<section id="interpreting-coefficients-with-care" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-coefficients-with-care">Interpreting coefficients with care</h3>
+<p>Coefficients explain <strong>how the fitted model makes predictions</strong>, not <strong>how the world works</strong>. Keep the following cautions in mind:</p>
+<ul>
+<li><strong>Prediction is not causation.</strong> A coefficient describes the model’s calculation with other represented features held fixed. It does not establish what would happen if we intervened to change that feature in the real world.</li>
+<li><strong>Units and preprocessing matter.</strong> A standardized numerical feature, a word count, and a one-hot category indicator represent different kinds of changes. Compare magnitudes only with a clear understanding of their scales and encodings.</li>
+<li><strong>Correlated features can share predictive information.</strong> Their individual coefficients can change substantially when features are added or removed, or when the training sample changes, even if predictions remain similar. Holding correlated features fixed may describe an unrealistic comparison.</li>
+<li><strong>Regularization affects the coefficients we interpret.</strong> Ridge and logistic regression balance fitting the data against a penalty on coefficients. Changing <code>alpha</code> or <code>C</code> can change their magnitudes and sometimes their signs. A small coefficient may reflect shrinkage or overlapping information; it does not prove that a feature is irrelevant.</li>
+<li><strong>Coefficient magnitude is not automatic feature importance.</strong> The contribution to one prediction also depends on the feature value. For logistic regression, a coefficient changes the raw score, not the probability by a fixed number of percentage points; check class ordering before interpreting its sign.</li>
+<li><strong>The explanation is limited by the model and its inputs.</strong> Missing predictors, discarded word order, or relationships that the linear rule cannot express can all limit predictions. A plausible-looking coefficient does not establish that the model is accurate or its assumptions are appropriate.</li>
+</ul>
+<p>Interpret coefficients alongside the representation, regularization settings, validation results, and model mistakes. Report surprising or unstable coefficients as limitations to investigate rather than turning them into confident claims about the world.</p>
 </section>
 </section>
 <section id="putting-the-complete-workflow-together" class="level2">
 <h2 class="anchored" data-anchor-id="putting-the-complete-workflow-together">Putting the complete workflow together</h2>
-<section id="from-problem-definition-to-model-selection" class="level3">
-<h3 class="anchored" data-anchor-id="from-problem-definition-to-model-selection">From problem definition to model selection</h3>
-<p>You now have several prediction rules, preprocessing tools, and ways to compare results. The remaining challenge is making their decisions work together. For housing, start by asking which sales we aim to predict and which property information will be available at prediction time. A carefully executed search cannot repair a target or evaluation split that answers the wrong question.</p>
-<p>The complete workflow is:</p>
+<section id="our-supervised-learning-workflow-so-far" class="level3">
+<h3 class="anchored" data-anchor-id="our-supervised-learning-workflow-so-far">Our supervised-learning workflow so far</h3>
+<p>You have been practising this workflow in your labs. Each week, we have added tools and decisions: first a prediction task and baseline, then data splitting and cross-validation, preprocessing pipelines, comparisons between model families, and systematic hyperparameter search. These are parts of one analysis, rather than separate recipes.</p>
+<p>Our workflow so far is:</p>
 <ol type="1">
-<li><strong>Define the task and available features.</strong> Identify the prediction unit, target, intended use, and information available at prediction time.</li>
-<li><strong>Reserve test data.</strong> Choose a split that reflects the intended prediction setting.</li>
-<li><strong>Explore training data.</strong> Check distributions, missingness, unusual values, and potential leakage. Use these checks to inform development.</li>
-<li><strong>Build preprocessing pipelines.</strong> Keep learned transformations inside cross-validation.</li>
-<li><strong>Establish a baseline and compare plausible initial models.</strong> Use the same folds and a preselected evaluation measure.</li>
-<li><strong>Tune promising approaches.</strong> Search a sensible space within the available computation budget.</li>
-<li><strong>Inspect model behaviour.</strong> Examine coefficients, contributions, and training-data validation errors. If this motivates changes, return to development and comparison.</li>
-<li><strong>Evaluate the selected workflow on test data.</strong> Do this after development choices are settled.</li>
-<li><strong>Communicate findings and limitations.</strong> Explain performance relative to a baseline, important mistakes, and what the evaluation does not establish.</li>
+<li><strong>Define the task and available features.</strong> Identify what one example represents, what you want to predict, and which inputs will be available when a prediction is needed.</li>
+<li><strong>Reserve test data.</strong> Choose a split appropriate for the intended prediction setting and protect the test set during development.</li>
+<li><strong>Explore training data.</strong> Check distributions, missingness, unusual values, and possible leakage.</li>
+<li><strong>Build preprocessing pipelines.</strong> Use suitable transformations for each feature type and keep learned preprocessing inside cross-validation.</li>
+<li><strong>Establish a baseline and compare plausible models.</strong> Compare their validation results using consistent splits and a clearly identified score.</li>
+<li><strong>Tune promising approaches.</strong> Use grid or randomized search within a sensible computation budget, then select a workflow using training-data validation results.</li>
+<li><strong>Interpret the fitted model and inspect its mistakes.</strong> Examine what the model learned and where its predictions are unreliable.</li>
+<li><strong>Evaluate on the test set.</strong> Assess the selected workflow after development choices are settled.</li>
+<li><strong>Communicate findings and limitations.</strong> Explain performance relative to a baseline and what the evidence can and cannot support.</li>
 </ol>
-<p>These steps form an iterative development process with a protected final assessment. The housing demonstration has already supplied a split and preprocessor. We will now inspect development errors, compare models, and finish evaluation. Let’s finish its model comparisons using mean absolute error, which describes typical absolute errors in dollars. This is an illustrative choice; the appropriate measure depends on the intended use.</p>
 </section>
-<section id="inspecting-development-errors" class="level3">
-<h3 class="anchored" data-anchor-id="inspecting-development-errors">Inspecting development errors</h3>
-<p>A single score can hide systematic mistakes. We would like to know whether errors are similar across predicted price ranges or whether the model tends to miss expensive sales.</p>
-<p>We already know how cross-validation creates validation data: in each round of five-fold cross-validation, the pipeline fits on four folds and predicts the remaining fold. Repeating this gives every training example one <strong>validation-fold prediction</strong>, made by a pipeline fitted on the other folds. Subtracting that prediction from its true price gives a <strong>cross-validation residual</strong>. These predictions come from five fitted pipelines, not one model fitted on the full training set. The test set remains untouched.</p>
-<p>The function <code>cross_val_predict</code> collects these validation-fold predictions in the same order as the input rows. We use them to inspect development errors; once this inspection influences our choices, it is not a fresh final evaluation.</p>
-<div id="c933e0e8" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>housing_validation_predictions <span class="op">=</span> cross_val_predict(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    housing_pipeline, X_housing_train, y_housing_train, cv<span class="op">=</span><span class="dv">5</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>housing_diagnostics <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"True price"</span>: y_housing_train.to_numpy(),</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Predicted price"</span>: housing_validation_predictions,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Residual"</span>: y_housing_train.to_numpy() <span class="op">-</span> housing_validation_predictions,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>housing_diagnostics.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">True price</th>
-<th data-quarto-table-cell-role="th">Predicted price</th>
-<th data-quarto-table-cell-role="th">Residual</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>848000.0</td>
-<td>896470.292038</td>
-<td>-48470.292038</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>659950.0</td>
-<td>772285.236137</td>
-<td>-112335.236137</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>343000.0</td>
-<td>277824.143081</td>
-<td>65175.856919</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">3</th>
-<td>522500.0</td>
-<td>492931.375208</td>
-<td>29568.624792</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">4</th>
-<td>390000.0</td>
-<td>513213.584671</td>
-<td>-123213.584671</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<div id="98464f38" class="cell" data-execution_count="17">
-<details class="code-fold">
-<summary>Show plotting code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>density <span class="op">=</span> ax.hexbin(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    housing_diagnostics[<span class="st">"Predicted price"</span>], housing_diagnostics[<span class="st">"Residual"</span>],</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    gridsize<span class="op">=</span><span class="dv">45</span>, mincnt<span class="op">=</span><span class="dv">1</span>, bins<span class="op">=</span><span class="st">"log"</span>, cmap<span class="op">=</span><span class="st">"viridis"</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>fig.colorbar(density, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"Number of sales (logarithmic colour scale)"</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"black"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Validation-fold predicted sale price (dollars)"</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Residual: true price − predicted price (dollars)"</span>)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Where does the housing model make large mistakes?"</span>)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="08_loss-functions-multiclass-conclusion_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Each hexagon groups nearby validation-fold predictions and residuals. Colour shows the number of sales in the group: brighter hexagons contain more sales. The colour scale is logarithmic so that both the dense central region and sparse large mistakes remain visible. No sales have been removed.</p>
-<p>The table below shows the five largest absolute cross-validation residuals. The sign still matters: a positive residual is an underprediction, while a negative residual is an overprediction.</p>
-<div id="680adc5b" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>largest_residuals <span class="op">=</span> housing_diagnostics[<span class="st">"Residual"</span>].<span class="bu">abs</span>().nlargest(<span class="dv">5</span>).index</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>housing_diagnostics.loc[largest_residuals].<span class="bu">round</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">True price</th>
-<th data-quarto-table-cell-role="th">Predicted price</th>
-<th data-quarto-table-cell-role="th">Residual</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">8097</th>
-<td>7700000.0</td>
-<td>3543413.0</td>
-<td>4156587.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">5079</th>
-<td>7062500.0</td>
-<td>3296350.0</td>
-<td>3766150.0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">14285</th>
-<td>5300000.0</td>
-<td>2280554.0</td>
-<td>3019446.0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">6780</th>
-<td>4500000.0</td>
-<td>1686422.0</td>
-<td>2813578.0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">10899</th>
-<td>5110800.0</td>
-<td>2301016.0</td>
-<td>2809784.0</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>Positive residuals mean underprediction; negative residuals mean overprediction. Look for structure rather than only counting points above and below zero: does the spread change with predicted price, and are there large misses that deserve investigation? A residual pattern can motivate checking the data, representation, or model family. It does not by itself identify a cause or establish which change will improve performance.</p>
-<div class="callout-reflection" title="Interpret before changing the model">
-<p>Suppose several expensive sales have large positive cross-validation residuals. What does that say about their predictions? Suggest one data check and one modelling comparison you could make without consulting the test set.</p>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Discussion">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Discussion
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The model underpredicts those sale prices. Check whether the recorded prices and property features are plausible, and whether unusual properties are poorly represented in training data. Compare a more flexible model or a justified feature representation using training-data cross-validation. Do not delete unusual sales simply because they are hard to predict, and do not use test scores to choose the change.</p>
-</div>
-</div>
-</div>
-<div id="7841703b" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>housing_candidates <span class="op">=</span> {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mean baseline"</span>: DummyRegressor(),</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ridge (default alpha)"</span>: housing_pipeline,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decision tree (default settings)"</span>: make_pipeline(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        housing_preprocessor, DecisionTreeRegressor(random_state<span class="op">=</span><span class="dv">571</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>housing_comparisons <span class="op">=</span> []</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> housing_candidates.items():</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> cross_validate(</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        model, X_housing_train, y_housing_train, cv<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        scoring<span class="op">=</span><span class="st">"neg_mean_absolute_error"</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    housing_comparisons.append({</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name, <span class="st">"Mean CV MAE (dollars)"</span>: <span class="op">-</span>scores[<span class="st">"test_score"</span>].mean()</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(housing_comparisons).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Mean CV MAE (dollars)</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Model</th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Mean baseline</th>
-<td>233458.165810</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Ridge (default alpha)</th>
-<td>110516.031168</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Decision tree (default settings)</th>
-<td>112145.274128</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p>This is an initial comparison, not proof that one model family always wins. We will search <code>alpha</code> for Ridge and <code>max_depth</code> for the decision tree, then select between the searched pipelines using their cross-validation MAE. The baseline is a reference rather than a model requiring a search. Preprocessing is refitted within every fold; the imputer’s statistics, scaling, and ZIP-code categories are not learned from held-out folds.</p>
-<div id="68ab6919" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>housing_searches <span class="op">=</span> {</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ridge"</span>: GridSearchCV(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        housing_pipeline, {<span class="st">"ridge__alpha"</span>: [<span class="fl">1.0</span>, <span class="fl">100.0</span>, <span class="fl">10000.0</span>]},</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">"neg_mean_absolute_error"</span>,</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decision tree"</span>: GridSearchCV(</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        housing_candidates[<span class="st">"Decision tree (default settings)"</span>],</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"decisiontreeregressor__max_depth"</span>: [<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">10</span>]},</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">"neg_mean_absolute_error"</span>,</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> search <span class="kw">in</span> housing_searches.values():</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    search.fit(X_housing_train, y_housing_train)</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>housing_search_results <span class="op">=</span> pd.DataFrame([</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"Model"</span>: name, <span class="st">"Selected settings"</span>: search.best_params_,</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Selected CV MAE (dollars)"</span>: <span class="op">-</span>search.best_score_}</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, search <span class="kw">in</span> housing_searches.items()</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>]).set_index(<span class="st">"Model"</span>)</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>housing_search_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Selected settings</th>
-<th data-quarto-table-cell-role="th">Selected CV MAE (dollars)</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Model</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Ridge</th>
-<td>{'ridge__alpha': 1.0}</td>
-<td>110516.031168</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Decision tree</th>
-<td>{'decisiontreeregressor__max_depth': 10}</td>
-<td>99365.153713</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
+<section id="this-weeks-addition-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="this-weeks-addition-interpretation">This week’s addition: interpretation</h3>
+<p>This week, we have added a more deliberate step of asking how the model makes its predictions. Linear-model coefficients and individual feature contributions let us inspect the calculations directly. Some other models, such as decision trees, provide model-specific feature importances. These summaries require care: a coefficient or importance value describes the fitted model, not a causal explanation of how the world works. Values from different methods are not interchangeable.</p>
+<p>Interpretation is a step in the <strong>analysis workflow</strong>, rather than a transformer added to a scikit-learn <code>Pipeline</code>. Use it alongside validation errors: does a regressor tend to overpredict or underpredict? Which classes does a classifier confuse? Are mistakes concentrated in particular kinds of examples, and do their consequences differ?</p>
+<p>If inspection suggests changes to the representation or model, return to training-data development and comparison. This makes the workflow iterative while preserving the test set for final assessment.</p>
 </section>
-<section id="inspecting-the-selected-model-and-evaluating-on-test-data" class="level3">
-<h3 class="anchored" data-anchor-id="inspecting-the-selected-model-and-evaluating-on-test-data">Inspecting the selected model and evaluating on test data</h3>
-<p>Select the pipeline with the lowest cross-validation MAE. As in Chapter 6, <code>best_estimator_</code> has already been refitted on all training data. The winning validation result may be optimistic because it was used to select a model. Our earlier coefficient and residual inspection illustrates development diagnostics; the final selected model may be a tree, so linear coefficients would not explain its prediction rule.</p>
-<p>Before the final assessment, inspect the selected model on training data. For Ridge, recover its coefficients with the corresponding fitted preprocessor. For a tree, inspect its fitted depth and size. Neither summary replaces examining validation-fold errors. Any resulting model changes would require returning to development before using the test set.</p>
-<div id="32abb475" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>selected_name <span class="op">=</span> <span class="bu">max</span>(housing_searches, key<span class="op">=</span><span class="kw">lambda</span> name: housing_searches[name].best_score_)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>selected_housing_pipeline <span class="op">=</span> housing_searches[selected_name].best_estimator_</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Selected model:"</span>, selected_name)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> selected_name <span class="op">==</span> <span class="st">"Ridge"</span>:</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    selected_feature_names <span class="op">=</span> selected_housing_pipeline.named_steps[<span class="st">"columntransformer"</span>].get_feature_names_out()</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    selected_coefficients <span class="op">=</span> pd.Series(</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        selected_housing_pipeline.named_steps[<span class="st">"ridge"</span>].coef_, index<span class="op">=</span>selected_feature_names</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(selected_coefficients.reindex(selected_coefficients.<span class="bu">abs</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>).index).head(<span class="dv">8</span>))</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    selected_tree <span class="op">=</span> selected_housing_pipeline.named_steps[<span class="st">"decisiontreeregressor"</span>]</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Fitted depth:"</span>, selected_tree.get_depth())</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Number of leaves:"</span>, selected_tree.get_n_leaves())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Selected model: Decision tree
-Fitted depth: 10
-Number of leaves: 681</code></pre>
-</div>
-</div>
-<p>For this worked example, we now finish development and evaluate once on the held-out test set. Report the same MAE used for selection alongside the baseline. MSE adds a description of sensitivity to larger mistakes; it is not a reason to choose a different winner after seeing the test results.</p>
-<div id="e498f605" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>housing_baseline <span class="op">=</span> DummyRegressor().fit(X_housing_train, y_housing_train)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>housing_test_results <span class="op">=</span> []</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> [(<span class="st">"Mean baseline"</span>, housing_baseline), (selected_name, selected_housing_pipeline)]:</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> model.predict(X_housing_test)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    housing_test_results.append({</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Test MAE (dollars)"</span>: mean_absolute_error(y_housing_test, predictions),</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Test MSE (dollars squared)"</span>: mean_squared_error(y_housing_test, predictions),</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(housing_test_results).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Test MAE (dollars)</th>
-<th data-quarto-table-cell-role="th">Test MSE (dollars squared)</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Model</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Mean baseline</th>
-<td>234887.990850</td>
-<td>1.412360e+11</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Decision tree</th>
-<td>95956.417799</td>
-<td>3.201708e+10</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
+<section id="how-the-workflow-will-grow-in-dsci-573" class="level3">
+<h3 class="anchored" data-anchor-id="how-the-workflow-will-grow-in-dsci-573">How the workflow will grow in DSCI 573</h3>
+<p>The first lecture of DSCI 573 focuses on evaluation metrics. We have already seen why this matters: accuracy and log loss answer different questions, and MAE and MSE can prefer different regression predictions. The next course will develop how to choose measures that reflect the errors and consequences relevant to an application.</p>
+<p>You will also add more deliberate <strong>feature engineering</strong> and <strong>feature selection</strong>. Feature engineering asks how to represent information in ways that help a model learn useful relationships; feature selection asks which inputs to retain. These choices belong inside model development and validation, alongside preprocessing and hyperparameter selection. They extend the workflow you already know.</p>
 </section>
 <section id="communicating-findings-and-limitations" class="level3">
 <h3 class="anchored" data-anchor-id="communicating-findings-and-limitations">Communicating findings and limitations</h3>
-<p>A useful report says what was predicted, which inputs were used, how selection and evaluation were separated, and how the selected workflow performed relative to a baseline. It also explains what may change in practice: future market conditions, a different mix of properties, or information unavailable when the prediction is needed. A random split of historical sales does not establish accuracy for all those settings.</p>
-<p>If the test result disappoints, report it honestly. Repeatedly tuning against this test set turns it into development data. If further development is needed, obtaining a fresh final evaluation requires a new evaluation plan rather than relabelling the same score.</p>
-<p>Predictive associations do not establish causal effects. A housing coefficient cannot determine the return on a renovation, and a high sentiment probability does not establish that a model understands a review.</p>
+<p>Report the task, the comparison with a baseline, the evaluation procedure, and the important types of mistakes. Be clear about which data and situations the results describe. A good average score does not establish that every kind of example is predicted well or that performance will remain the same in a different setting.</p>
+<p>Communicate limitations honestly, without exaggerating accuracy, reliability, or understanding. Predictive associations do not establish causal effects, and plausible-looking coefficients do not prove that a model has captured the true relationship. If final test results disappoint, report them rather than repeatedly tuning against the same test set. These habits remain essential as the workflow grows more sophisticated.</p>
 </section>
 <section id="exercise-8.3-review-a-proposed-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-8.3-review-a-proposed-workflow">Exercise 8.3: Review a proposed workflow</h3>
 <p>A team wants to route support requests to three departments. It includes a field recording which department eventually resolved each request, builds a text vocabulary using all requests, and then creates a train/test split. It tries many values of <code>C</code>, keeps the one with the best test accuracy, and reports that accuracy as evidence that its probability predictions are reliable.</p>
 <p>Identify the problems and propose a corrected workflow using tools from this book. Explain which choices must be settled before final test evaluation.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1624,7 +1285,7 @@ Number of leaves: 681</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The resolving department is not available when a new request arrives and would reveal information about the outcome. Remove it and check the availability of the remaining inputs. Reserve the test set before learning a vocabulary; place <code>CountVectorizer</code> and the model in a pipeline so that each cross-validation fold learns its vocabulary only from that fold’s training portion. Use training-data cross-validation to choose <code>C</code>, and compare against a baseline. Decide whether the intended use requires hard routing decisions, probability estimates, or both, and choose evaluation measures accordingly. Accuracy alone does not assess the assigned probabilities. Evaluate the selected workflow once on the test set and explain the limits of that evidence.</p>
 </div>
@@ -1632,8 +1293,8 @@ Number of leaves: 681</code></pre>
 </div>
 </section>
 </section>
-<section id="what-you-can-do-nowand-what-comes-next" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-can-do-nowand-what-comes-next">What you can do now—and what comes next</h2>
+<section id="what-you-can-do-now-and-what-comes-next" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-can-do-now-and-what-comes-next">What you can do now and what comes next</h2>
 <p>You began this course with data tables and prediction tasks. You can now define a supervised-learning problem, represent numerical, categorical, and text features, establish baselines, compare model families, and tune a complete pipeline. You can separate development from final evaluation and inspect what a fitted model has learned.</p>
 <p>The models matter, but so do the decisions around them. Which information will actually be available? What baseline should the model improve on? Have preprocessing and model selection respected the boundaries between training and evaluation data? What does the reported score tell us? These questions remain useful as models become more complex.</p>
 <p>The curriculum map places this foundation in the wider MDS machine-learning sequence:</p>
@@ -1690,7 +1351,6 @@ Number of leaves: 681</code></pre>
 <li>Logistic, hinge, and exponential losses reward different behaviour of a signed classification score. Hinge loss becomes zero beyond a margin; exponential loss grows especially rapidly for strongly wrong scores.</li>
 <li>Fitting objectives learn parameters; evaluation scores compare predictions. Changing a search’s scorer does not change the estimator’s fitting objective.</li>
 <li>Coefficients describe the fitted calculation. Individual contributions also depend on feature values, and residuals can reveal patterns hidden by an aggregate score.</li>
-<li>Parametric models have fixed parameter counts for fixed features and classes. Non-parametric models can still have hyperparameters.</li>
 <li>A complete workflow combines task definition, protected evaluation data, training-data exploration, preprocessing, baselines, comparison, tuning, inspection, and clear communication of results and limitations.</li>
 </ul>
 
