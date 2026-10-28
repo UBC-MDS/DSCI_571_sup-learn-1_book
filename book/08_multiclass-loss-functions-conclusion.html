@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-1dc6352e80c7cde6b31014f5450fd094.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-de6bad00a6fa35c71667e1e238f1be1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -275,8 +275,8 @@ window.Quarto = {
   <li><a href="#from-two-classes-to-several" id="toc-from-two-classes-to-several" class="nav-link" data-scroll-target="#from-two-classes-to-several">From two classes to several</a></li>
   <li><a href="#from-class-scores-to-probabilities" id="toc-from-class-scores-to-probabilities" class="nav-link" data-scroll-target="#from-class-scores-to-probabilities">From class scores to probabilities</a></li>
   <li><a href="#cross-entropy-extending-binary-classification" id="toc-cross-entropy-extending-binary-classification" class="nav-link" data-scroll-target="#cross-entropy-extending-binary-classification">Cross-entropy: extending binary classification</a></li>
-  <li><a href="#exercise-8.1-is-a-log-loss-of-1.60-good" id="toc-exercise-8.1-is-a-log-loss-of-1.60-good" class="nav-link" data-scroll-target="#exercise-8.1-is-a-log-loss-of-1.60-good">Exercise 8.1: Is a log loss of 1.60 good?</a></li>
-  <li><a href="#predicting-penguin-species" id="toc-predicting-penguin-species" class="nav-link" data-scroll-target="#predicting-penguin-species">Predicting penguin species</a></li>
+  <li><a href="#exercise-8.1-is-a-log-loss-of-1.10-good" id="toc-exercise-8.1-is-a-log-loss-of-1.10-good" class="nav-link" data-scroll-target="#exercise-8.1-is-a-log-loss-of-1.10-good">Exercise 8.1: Is a log loss of 1.10 good?</a></li>
+  <li><a href="#fitting-a-species-classifier" id="toc-fitting-a-species-classifier" class="nav-link" data-scroll-target="#fitting-a-species-classifier">Fitting a species classifier</a></li>
   <li><a href="#class-predictions-versus-probability-predictions" id="toc-class-predictions-versus-probability-predictions" class="nav-link" data-scroll-target="#class-predictions-versus-probability-predictions">Class predictions versus probability predictions</a></li>
   <li><a href="#exercise-8.2-same-class-prediction-different-evidence" id="toc-exercise-8.2-same-class-prediction-different-evidence" class="nav-link" data-scroll-target="#exercise-8.2-same-class-prediction-different-evidence">Exercise 8.2: Same class prediction, different evidence</a></li>
   </ul></li>
@@ -285,11 +285,11 @@ window.Quarto = {
   <li><a href="#regression-squared-error-versus-absolute-error" id="toc-regression-squared-error-versus-absolute-error" class="nav-link" data-scroll-target="#regression-squared-error-versus-absolute-error">Regression: squared error versus absolute error</a></li>
   <li><a href="#classification-log-loss-hinge-loss-and-exponential-loss" id="toc-classification-log-loss-hinge-loss-and-exponential-loss" class="nav-link" data-scroll-target="#classification-log-loss-hinge-loss-and-exponential-loss">Classification: log loss, hinge loss, and exponential loss</a>
   <ul class="collapse">
-  <li><a href="#a-common-horizontal-axis-the-signed-score" id="toc-a-common-horizontal-axis-the-signed-score" class="nav-link" data-scroll-target="#a-common-horizontal-axis-the-signed-score">A common horizontal axis: the signed score</a></li>
+  <li><a href="#following-one-positive-review" id="toc-following-one-positive-review" class="nav-link" data-scroll-target="#following-one-positive-review">Following one positive review</a></li>
   <li><a href="#logistic-and-hinge-loss" id="toc-logistic-and-hinge-loss" class="nav-link" data-scroll-target="#logistic-and-hinge-loss">Logistic and hinge loss</a></li>
   <li><a href="#a-brief-extension-exponential-loss" id="toc-a-brief-extension-exponential-loss" class="nav-link" data-scroll-target="#a-brief-extension-exponential-loss">A brief extension: exponential loss</a></li>
   </ul></li>
-  <li><a href="#fitting-loss-regularization-and-evaluation-scores" id="toc-fitting-loss-regularization-and-evaluation-scores" class="nav-link" data-scroll-target="#fitting-loss-regularization-and-evaluation-scores">Fitting loss, regularization, and evaluation scores</a></li>
+  <li><a href="#fitting-loss-versus-evaluation-score" id="toc-fitting-loss-versus-evaluation-score" class="nav-link" data-scroll-target="#fitting-loss-versus-evaluation-score">Fitting loss versus evaluation score</a></li>
   <li><a href="#exercise-8.3-what-changed-inside-the-search" id="toc-exercise-8.3-what-changed-inside-the-search" class="nav-link" data-scroll-target="#exercise-8.3-what-changed-inside-the-search">Exercise 8.3: What changed inside the search?</a></li>
   </ul></li>
   <li><a href="#model-interpretation-examining-coefficients" id="toc-model-interpretation-examining-coefficients" class="nav-link" data-scroll-target="#model-interpretation-examining-coefficients">Model interpretation: examining coefficients</a>
@@ -309,9 +309,7 @@ window.Quarto = {
   <li><a href="#putting-the-complete-workflow-together" id="toc-putting-the-complete-workflow-together" class="nav-link" data-scroll-target="#putting-the-complete-workflow-together">Putting the complete workflow together</a>
   <ul>
   <li><a href="#our-supervised-learning-workflow-so-far" id="toc-our-supervised-learning-workflow-so-far" class="nav-link" data-scroll-target="#our-supervised-learning-workflow-so-far">Our supervised-learning workflow so far</a></li>
-  <li><a href="#this-weeks-addition-interpretation" id="toc-this-weeks-addition-interpretation" class="nav-link" data-scroll-target="#this-weeks-addition-interpretation">This week’s addition: interpretation</a></li>
-  <li><a href="#how-the-workflow-will-grow-in-dsci-573" id="toc-how-the-workflow-will-grow-in-dsci-573" class="nav-link" data-scroll-target="#how-the-workflow-will-grow-in-dsci-573">How the workflow will grow in DSCI 573</a></li>
-  <li><a href="#communicating-findings-and-limitations" id="toc-communicating-findings-and-limitations" class="nav-link" data-scroll-target="#communicating-findings-and-limitations">Communicating findings and limitations</a></li>
+  <li><a href="#using-interpretation-during-model-development" id="toc-using-interpretation-during-model-development" class="nav-link" data-scroll-target="#using-interpretation-during-model-development">Using interpretation during model development</a></li>
   <li><a href="#exercise-8.4-review-a-proposed-workflow" id="toc-exercise-8.4-review-a-proposed-workflow" class="nav-link" data-scroll-target="#exercise-8.4-review-a-proposed-workflow">Exercise 8.4: Review a proposed workflow</a></li>
   </ul></li>
   <li><a href="#what-you-can-do-now-and-what-comes-next" id="toc-what-you-can-do-now-and-what-comes-next" class="nav-link" data-scroll-target="#what-you-can-do-now-and-what-comes-next">What you can do now and what comes next</a></li>
@@ -346,14 +344,14 @@ window.Quarto = {
 <ul>
 <li>Explain multiclass logistic-regression predictions using class scores, softmax, and cross-entropy.</li>
 <li>Compare squared, absolute, logistic, hinge, and exponential losses, and distinguish fitting objectives from evaluation scores.</li>
-<li>Inspect linear-model coefficients, individual feature contributions, and residuals with appropriate caveats.</li>
+<li>Inspect linear-model coefficients, individual feature contributions with appropriate caveats.</li>
 <li>Build and critique a complete supervised-learning workflow, and explain what its results can support.</li>
 </ul>
 </div>
 <p>Chapter 7 showed how a weighted sum becomes a numeric prediction or a binary class probability. What changes when a prediction has three possible labels? And once we can make predictions, how should we judge their mistakes and explain their behaviour?</p>
-<p>We will start by extending logistic regression to several classes, then compare what different losses reward. Two demonstrations connect these ideas to text and housing data. Finally, we will bring together the workflow you have learned throughout the course and consider the questions that motivate DSCI 573.</p>
-<p>Plotting code is collapsed; expand “Show plotting code” to inspect how a figure was created. The demonstrations can be explored independently of how much time is available for running them live in class.</p>
-<div id="fbcac8a5" class="cell" data-execution_count="1">
+<p>We will use penguin measurements to extend logistic regression to several classes and compare class predictions with probability predictions. We will then explore what different losses reward, using delivery times and sentiment analysis. Finally, text and housing examples will show how to interpret linear-model predictions before we bring together the course workflow and look ahead to DSCI 573.</p>
+<p>Plotting code is collapsed; expand “Show plotting code” to inspect how a figure was created.</p>
+<div id="fbcac8a5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:38.942137Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:38.942073Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.029291Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.028493Z&quot;}}" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -375,8 +373,124 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="multiclass-classification">Multiclass classification</h2>
 <section id="from-two-classes-to-several" class="level3">
 <h3 class="anchored" data-anchor-id="from-two-classes-to-several">From two classes to several</h3>
-<p>Suppose a support request must be routed to billing, technical support, or account management. In Chapter 7, one probability and its complement described two countries. With three departments, knowing the probability of billing does not tell us how to divide the remaining probability between the other two classes.</p>
-<p>This is <strong>multiclass classification</strong>: each example has exactly one target class among several possibilities. In <strong>multilabel classification</strong>, an example can have several labels at once—for instance, a request tagged both “billing” and “urgent.” We focus on multiclass classification here. Numeric class labels are identifiers, not quantities with an order or distance.</p>
+<p>Suppose we have measurements of a penguin and want to predict its species: <strong>Adelie, Chinstrap, or Gentoo</strong>. We will use the <a href="https://allisonhorst.github.io/palmerpenguins/">Palmer Penguins dataset</a>, which contains measurements of 344 penguins, as our running example. A local copy of the project’s CC0 data is included with the book.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/palmer-penguin-species.png" class="img-fluid figure-img" style="width:85.0%" alt="Illustrations of Chinstrap, Gentoo, and Adelie penguins, shown side by side."></p>
+<figcaption>The three penguin species: Chinstrap (left), Gentoo (centre), and Adelie (right). Artwork by <span class="citation" data-cites="allison_horst">@allison_horst</span>, from the Palmer Penguins project.</figcaption>
+</figure>
+</div>
+<p>Our inputs are four numerical measurements: bill length, bill depth, and flipper length in millimetres, and body mass in grams. The target is species. Here are ten observations from the dataset, with their original row indices so that we can refer back to individual penguins:</p>
+<div id="penguins-preview" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.031180Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.030996Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.042066Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.041691Z&quot;}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">"penguins.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguin_features <span class="op">=</span> [<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>, <span class="st">"flipper_length_mm"</span>, <span class="st">"body_mass_g"</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Four Adelie, three Chinstrap, and three Gentoo observations.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>penguin_preview_indices <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">276</span>, <span class="dv">277</span>, <span class="dv">278</span>, <span class="dv">152</span>, <span class="dv">153</span>, <span class="dv">154</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>penguins.loc[penguin_preview_indices, penguin_features <span class="op">+</span> [<span class="st">"species"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">bill_length_mm</th>
+<th data-quarto-table-cell-role="th">bill_depth_mm</th>
+<th data-quarto-table-cell-role="th">flipper_length_mm</th>
+<th data-quarto-table-cell-role="th">body_mass_g</th>
+<th data-quarto-table-cell-role="th">species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>39.1</td>
+<td>18.7</td>
+<td>181.0</td>
+<td>3750.0</td>
+<td>Adelie</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>39.5</td>
+<td>17.4</td>
+<td>186.0</td>
+<td>3800.0</td>
+<td>Adelie</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>40.3</td>
+<td>18.0</td>
+<td>195.0</td>
+<td>3250.0</td>
+<td>Adelie</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>36.7</td>
+<td>19.3</td>
+<td>193.0</td>
+<td>3450.0</td>
+<td>Adelie</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">276</th>
+<td>46.5</td>
+<td>17.9</td>
+<td>192.0</td>
+<td>3500.0</td>
+<td>Chinstrap</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">277</th>
+<td>50.0</td>
+<td>19.5</td>
+<td>196.0</td>
+<td>3900.0</td>
+<td>Chinstrap</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">278</th>
+<td>51.3</td>
+<td>19.2</td>
+<td>193.0</td>
+<td>3650.0</td>
+<td>Chinstrap</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">152</th>
+<td>46.1</td>
+<td>13.2</td>
+<td>211.0</td>
+<td>4500.0</td>
+<td>Gentoo</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">153</th>
+<td>50.0</td>
+<td>16.3</td>
+<td>230.0</td>
+<td>5700.0</td>
+<td>Gentoo</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">154</th>
+<td>48.7</td>
+<td>14.1</td>
+<td>210.0</td>
+<td>4450.0</td>
+<td>Gentoo</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>In Chapter 7, one probability and its complement described two countries. With three species, knowing the probability of Adelie does not tell us how to divide the remaining probability between the other two classes.</p>
+<p>This is <strong>multiclass classification</strong>: each example has exactly one target class among several possibilities. In <strong>multilabel classification</strong>, an example can have several labels at once, for instance, a photograph tagged both “penguin” and “snow”. We focus on multiclass classification here. Numeric class labels are identifiers, not quantities with an order or distance.</p>
 </section>
 <section id="from-class-scores-to-probabilities" class="level3">
 <h3 class="anchored" data-anchor-id="from-class-scores-to-probabilities">From class scores to probabilities</h3>
@@ -385,38 +499,33 @@ window.Quarto = {
 <p><span class="math display">\[
 z_k=\mathbf{w}_k^\mathsf{T}\mathbf{x}+b_k.
 \]</span></p>
-<p>Here <span class="math inline">\(k\)</span> identifies a class. Each class has its own coefficients and intercept, so the same request can receive different scores for different departments.</p>
-<p>We convert the scores into probabilities with <strong>softmax</strong>. First exponentiate each score to obtain a positive number; then divide by the sum of those numbers. For scores 2, 1, and 0:</p>
+<p>Here <span class="math inline">\(k\)</span> identifies a class. Each class has its own coefficients and intercept, so the same penguin can receive different scores for different species. Here <span class="math inline">\(\mathbf{x}\)</span> contains its four measurements after preprocessing.</p>
+<p>Consider penguin 0, whose true species is Adelie. Suppose the model assigns scores of 2 for Adelie, 1 for Chinstrap, and 0 for Gentoo. These scores are illustrative; we will fit a model later using the training portion of the dataset.</p>
+<p>We convert the scores into probabilities with <strong>softmax</strong>. First exponentiate each score to obtain a positive number; then divide by the sum of those numbers:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 26%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Department</th>
-<th style="text-align: right;">Score</th>
+<th>Species</th>
+<th style="text-align: right;">Raw score</th>
 <th style="text-align: right;">Exponentiated score</th>
 <th style="text-align: right;">Probability</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Billing</td>
+<td>Adelie</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;"><span class="math inline">\(e^2\approx7.389\)</span></td>
 <td style="text-align: right;"><span class="math inline">\(7.389/11.107\approx0.665\)</span></td>
 </tr>
 <tr class="even">
-<td>Technical support</td>
+<td>Chinstrap</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;"><span class="math inline">\(e^1\approx2.718\)</span></td>
 <td style="text-align: right;"><span class="math inline">\(2.718/11.107\approx0.245\)</span></td>
 </tr>
 <tr class="odd">
-<td>Account management</td>
+<td>Gentoo</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;"><span class="math inline">\(e^0=1\)</span></td>
 <td style="text-align: right;"><span class="math inline">\(1/11.107\approx0.090\)</span></td>
@@ -428,25 +537,38 @@ z_k=\mathbf{w}_k^\mathsf{T}\mathbf{x}+b_k.
 p_k=\frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}}.
 \]</span></p>
 <p>The denominator is shared by all classes, so their probabilities sum to 1. Increasing one score while holding the others fixed raises its probability and lowers the others. Softmax makes the classes compete within one probability distribution. It defines the model’s probability calculation; it does not guarantee reliable estimates on new data.</p>
-<p>Let’s reproduce the hand calculation in Python.</p>
-<div id="chapter8-13" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Subtracting the maximum leaves softmax unchanged and avoids large exponentials.</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>weights <span class="op">=</span> np.exp(scores <span class="op">-</span> scores.<span class="bu">max</span>())</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pd.Series(weights <span class="op">/</span> weights.<span class="bu">sum</span>(), index<span class="op">=</span>[<span class="st">"billing"</span>, <span class="st">"technical"</span>, <span class="st">"account"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>billing      0.665241
-technical    0.244728
-account      0.090031
+<p>Let’s reproduce the calculation with NumPy. Before exponentiating, we subtract the largest score from every score. This leaves the softmax probabilities unchanged because it multiplies every numerator and the denominator by the same factor. It also avoids exponentiating large positive scores:</p>
+<div id="chapter8-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.042928Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.042875Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.045065Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.044797Z&quot;}}" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>classes <span class="op">=</span> [<span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>weights <span class="op">=</span> np.exp(scores <span class="op">-</span> scores.<span class="bu">max</span>())</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>probabilities <span class="op">=</span> weights <span class="op">/</span> weights.<span class="bu">sum</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pd.Series(probabilities, index<span class="op">=</span>classes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>Adelie       0.665241
+Chinstrap    0.244728
+Gentoo       0.090031
+dtype: float64</code></pre>
+</div>
+</div>
+<p>In practice, <code>scipy.special.softmax</code> performs these steps for us using a numerically stable implementation. Applying it to the same scores gives the same probabilities, in the same class order:</p>
+<div id="softmax-scipy-example" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.045962Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.045912Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.047793Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.047510Z&quot;}}" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> softmax</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pd.Series(softmax(scores), index<span class="op">=</span>classes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Adelie       0.665241
+Chinstrap    0.244728
+Gentoo       0.090031
 dtype: float64</code></pre>
 </div>
 </div>
 </section>
 <section id="cross-entropy-extending-binary-classification" class="level3">
 <h3 class="anchored" data-anchor-id="cross-entropy-extending-binary-classification">Cross-entropy: extending binary classification</h3>
-<p>The predicted class has the largest probability: billing in our example. No class needs to exceed 0.5. Probabilities of 0.40, 0.35, and 0.25 also select billing. They express a different degree of preference, even though the predicted class is unchanged.</p>
+<p>The predicted class has the largest probability: Adelie for penguin 0, matching its target class in our dataset. No class needs to exceed 0.5. Probabilities of 0.40, 0.35, and 0.25 also select Adelie. They express a different degree of preference, even though the predicted class is unchanged.</p>
 <p>What should fitting reward when there are several classes? We still want low loss when the model assigns high probability to the true class, and a large penalty when it confidently favours a wrong class. Adding alternatives does not change this goal.</p>
-<p>Suppose the true department is technical support. Write the target using one indicator per class and list the predicted probabilities in the same order:</p>
+<p>Now consider penguin 276 in our preview table. Its true species is Chinstrap. Suppose the model assigns probabilities of 0.1, 0.8, and 0.1 to Adelie, Chinstrap, and Gentoo, respectively. Write the target using one indicator per class and list the predicted probabilities in the same order:</p>
 <p><span class="math display">\[
 \mathbf{y}=\begin{bmatrix}0\\1\\0\end{bmatrix},
 \qquad
@@ -462,7 +584,7 @@ L=-[0\log(0.1)+1\log(0.8)+0\log(0.1)]
 L=-\sum_{k=1}^{K}y_k\log(\hat p_k)
 =-\log(\hat p_{\text{true class}}).
 \]</span></p>
-<p>Only one term contributes, so this is the same true-class loss used in Chapter 7. Giving the true class probability 0.05 instead of 0.8 would increase the loss to about 2.996. Fitting combines the mean loss across examples with regularization.</p>
+<p>Only one term contributes, so this is the same true-class loss used in Chapter 7. Giving the true class probability 0.05 instead of 0.8 would increase the loss to about 2.996.</p>
 <p>To recover <strong>binary cross-entropy</strong>, let <span class="math inline">\(y\)</span> be the indicator for class 1 and <span class="math inline">\(\hat p\)</span> its predicted probability. The other class then has indicator <span class="math inline">\(1-y\)</span> and probability <span class="math inline">\(1-\hat p\)</span>:</p>
 <p><span class="math display">\[
 L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
@@ -481,16 +603,16 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For several examples, use <span class="math inline">\(y_{ik}\)</span> and <span class="math inline">\(\hat p_{ik}\)</span> to identify both example <span class="math inline">\(i\)</span> and class <span class="math inline">\(k\)</span>. The mean cross-entropy is <span class="math inline">\(-\frac{1}{n}\sum_{i=1}^{n}\sum_{k=1}^{K}y_{ik}\log(\hat p_{ik})\)</span>.</p>
-<p>One-hot target notation is distinct from one-hot encoding input features. Scikit-learn accepts ordinary class labels for <code>LogisticRegression</code>; you do not need to construct these target vectors. The numerical class labels identify categories, not an order or distance between species or departments.</p>
+<p>One-hot target notation is distinct from one-hot encoding input features. Scikit-learn accepts ordinary class labels for <code>LogisticRegression</code>; you do not need to construct these target vectors. The numerical class labels identify categories, not an order or distance between species.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="exercise-8.1-is-a-log-loss-of-1.60-good" class="level3">
-<h3 class="anchored" data-anchor-id="exercise-8.1-is-a-log-loss-of-1.60-good">Exercise 8.1: Is a log loss of 1.60 good?</h3>
-<p>A model achieves a mean validation log loss of 1.60 on a five-class classification problem, using natural logarithms.</p>
+<section id="exercise-8.1-is-a-log-loss-of-1.10-good" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-8.1-is-a-log-loss-of-1.10-good">Exercise 8.1: Is a log loss of 1.10 good?</h3>
+<p>A model achieves a mean validation log loss of 1.10 on a three-species penguin classification problem, using natural logarithms.</p>
 <ol type="1">
-<li>What loss would a baseline receive if it assigned probability 0.20 to every class for every example?</li>
+<li>What loss would a baseline receive if it assigned probability <span class="math inline">\(1/3\)</span> to every class for every example?</li>
 <li>Does the model’s result provide convincing evidence of useful predictions?</li>
 <li>If some classes are much more common than others, what additional baseline would you compare against?</li>
 </ol>
@@ -506,51 +628,49 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The uniform-probability baseline always assigns the true class probability <span class="math inline">\(1/5\)</span>, so its loss on every example, and therefore its mean loss, is</p>
+<p>The uniform-probability baseline always assigns the true class probability <span class="math inline">\(1/3\)</span>, so its loss on every example, and therefore its mean loss, is</p>
 <p><span class="math display">\[
--\log(1/5)=\log(5)\approx1.609.
+-\log(1/3)=\log(3)\approx1.099.
 \]</span></p>
-<p>The model’s loss of 1.60 is only slightly lower. This comparison alone provides little evidence of a meaningful improvement; the difference could reflect variation in the validation sample. A loss needs a reference point, not just a judgment that its numerical value looks small.</p>
+<p>The model’s loss of 1.10 is slightly worse than the uniform baseline’s 1.099. It provides no evidence of improvement over that baseline on these validation examples, although such a small difference could reflect variation in the validation sample. A loss needs a reference point, not just a judgment that its numerical value looks small.</p>
 <p>If classes are imbalanced, also compare with a baseline that predicts the <strong>training-set class proportions</strong>, evaluated on the same validation data. That baseline can improve on uniform probabilities without using any features.</p>
 <p>Assigning uniform probabilities is different from randomly guessing a single class. Log loss evaluates a probability distribution over all classes, not just a chosen class label.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="predicting-penguin-species" class="level3">
-<h3 class="anchored" data-anchor-id="predicting-penguin-species">Predicting penguin species</h3>
-<p>Suppose we have measurements of a penguin and want to predict its species: <strong>Adelie, Chinstrap, or Gentoo</strong>. We will use the <a href="https://allisonhorst.github.io/palmerpenguins/">Palmer Penguins dataset</a>, which contains measurements of 344 penguins. A local copy of the project’s CC0 data is included with the book, so this example needs no download when run.</p>
-<p>We use four numerical features: bill length, bill depth, and flipper length in millimetres, and body mass in grams. Island and sex are available but omitted so that we can focus on multiclass predictions; the housing demo later uses categorical features. Our goal here is to trace predictions, so we use a fixed pipeline and training-data cross-validation rather than repeat a full search.</p>
+<section id="fitting-a-species-classifier" class="level3">
+<h3 class="anchored" data-anchor-id="fitting-a-species-classifier">Fitting a species classifier</h3>
+<p>We now fit a model to predict species from the same four measurements. Island and sex are available but omitted so that we can focus on multiclass predictions; the housing demo later uses categorical features. Our goal here is to trace predictions, so we use a fixed pipeline and training-data cross-validation rather than repeat a full search.</p>
 <p>Some measurements are missing, and body mass has a different numerical scale from the lengths. We therefore impute missing measurements with training medians and standardize the features before fitting logistic regression. We reserve test data first and keep both transformations inside the pipeline so that each cross-validation fold learns its medians and scaling statistics from its training portion only.</p>
 <p>The <code>lbfgs</code> solver supports multinomial logistic regression for this target. Compare against a baseline that returns the training class proportions. We report both accuracy and log loss: one describes class decisions, the other evaluates probabilities.</p>
-<div id="4a5081df" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">"penguins.csv"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>penguin_features <span class="op">=</span> [<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>, <span class="st">"flipper_length_mm"</span>, <span class="st">"body_mass_g"</span>]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X_penguins <span class="op">=</span> penguins[penguin_features]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>y_penguins <span class="op">=</span> penguins[<span class="st">"species"</span>]</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>X_penguins_train, X_penguins_test, y_penguins_train, y_penguins_test <span class="op">=</span> train_test_split(</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    X_penguins, y_penguins, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">571</span>, stratify<span class="op">=</span>y_penguins</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>penguin_pipeline <span class="op">=</span> make_pipeline(</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>), StandardScaler(),</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    LogisticRegression(solver<span class="op">=</span><span class="st">"lbfgs"</span>, max_iter<span class="op">=</span><span class="dv">1000</span>),</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>penguin_results <span class="op">=</span> []</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> {</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Class-proportion baseline"</span>: DummyClassifier(strategy<span class="op">=</span><span class="st">"prior"</span>),</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Logistic regression"</span>: penguin_pipeline,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>}.items():</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> cross_validate(</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        model, X_penguins_train, y_penguins_train, cv<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        scoring<span class="op">=</span>{<span class="st">"accuracy"</span>: <span class="st">"accuracy"</span>, <span class="st">"log_loss"</span>: <span class="st">"neg_log_loss"</span>},</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    penguin_results.append({</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mean CV accuracy"</span>: scores[<span class="st">"test_accuracy"</span>].mean(),</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mean CV log loss"</span>: <span class="op">-</span>scores[<span class="st">"test_log_loss"</span>].mean(),</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(penguin_results).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="4a5081df" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.048664Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.048610Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.091674Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.091274Z&quot;}}" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X_penguins <span class="op">=</span> penguins[penguin_features]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y_penguins <span class="op">=</span> penguins[<span class="st">"species"</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X_penguins_train, X_penguins_test, y_penguins_train, y_penguins_test <span class="op">=</span> train_test_split(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    X_penguins, y_penguins, test_size<span class="op">=</span><span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">571</span>, stratify<span class="op">=</span>y_penguins</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>penguin_pipeline <span class="op">=</span> make_pipeline(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>), StandardScaler(),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    LogisticRegression(solver<span class="op">=</span><span class="st">"lbfgs"</span>, max_iter<span class="op">=</span><span class="dv">1000</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>penguin_results <span class="op">=</span> []</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, model <span class="kw">in</span> {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Class-proportion baseline"</span>: DummyClassifier(strategy<span class="op">=</span><span class="st">"prior"</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Logistic regression"</span>: penguin_pipeline,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}.items():</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> cross_validate(</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        model, X_penguins_train, y_penguins_train, cv<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        scoring<span class="op">=</span>{<span class="st">"accuracy"</span>: <span class="st">"accuracy"</span>, <span class="st">"log_loss"</span>: <span class="st">"neg_log_loss"</span>},</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    penguin_results.append({</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mean CV accuracy"</span>: scores[<span class="st">"test_accuracy"</span>].mean(),</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reverse the negative-loss scorer so smaller reported losses are better.</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Mean CV log loss"</span>: <span class="op">-</span>scores[<span class="st">"test_log_loss"</span>].mean(),</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(penguin_results).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -584,19 +704,19 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </div>
 </div>
 </div>
-<p>The log-loss scorer returns a negative loss because scikit-learn search and scoring tools follow a “larger is better” convention. We reverse its sign for reporting, so smaller values in the log-loss column are better.</p>
-<p>Now fit the fixed pipeline on the training data and trace a few training predictions. This table illustrates the calculation; it is not an independent performance estimate. The test set remains untouched.</p>
-<div id="b189ecff" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguin_pipeline.fit(X_penguins_train, y_penguins_train)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>penguin_examples <span class="op">=</span> X_penguins_train.iloc[:<span class="dv">5</span>]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>penguin_predictions <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    penguin_pipeline.predict_proba(penguin_examples),</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>penguin_pipeline.classes_, index<span class="op">=</span>penguin_examples.index,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>penguin_predictions[<span class="st">"Predicted class"</span>] <span class="op">=</span> penguin_pipeline.predict(penguin_examples)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>penguin_predictions[<span class="st">"True class"</span>] <span class="op">=</span> y_penguins_train.loc[penguin_examples.index]</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>penguin_predictions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<p>Logistic regression improves on the class-proportion baseline by both measures: mean cross-validation accuracy rises from about 0.442 to 0.977, while mean log loss falls from about 1.049 to 0.068. The measurements therefore help predict both the species labels and the probabilities assigned to the observed species.</p>
+<p>Now fit the fixed pipeline on the training data and return to five penguins from our opening table, including penguins 0 and 276 from the hand calculations. All five belong to the training split. Their probabilities below come from the fitted model, rather than the illustrative scores used earlier. These training predictions let us trace the calculation; cross-validation provides the performance estimate. The test set remains untouched.</p>
+<div id="b189ecff" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.092707Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.092640Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.099539Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.099265Z&quot;}}" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>penguin_pipeline.fit(X_penguins_train, y_penguins_train)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>penguin_examples <span class="op">=</span> X_penguins_train.loc[[<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">276</span>, <span class="dv">277</span>, <span class="dv">152</span>]]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>penguin_predictions <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    penguin_pipeline.predict_proba(penguin_examples),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>penguin_pipeline.classes_, index<span class="op">=</span>penguin_examples.index,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>penguin_predictions[<span class="st">"Predicted class"</span>] <span class="op">=</span> penguin_pipeline.predict(penguin_examples)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>penguin_predictions[<span class="st">"True class"</span>] <span class="op">=</span> y_penguins_train.loc[penguin_examples.index]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>penguin_predictions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -613,44 +733,44 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">117</th>
-<td>0.999143</td>
-<td>0.000789</td>
-<td>0.000068</td>
+<th data-quarto-table-cell-role="th">0</th>
+<td>0.989180</td>
+<td>0.010441</td>
+<td>0.000379</td>
 <td>Adelie</td>
 <td>Adelie</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">266</th>
-<td>0.001481</td>
-<td>0.006522</td>
-<td>0.991997</td>
-<td>Gentoo</td>
-<td>Gentoo</td>
+<th data-quarto-table-cell-role="th">2</th>
+<td>0.906160</td>
+<td>0.089200</td>
+<td>0.004640</td>
+<td>Adelie</td>
+<td>Adelie</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">335</th>
-<td>0.233374</td>
-<td>0.763603</td>
-<td>0.003023</td>
+<th data-quarto-table-cell-role="th">276</th>
+<td>0.066324</td>
+<td>0.924243</td>
+<td>0.009433</td>
 <td>Chinstrap</td>
 <td>Chinstrap</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">195</th>
-<td>0.000710</td>
-<td>0.019017</td>
-<td>0.980273</td>
-<td>Gentoo</td>
-<td>Gentoo</td>
+<th data-quarto-table-cell-role="th">277</th>
+<td>0.015806</td>
+<td>0.981185</td>
+<td>0.003009</td>
+<td>Chinstrap</td>
+<td>Chinstrap</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">95</th>
-<td>0.976195</td>
-<td>0.008183</td>
-<td>0.015622</td>
-<td>Adelie</td>
-<td>Adelie</td>
+<th data-quarto-table-cell-role="th">152</th>
+<td>0.000706</td>
+<td>0.003323</td>
+<td>0.995971</td>
+<td>Gentoo</td>
+<td>Gentoo</td>
 </tr>
 </tbody>
 </table>
@@ -667,23 +787,21 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 -\log(p_{\text{true class}}),
 \]</span></p>
 <p>where <span class="math inline">\(\log\)</span> is the natural logarithm. Giving the true class a probability near 1 produces a loss near zero. Assigning it a probability close to zero produces a large loss.</p>
-<p>Consider four messages whose true labels are not spam, not spam, spam, and spam. Before running the code, compare the two sets of spam probabilities. Both models predict all four labels correctly by choosing the more probable class. Which assigns more probability to the true outcomes?</p>
-<div id="chapter8-10" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>y_messages <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>spam_probabilities <span class="op">=</span> {</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hesitant"</span>: np.array([<span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.6</span>]),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Confident"</span>: np.array([<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.9</span>]),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, p_spam <span class="kw">in</span> spam_probabilities.items():</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    probabilities <span class="op">=</span> np.column_stack([<span class="dv">1</span> <span class="op">-</span> p_spam, p_spam])</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Model"</span>: name,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Accuracy"</span>: accuracy_score(y_messages, p_spam <span class="op">&gt;</span> <span class="fl">0.5</span>),</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Log loss"</span>: log_loss(y_messages, probabilities, labels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>]),</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).set_index(<span class="st">"Model"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<p>Let’s return to the five penguins whose probabilities we just obtained from the fitted model. Before running the next cell, compare the probability assigned to each penguin’s true species. Which penguin will have the largest loss? Would accuracy distinguish two correct predictions with different true-species probabilities?</p>
+<p>We extend the prediction table with an indicator of correctness and the loss for each penguin.</p>
+<div id="chapter8-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.100552Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.100494Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.104187Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.103860Z&quot;}}" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>penguin_losses <span class="op">=</span> penguin_predictions.copy()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Look up the probability in each penguin's true-species column.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>penguin_losses[<span class="st">"P(true species)"</span>] <span class="op">=</span> [</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    penguin_predictions.loc[index, species]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, species <span class="kw">in</span> penguin_predictions[<span class="st">"True class"</span>].items()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>penguin_losses[<span class="st">"Correct"</span>] <span class="op">=</span> (</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    penguin_losses[<span class="st">"Predicted class"</span>] <span class="op">==</span> penguin_losses[<span class="st">"True class"</span>]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>penguin_losses[<span class="st">"Log loss"</span>] <span class="op">=</span> <span class="op">-</span>np.log(penguin_losses[<span class="st">"P(true species)"</span>])</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>penguin_losses.sort_values(<span class="st">"Log loss"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -691,25 +809,71 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Accuracy</th>
+<th data-quarto-table-cell-role="th">Adelie</th>
+<th data-quarto-table-cell-role="th">Chinstrap</th>
+<th data-quarto-table-cell-role="th">Gentoo</th>
+<th data-quarto-table-cell-role="th">Predicted class</th>
+<th data-quarto-table-cell-role="th">True class</th>
+<th data-quarto-table-cell-role="th">P(true species)</th>
+<th data-quarto-table-cell-role="th">Correct</th>
 <th data-quarto-table-cell-role="th">Log loss</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Model</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">Hesitant</th>
-<td>1.0</td>
-<td>0.510826</td>
+<th data-quarto-table-cell-role="th">2</th>
+<td>0.906160</td>
+<td>0.089200</td>
+<td>0.004640</td>
+<td>Adelie</td>
+<td>Adelie</td>
+<td>0.906160</td>
+<td>True</td>
+<td>0.098540</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">Confident</th>
-<td>1.0</td>
-<td>0.105361</td>
+<th data-quarto-table-cell-role="th">276</th>
+<td>0.066324</td>
+<td>0.924243</td>
+<td>0.009433</td>
+<td>Chinstrap</td>
+<td>Chinstrap</td>
+<td>0.924243</td>
+<td>True</td>
+<td>0.078780</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">277</th>
+<td>0.015806</td>
+<td>0.981185</td>
+<td>0.003009</td>
+<td>Chinstrap</td>
+<td>Chinstrap</td>
+<td>0.981185</td>
+<td>True</td>
+<td>0.018994</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">0</th>
+<td>0.989180</td>
+<td>0.010441</td>
+<td>0.000379</td>
+<td>Adelie</td>
+<td>Adelie</td>
+<td>0.989180</td>
+<td>True</td>
+<td>0.010879</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">152</th>
+<td>0.000706</td>
+<td>0.003323</td>
+<td>0.995971</td>
+<td>Gentoo</td>
+<td>Gentoo</td>
+<td>0.995971</td>
+<td>True</td>
+<td>0.004037</td>
 </tr>
 </tbody>
 </table>
@@ -717,13 +881,13 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </div>
 </div>
 </div>
-<p>Both models have accuracy 1, but the confident model has lower log loss. This does not mean that making probabilities more extreme always helps. Confidence helps here because these predictions are correct. If the last message were actually not spam, assigning it a spam probability of 0.99 would incur much more loss than assigning it 0.6.</p>
-<p>Log loss evaluates more than the hard class decision, but a low value on one dataset does not guarantee reliable probabilities for every group or for future data. The same concerns about representative evaluation data and overfitting still apply.</p>
+<p>The table is sorted from largest to smallest loss. All five predictions are correct, but their losses differ: penguin 2 receives a true-species probability of about 0.906 and a loss of 0.099, while penguin 152 receives probability 0.996 and a loss of 0.004. Compare the correctness column with the probability assigned to the true species: accuracy counts each correct prediction equally, while log loss distinguishes how much probability the model assigned to the observed outcome. Even two correct predictions can have different losses.</p>
+<p>Making probabilities more extreme does not always help. Increasing the probability of a wrong species takes probability away from the true species and increases the loss. We will return to how the choice of loss guides fitting after comparing several loss functions.</p>
 </section>
 <section id="exercise-8.2-same-class-prediction-different-evidence" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-8.2-same-class-prediction-different-evidence">Exercise 8.2: Same class prediction, different evidence</h3>
-<p>Two models assign probabilities to billing, technical support, and account management. Model A returns (0.40, 0.35, 0.25), while model B returns (0.90, 0.05, 0.05).</p>
-<p>What does each model predict? Which receives lower log loss if the true class is billing? What if it is technical support? Explain why accuracy alone cannot distinguish these models on this request.</p>
+<p>Two models assign probabilities to Adelie, Chinstrap, and Gentoo. Model A returns (0.40, 0.35, 0.25), while model B returns (0.90, 0.05, 0.05).</p>
+<p>What does each model predict? Which receives lower log loss if the true class is Adelie? What if it is Chinstrap? Explain why accuracy alone cannot distinguish these models on this penguin.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -736,7 +900,7 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Both predict billing. If billing is observed, model B has lower loss because it assigned 0.90 to that class rather than 0.40. If technical support is observed, model A has lower loss because it assigned 0.35 rather than 0.05. Accuracy counts both as correct in the first case and both as incorrect in the second; it ignores their probabilities.</p>
+<p>Both predict Adelie. If Adelie is observed, model B has lower loss because it assigned 0.90 to that class rather than 0.40. If Chinstrap is observed, model A has lower loss because it assigned 0.35 rather than 0.05. Accuracy counts both as correct in the first case and both as incorrect in the second; it ignores their probabilities.</p>
 </div>
 </div>
 </div>
@@ -746,6 +910,7 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 <h2 class="anchored" data-anchor-id="how-loss-functions-shape-learning">How loss functions shape learning</h2>
 <section id="regression-squared-error-versus-absolute-error" class="level3">
 <h3 class="anchored" data-anchor-id="regression-squared-error-versus-absolute-error">Regression: squared error versus absolute error</h3>
+<p>For classification, we have used log loss to assess the probability assigned to the observed class. For numeric targets, we instead measure how far predictions are from observed values.</p>
 <p>Suppose two models predict delivery times in minutes. On four validation examples, model A’s residuals are 0, 0, 0, and 8 minutes, while model B’s residuals are 3, 3, 3, and 3 minutes. Model A is usually exact but makes one larger mistake. Model B is consistently a little wrong. Which would you prefer?</p>
 <p>Before choosing a formula, decide what behaviour you want. Should one large mistake outweigh several smaller ones, or should every extra minute count equally? The answer depends partly on the consequences of an error. <strong>Mean absolute error (MAE)</strong> averages the magnitudes of the errors. <strong>Mean squared error (MSE)</strong> averages their squares. As in Chapter 7, let <span class="math inline">\(r_i=y_i-\hat y_i\)</span> denote the residual, observed minus predicted target for example <span class="math inline">\(i\)</span>. With <span class="math inline">\(n\)</span> examples,</p>
 <p><span class="math display">\[
@@ -754,13 +919,13 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 \operatorname{MSE}=\frac{1}{n}\sum_{i=1}^n r_i^2.
 \]</span></p>
 <p>The summation symbol means to add the contribution from each example. Both measures are zero for perfect predictions and increase as errors grow. Neither distinguishes an early prediction from a late one of the same magnitude.</p>
-<div id="8eeeaf76" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>delivery_residuals <span class="op">=</span> pd.DataFrame({<span class="st">"Model A"</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">8</span>], <span class="st">"Model B"</span>: [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>]})</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAE (minutes)"</span>: delivery_residuals.<span class="bu">abs</span>().mean(),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MSE (minutes squared)"</span>: delivery_residuals.<span class="bu">pow</span>(<span class="dv">2</span>).mean(),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="8eeeaf76" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.104967Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.104919Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.107488Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.107234Z&quot;}}" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>delivery_residuals <span class="op">=</span> pd.DataFrame({<span class="st">"Model A"</span>: [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">8</span>], <span class="st">"Model B"</span>: [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>]})</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MAE (minutes)"</span>: delivery_residuals.<span class="bu">abs</span>().mean(),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MSE (minutes squared)"</span>: delivery_residuals.<span class="bu">pow</span>(<span class="dv">2</span>).mean(),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -799,23 +964,23 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 \ell_{\text{absolute}}(r)=|r|.
 \]</span></p>
 <p>Averaging these per-example losses gives MSE and MAE. The following curves show their different growth rates. Their numerical heights have different units; focus on how each curve changes as the residual grows.</p>
-<div id="d9c2a2bb" class="cell" data-execution_count="7">
+<div id="d9c2a2bb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.108268Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.108216Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.195567Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.195212Z&quot;}}" data-execution_count="9">
 <details class="code-fold">
 <summary>Show plotting code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>residual_grid <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">400</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax.plot(residual_grid, residual_grid<span class="op">**</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Squared loss: r²"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>ax.plot(residual_grid, np.<span class="bu">abs</span>(residual_grid), label<span class="op">=</span><span class="st">"Absolute loss: |r|"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Residual, r = true target − prediction"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Per-example loss (units differ between curves)"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"How strongly should a large residual be penalized?"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>residual_grid <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">400</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ax.plot(residual_grid, residual_grid<span class="op">**</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Squared loss: r²"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ax.plot(residual_grid, np.<span class="bu">abs</span>(residual_grid), label<span class="op">=</span><span class="st">"Absolute loss: |r|"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Residual, r = true target − prediction"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Per-example loss (units differ between curves)"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"How strongly should a large residual be penalized?"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="08_multiclass-loss-functions-conclusion_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="08_multiclass-loss-functions-conclusion_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -823,118 +988,139 @@ L=-[y\log(\hat p)+(1-y)\log(1-\hat p)].
 </section>
 <section id="classification-log-loss-hinge-loss-and-exponential-loss" class="level3">
 <h3 class="anchored" data-anchor-id="classification-log-loss-hinge-loss-and-exponential-loss">Classification: log loss, hinge loss, and exponential loss</h3>
-<p>Logistic regression and a linear SVM can use the same form of linear score, <span class="math inline">\(z=\mathbf{w}^\mathsf{T}\mathbf{x}+b\)</span>. Why might they learn different coefficients? The prediction rule alone does not determine what fitting rewards. Different losses express different preferences about correct and incorrect scores.</p>
-<p>We want the loss to decrease as a prediction moves to the correct side of the boundary, and to increase as it moves farther onto the wrong side. But should a correct prediction ever be “good enough” to incur no further penalty? And how rapidly should the penalty grow for a strongly wrong prediction?</p>
-<section id="a-common-horizontal-axis-the-signed-score" class="level4">
-<h4 class="anchored" data-anchor-id="a-common-horizontal-axis-the-signed-score">A common horizontal axis: the signed score</h4>
-<p>To compare these losses, temporarily encode the binary labels as <strong><span class="math inline">\(y=-1\)</span> and <span class="math inline">\(y=+1\)</span></strong>, rather than the <span class="math inline">\(0/1\)</span> encoding used for binary cross-entropy. Let</p>
+<p>In Chapter 3, we used an SVM with an RBF kernel to learn nonlinear decision boundaries. An SVM can also use a <strong>linear kernel</strong>. For a binary classification problem with <span class="math inline">\(d\)</span> input features, this gives a linear model with <span class="math inline">\(d\)</span> weights and a bias term:</p>
 <p><span class="math display">\[
-m=yz.
+z=\mathbf{w}^\mathsf{T}\mathbf{x}+b.
 \]</span></p>
-<p>This <strong>signed score</strong> combines the true label and the model’s score. If <span class="math inline">\(y=+1\)</span>, a positive <span class="math inline">\(z\)</span> is on the correct side. If <span class="math inline">\(y=-1\)</span>, a negative <span class="math inline">\(z\)</span> is on the correct side. Multiplication makes both cases positive:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">True label <span class="math inline">\(y\)</span></th>
-<th style="text-align: right;">Score <span class="math inline">\(z\)</span></th>
-<th style="text-align: right;">Signed score <span class="math inline">\(m=yz\)</span></th>
-<th>Interpretation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;"><span class="math inline">\(+1\)</span></td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-<td>Correct side</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;"><span class="math inline">\(-1\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(-2\)</span></td>
-<td style="text-align: right;">2</td>
-<td>Correct side</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;"><span class="math inline">\(+1\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(-2\)</span></td>
-<td style="text-align: right;"><span class="math inline">\(-2\)</span></td>
-<td>Incorrect side</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;"><span class="math inline">\(-1\)</span></td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;"><span class="math inline">\(-2\)</span></td>
-<td>Incorrect side</td>
-</tr>
-</tbody>
-</table>
-<p>A signed score near zero means the example is near the boundary. Increasing <span class="math inline">\(m\)</span> moves in the correct direction. Its magnitude is a score, not a distance in the original feature units.</p>
+<p>This is the same form of score used by binary logistic regression. Both models predict one class when the score is positive and the other when it is negative, with a decision boundary at <span class="math inline">\(z=0\)</span>. Logistic regression also converts the score into a probability using the sigmoid function; an SVM score is not automatically a probability.</p>
+<p>Although their scores have the same form, the models generally learn different coefficients because they use different loss functions. Logistic regression uses log loss, while a linear SVM can use <strong>hinge loss</strong>. Let’s compare what these losses reward. Different losses express different preferences about correct and incorrect scores.</p>
+<p>We want the loss to decrease as a prediction moves to the correct side of the boundary, and to increase as it moves farther onto the wrong side. But should a correct prediction ever be “good enough” to incur no further penalty? And how rapidly should the penalty grow for a strongly wrong prediction?</p>
+<section id="following-one-positive-review" class="level4">
+<h4 class="anchored" data-anchor-id="following-one-positive-review">Following one positive review</h4>
+<p>Consider sentiment analysis with two classes: <strong>positive</strong> and <strong>negative</strong>, which we will explore in the next section. Positive model scores predict positive sentiment, and negative scores predict negative sentiment. Fix one review whose <strong>true sentiment is positive</strong>, such as “A wonderful movie.” For this review, a negative score is an incorrect prediction, while a positive score is a correct prediction. A score near zero places the review near the decision boundary.</p>
+<p>Keeping the true sentiment fixed lets us compare the losses directly as functions of the score <span class="math inline">\(z\)</span>. The formulas below apply to this positive review.</p>
 </section>
 <section id="logistic-and-hinge-loss" class="level4">
 <h4 class="anchored" data-anchor-id="logistic-and-hinge-loss">Logistic and hinge loss</h4>
-<p>With this encoding, the familiar logistic loss can be written as</p>
+<p>Logistic regression assigns probability <span class="math inline">\(\sigma(z)\)</span> to positive sentiment. Since the review is truly positive, its log loss is</p>
 <p><span class="math display">\[
-\ell_{\text{logistic}}(m)=\log(1+e^{-m}).
+\ell_{\text{logistic}}(z)=-\log(\sigma(z))=\log(1+e^{-z}).
 \]</span></p>
-<p>To see the connection, the model’s probability for the true class is <span class="math inline">\(\sigma(m)\)</span>, and <span class="math inline">\(-\log(\sigma(m))=\log(1+e^{-m})\)</span>. The probability-based log loss has not changed; only its expression and label encoding have.</p>
-<p><strong>Hinge loss</strong> instead asks whether an example is on the correct side with a sufficiently large signed score:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Why does $-\log(\sigma(z))=\log(1+e^{-z})$?">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why does <span class="math inline">\(-\log(\sigma(z))=\log(1+e^{-z})\)</span>?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Recall that the sigmoid function is</p>
 <p><span class="math display">\[
-\ell_{\text{hinge}}(m)=\max(0,1-m).
+\sigma(z)=\frac{1}{1+e^{-z}}.
 \]</span></p>
-<p>It decreases linearly until <span class="math inline">\(m=1\)</span>, then becomes zero. Thus a correct prediction with <span class="math inline">\(0&lt;m&lt;1\)</span> still incurs loss: being on the correct side alone is not enough. Scores beyond 1 incur no additional hinge loss. This is the margin idea behind SVMs. Some implementations use squared hinge loss instead.</p>
+<p>Substituting this into the loss gives</p>
+<p><span class="math display">\[
+-\log(\sigma(z))
+=-\log\left(\frac{1}{1+e^{-z}}\right)
+=\log(1+e^{-z}).
+\]</span></p>
+<p>The last step uses <span class="math inline">\(\log(1/a)=-\log(a)\)</span>: taking the log of a reciprocal changes the sign, and the minus sign outside cancels it.</p>
+</div>
+</div>
+</div>
+<p>This is the same probability-based log loss we used earlier, expressed in terms of the model’s score. It decreases smoothly as the score increases, but never reaches zero for a finite score.</p>
+<p><strong>Hinge loss</strong> instead asks whether the positive review receives a sufficiently large positive score:</p>
+<p><span class="math display">\[
+\ell_{\text{hinge}}(z)=\max(0,1-z).
+\]</span></p>
+<p>It decreases linearly until <span class="math inline">\(z=1\)</span>, then becomes zero. Thus a correct prediction with <span class="math inline">\(0&lt;z&lt;1\)</span> still incurs loss: being on the correct side alone is not enough. Scores beyond 1 incur no additional hinge loss. This is the margin idea behind SVMs. Some implementations use squared hinge loss instead.</p>
 </section>
 <section id="a-brief-extension-exponential-loss" class="level4">
 <h4 class="anchored" data-anchor-id="a-brief-extension-exponential-loss">A brief extension: exponential loss</h4>
 <p>Another possibility is to make the penalty grow especially quickly for strongly wrong scores:</p>
 <p><span class="math display">\[
-\ell_{\text{exponential}}(m)=e^{-m}.
+\ell_{\text{exponential}}(z)=e^{-z}.
 \]</span></p>
-<p>Like logistic loss, exponential loss keeps decreasing as the signed score grows. For very negative scores, it grows much faster than logistic or hinge loss, giving those examples considerable influence. It connects to boosting methods such as AdaBoost, which you will encounter when studying ensembles in DSCI 573; we will not develop that algorithm here.</p>
+<p>Like logistic loss, exponential loss keeps decreasing as the positive review’s score grows. For very negative scores, it grows much faster than logistic or hinge loss, giving those examples considerable influence. It connects to boosting methods such as AdaBoost, which you will encounter when studying ensembles in DSCI 573; we will not develop that algorithm here.</p>
 <p>Before looking at the plot, predict which curve will flatten to exactly zero, and which will rise fastest on the left.</p>
-<div id="47c79899" class="cell" data-execution_count="8">
+<div id="47c79899" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.196471Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.196413Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.282822Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.282422Z&quot;}}" data-execution_count="10">
 <details class="code-fold">
 <summary>Show plotting code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>signed_scores <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">400</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax.plot(signed_scores, np.logaddexp(<span class="dv">0</span>, <span class="op">-</span>signed_scores), label<span class="op">=</span><span class="st">"Logistic loss"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ax.plot(signed_scores, np.maximum(<span class="dv">0</span>, <span class="dv">1</span> <span class="op">-</span> signed_scores), label<span class="op">=</span><span class="st">"Hinge loss"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ax.plot(signed_scores, np.exp(<span class="op">-</span>signed_scores), label<span class="op">=</span><span class="st">"Exponential loss"</span>, linestyle<span class="op">=</span><span class="st">":"</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"gray"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">1</span>, color<span class="op">=</span><span class="st">"gray"</span>, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">":"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Signed score, m = yz (larger means farther on the correct side)"</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Per-example loss"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"The same linear score can be learned with different losses"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>review_scores <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">400</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">5</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ax.plot(review_scores, np.logaddexp(<span class="dv">0</span>, <span class="op">-</span>review_scores), label<span class="op">=</span><span class="st">"Logistic loss"</span>, linewidth<span class="op">=</span><span class="fl">2.8</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.plot(review_scores, np.maximum(<span class="dv">0</span>, <span class="dv">1</span> <span class="op">-</span> review_scores), label<span class="op">=</span><span class="st">"Hinge loss"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, linewidth<span class="op">=</span><span class="fl">2.8</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ax.plot(review_scores, np.exp(<span class="op">-</span>review_scores), label<span class="op">=</span><span class="st">"Exponential loss"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, linewidth<span class="op">=</span><span class="fl">3.2</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"gray"</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">1</span>, color<span class="op">=</span><span class="st">"gray"</span>, linewidth<span class="op">=</span><span class="dv">1</span>, linestyle<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="op">-</span><span class="dv">1</span>, <span class="fl">7.0</span>, <span class="st">"Incorrect prediction"</span>, ha<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.text(<span class="fl">2.5</span>, <span class="fl">7.0</span>, <span class="st">"Correct prediction"</span>, ha<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>ax.annotate(<span class="st">"Decision boundary</span><span class="ch">\n</span><span class="st">(z = 0)"</span>, xy<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">3.2</span>), xytext<span class="op">=</span>(<span class="fl">0.65</span>, <span class="fl">4.4</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            ha<span class="op">=</span><span class="st">"left"</span>, fontsize<span class="op">=</span><span class="dv">11</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            arrowprops<span class="op">=</span>{<span class="st">"arrowstyle"</span>: <span class="st">"-&gt;"</span>, <span class="st">"color"</span>: <span class="st">"gray"</span>})</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>ax.annotate(<span class="st">"Hinge loss reaches zero</span><span class="ch">\n</span><span class="st">(z = 1)"</span>, xy<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">0</span>), xytext<span class="op">=</span>(<span class="fl">2.1</span>, <span class="fl">2.2</span>),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            ha<span class="op">=</span><span class="st">"left"</span>, fontsize<span class="op">=</span><span class="dv">11</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            arrowprops<span class="op">=</span>{<span class="st">"arrowstyle"</span>: <span class="st">"-&gt;"</span>, <span class="st">"color"</span>: <span class="st">"gray"</span>})</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Model score z (positive favours positive sentiment)"</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Loss for this positive review"</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Comparing losses for a review whose true sentiment is positive"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">"upper right"</span>, bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="fl">0.85</span>), frameon<span class="op">=</span><span class="va">False</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="08_multiclass-loss-functions-conclusion_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="08_multiclass-loss-functions-conclusion_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Hinge loss reaches zero at a signed score of 1, while logistic and exponential loss continue decreasing. Exponential loss rises fastest for strongly wrong predictions. None is universally best: the choice changes how examples influence fitting and interacts with regularization and the model family.</p>
-<p>These are losses of signed scores, not three ways of computing probabilities. A raw SVM score is not automatically a probability. Also, numerical loss values from different functions are not a shared performance scale. Use each function to understand its own penalties, then evaluate candidate models with a measure chosen for the task.</p>
+<p>For this positive review, hinge loss reaches zero at a score of 1, while logistic and exponential loss continue decreasing. Exponential loss rises fastest for strongly wrong predictions. For a review whose true sentiment is <strong>negative</strong>, the curves are reflected horizontally: increasingly negative scores receive smaller losses. The preferred direction depends on the true class.</p>
+<p>None of these losses is universally best: the choice changes how examples influence fitting and depends on the model family. The curves show penalties applied to model scores; an SVM score is not automatically a probability. Numerical loss values from different functions are not a shared performance scale. Use each function to understand its own penalties, then evaluate candidate models with a measure chosen for the task.</p>
 </section>
 </section>
-<section id="fitting-loss-regularization-and-evaluation-scores" class="level3">
-<h3 class="anchored" data-anchor-id="fitting-loss-regularization-and-evaluation-scores">Fitting loss, regularization, and evaluation scores</h3>
-<p>A <strong>loss</strong> measures disagreement between a prediction and its target. A <strong>fitting objective</strong> combines the losses over training examples and may add a regularization penalty. An <strong>evaluation score</strong> summarizes performance on the data we use to assess the fitted model. A loss can also serve as an evaluation measure: for example, we can compute MSE on validation predictions.</p>
-<p>For scikit-learn’s <code>Ridge</code>, the fitting objective is</p>
-<p><span class="math display">\[
-\sum_{i=1}^n (y_i-\hat y_i)^2 + \alpha\sum_{j=1}^d w_j^2.
-\]</span></p>
-<p>Here, <span class="math inline">\(d\)</span> is the number of features, <span class="math inline">\(w_j\)</span> is a coefficient, and <span class="math inline">\(\alpha\)</span> controls the penalty. The first term is a <strong>sum</strong> of squared errors, rather than a mean. Without a penalty, minimizing the sum or the mean gives the same fitted predictions. With a penalty, changing the scale of the loss changes its balance with the penalty unless we also rescale <span class="math inline">\(\alpha\)</span>. This is one reason to check an estimator’s exact objective before interpreting a regularization value. See the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">Ridge documentation</a>.</p>
-<p>Changing the <code>scoring</code> argument of a search does not replace the estimator’s fitting objective. For example, comparing <code>Ridge</code> models using validation MAE still fits each candidate using its squared-error objective and penalty. The search chooses among those fitted candidates according to MAE.</p>
-<p>Scikit-learn’s search tools maximize scores. For losses, scorer names such as <code>neg_mean_absolute_error</code> and <code>neg_log_loss</code> return the negative of the loss so that larger is better. A score of <span class="math inline">\(-2\)</span> is better than <span class="math inline">\(-5\)</span> because it corresponds to a smaller loss. Estimator defaults also differ: <code>Ridge.score</code> reports <span class="math inline">\(R^2\)</span>, while <code>LogisticRegression.score</code> reports accuracy. Always establish which quantity you are comparing.</p>
+<section id="fitting-loss-versus-evaluation-score" class="level3">
+<h3 class="anchored" data-anchor-id="fitting-loss-versus-evaluation-score">Fitting loss versus evaluation score</h3>
+<p>A <strong>loss</strong> measures disagreement between a prediction and its target. During fitting, a model uses a loss over the training examples to learn its parameters. An <strong>evaluation score</strong> summarizes performance on the data we use to assess the fitted model. The same loss can also serve as an evaluation measure: for example, we computed log loss on validation predictions for the penguins.</p>
+<p>Why fit using log loss if we care about accuracy? Accuracy stays constant as coefficients change until a predicted class changes. Increasing the true-species probability from 0.2 to 0.3 leaves accuracy unchanged if another species still has the largest probability. Its flat regions and jumps make accuracy difficult to optimize directly. Log loss responds to that improvement and changes smoothly with logistic regression’s coefficients, giving the fitting algorithm useful guidance.</p>
+<p>During evaluation, we choose measures that answer the practical question. Accuracy assesses which species the model predicts; log loss assesses its probabilities. Validation and test examples have known species labels, withheld from fitting and then used to assess predictions. We can therefore use log loss both for fitting and for evaluation on unseen examples. Some models also include a regularization penalty during fitting; you will study this in DSCI 573.</p>
+<p>Changing the <code>scoring</code> argument of a search changes how it compares candidate models. Comparing logistic regression models using validation accuracy does not make them fit using accuracy: each still uses log loss during fitting. Switching to <code>scoring="neg_log_loss"</code> instead ranks the candidates by validation log loss. The ranking—and therefore the selected <code>C</code>—can change, even though each model’s fitting loss stays the same.</p>
 </section>
 <section id="exercise-8.3-what-changed-inside-the-search" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-8.3-what-changed-inside-the-search">Exercise 8.3: What changed inside the search?</h3>
-<p>A colleague changes <code>GridSearchCV(ridge_pipeline, ..., scoring="r2")</code> to use <code>scoring="neg_mean_absolute_error"</code>. They conclude that <code>Ridge.fit</code> now minimizes absolute error. Explain the mistake. Could the selected <code>alpha</code> still change?</p>
+<p>A logistic regression search produces these mean validation results:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><code>C</code></th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">Log loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Which <code>C</code> does the search select with <code>scoring="accuracy"</code>? Which does it select with <code>scoring="neg_log_loss"</code> (smaller log loss is better)?</li>
+<li>Does changing the scorer change the loss each candidate model uses to learn its coefficients?</li>
+<li>If the intended use requires probability estimates, which result would you favour, and why?</li>
+</ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -943,9 +1129,9 @@ m=yz.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Each candidate still fits using Ridge’s squared-error objective and regularization penalty. The search now compares its validation predictions using negative MAE, so the ranking of candidates—and the selected <code>alpha</code>—can change. We should choose the comparison measure before inspecting final test results.</p>
+<p>Accuracy selects <code>C=10</code>, while log loss selects <code>C=0.1</code>. Each candidate still uses log loss during fitting; only the search’s comparison measure changes. If probability estimates are the priority, <code>C=0.1</code> has the better validation log loss despite its slightly lower accuracy. This illustrates a trade-off, rather than one model being better by every measure. Choose the comparison measure before inspecting final test results.</p>
 </div>
 </div>
 </div>
@@ -963,26 +1149,26 @@ m=yz.
 <h3 class="anchored" data-anchor-id="sentiment-analysis-demonstration">Sentiment-analysis demonstration</h3>
 <p>Suppose we want to classify a movie review as positive or negative. Bag-of-words gives us numerical features and logistic regression gives each word a coefficient. We can inspect both the model’s overall preferences and the contributions to one particular review.</p>
 <p>The following deliberately small, authored teaching sample makes the demonstration self-contained. It is not a benchmark or evidence that the model generalizes to real reviews. The larger IMDB class demo can use the same inspection steps after a proper training-data model comparison. Here we focus on reconstructing the prediction calculation, without reporting an accuracy estimate.</p>
-<div id="39b470a4" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>positive_reviews <span class="op">=</span> [</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a good movie with excellent acting"</span>, <span class="st">"a wonderful story and a great cast"</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"an enjoyable film with a lovely ending"</span>, <span class="st">"brilliant acting and a compelling story"</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a delightful movie that I enjoyed"</span>, <span class="st">"a great film with excellent direction"</span>,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wonderful performances and beautiful scenes"</span>, <span class="st">"an entertaining story with good acting"</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>negative_reviews <span class="op">=</span> [</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a bad movie with terrible acting"</span>, <span class="st">"a boring story and a poor cast"</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"an awful film with a disappointing ending"</span>, <span class="st">"terrible acting and a dull story"</span>,</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a dreadful movie that I disliked"</span>, <span class="st">"a poor film with awful direction"</span>,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disappointing performances and tedious scenes"</span>, <span class="st">"a boring story with bad acting"</span>,</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>review_texts <span class="op">=</span> positive_reviews <span class="op">+</span> negative_reviews</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>review_labels <span class="op">=</span> [<span class="st">"positive"</span>] <span class="op">*</span> <span class="bu">len</span>(positive_reviews) <span class="op">+</span> [<span class="st">"negative"</span>] <span class="op">*</span> <span class="bu">len</span>(negative_reviews)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>sentiment_pipeline <span class="op">=</span> make_pipeline(CountVectorizer(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>))</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>sentiment_pipeline.fit(review_texts, review_labels)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> sentiment_pipeline.named_steps[<span class="st">"countvectorizer"</span>]</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>sentiment_model <span class="op">=</span> sentiment_pipeline.named_steps[<span class="st">"logisticregression"</span>]</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Class order:"</span>, sentiment_model.classes_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="39b470a4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.283989Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.283913Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.289385Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.289185Z&quot;}}" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>positive_reviews <span class="op">=</span> [</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a good movie with excellent acting"</span>, <span class="st">"a wonderful story and a great cast"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"an enjoyable film with a lovely ending"</span>, <span class="st">"brilliant acting and a compelling story"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a delightful movie that I enjoyed"</span>, <span class="st">"a great film with excellent direction"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wonderful performances and beautiful scenes"</span>, <span class="st">"an entertaining story with good acting"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>negative_reviews <span class="op">=</span> [</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a bad movie with terrible acting"</span>, <span class="st">"a boring story and a poor cast"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"an awful film with a disappointing ending"</span>, <span class="st">"terrible acting and a dull story"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"a dreadful movie that I disliked"</span>, <span class="st">"a poor film with awful direction"</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"disappointing performances and tedious scenes"</span>, <span class="st">"a boring story with bad acting"</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>review_texts <span class="op">=</span> positive_reviews <span class="op">+</span> negative_reviews</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>review_labels <span class="op">=</span> [<span class="st">"positive"</span>] <span class="op">*</span> <span class="bu">len</span>(positive_reviews) <span class="op">+</span> [<span class="st">"negative"</span>] <span class="op">*</span> <span class="bu">len</span>(negative_reviews)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>sentiment_pipeline <span class="op">=</span> make_pipeline(CountVectorizer(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>sentiment_pipeline.fit(review_texts, review_labels)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> sentiment_pipeline.named_steps[<span class="st">"countvectorizer"</span>]</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>sentiment_model <span class="op">=</span> sentiment_pipeline.named_steps[<span class="st">"logisticregression"</span>]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Class order:"</span>, sentiment_model.classes_)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Class order: ['negative' 'positive']</code></pre>
 </div>
@@ -990,16 +1176,16 @@ m=yz.
 <section id="global-coefficients-and-contributions-to-one-review" class="level4">
 <h4 class="anchored" data-anchor-id="global-coefficients-and-contributions-to-one-review">Global coefficients and contributions to one review</h4>
 <p>Check the class order first. A positive coefficient pushes toward <code>classes_[1]</code>, which is positive sentiment here. A negative coefficient pushes toward negative sentiment. The coefficient describes the fitted model’s association with a token, not the token’s meaning in every context.</p>
-<div id="4fdededb" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>word_coefficients <span class="op">=</span> pd.Series(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    sentiment_model.coef_[<span class="dv">0</span>], index<span class="op">=</span>vectorizer.get_feature_names_out(),</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"coefficient"</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>).sort_values()</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>pd.concat({</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Most negative coefficients"</span>: word_coefficients.head(<span class="dv">5</span>),</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Most positive coefficients"</span>: word_coefficients.tail(<span class="dv">5</span>),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="4fdededb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.290420Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.290367Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.293656Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.293404Z&quot;}}" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>word_coefficients <span class="op">=</span> pd.Series(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    sentiment_model.coef_[<span class="dv">0</span>], index<span class="op">=</span>vectorizer.get_feature_names_out(),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"coefficient"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>).sort_values()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>pd.concat({</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Most negative coefficients"</span>: word_coefficients.head(<span class="dv">5</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Most positive coefficients"</span>: word_coefficients.tail(<span class="dv">5</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>Most negative coefficients  disappointing   -0.592167
                             terrible        -0.563280
                             awful           -0.553116
@@ -1014,21 +1200,21 @@ Name: coefficient, dtype: float64</code></pre>
 </div>
 </div>
 <p>A coefficient alone is not a contribution to every prediction. A word absent from a review contributes zero. With count features, a word occurring twice contributes twice its coefficient. Let’s trace the review “good good movie but terrible acting.” Before running the code, which words do you expect to push its score in each direction?</p>
-<div id="584a344b" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>example_review <span class="op">=</span> <span class="st">"good good movie but terrible acting"</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>review_counts <span class="op">=</span> vectorizer.transform([example_review])</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>present <span class="op">=</span> review_counts.indices</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> review_counts.data</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>review_contributions <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"word"</span>: vectorizer.get_feature_names_out()[present],</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"count"</span>: counts,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coefficient"</span>: sentiment_model.coef_[<span class="dv">0</span>, present],</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>review_contributions[<span class="st">"contribution"</span>] <span class="op">=</span> (</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    review_contributions[<span class="st">"count"</span>] <span class="op">*</span> review_contributions[<span class="st">"coefficient"</span>]</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>review_contributions.sort_values(<span class="st">"contribution"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="584a344b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.294586Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.294529Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.297898Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.297656Z&quot;}}" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>example_review <span class="op">=</span> <span class="st">"good good movie but terrible acting"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>review_counts <span class="op">=</span> vectorizer.transform([example_review])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>present <span class="op">=</span> review_counts.indices</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> review_counts.data</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>review_contributions <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"word"</span>: vectorizer.get_feature_names_out()[present],</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"count"</span>: counts,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coefficient"</span>: sentiment_model.coef_[<span class="dv">0</span>, present],</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>review_contributions[<span class="st">"contribution"</span>] <span class="op">=</span> (</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    review_contributions[<span class="st">"count"</span>] <span class="op">*</span> review_contributions[<span class="st">"coefficient"</span>]</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>review_contributions.sort_values(<span class="st">"contribution"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -1077,15 +1263,15 @@ Name: coefficient, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="52b8f3b5" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>reconstructed_score <span class="op">=</span> review_contributions[<span class="st">"contribution"</span>].<span class="bu">sum</span>() <span class="op">+</span> sentiment_model.intercept_[<span class="dv">0</span>]</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pd.Series({</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sum of contributions plus intercept"</span>: reconstructed_score,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pipeline decision score"</span>: sentiment_pipeline.decision_function([example_review])[<span class="dv">0</span>],</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P(positive)"</span>: sentiment_pipeline.predict_proba([example_review])[<span class="dv">0</span>, <span class="dv">1</span>],</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Predicted class"</span>: sentiment_pipeline.predict([example_review])[<span class="dv">0</span>],</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div id="52b8f3b5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.298833Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.298782Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.301493Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.301202Z&quot;}}" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>reconstructed_score <span class="op">=</span> review_contributions[<span class="st">"contribution"</span>].<span class="bu">sum</span>() <span class="op">+</span> sentiment_model.intercept_[<span class="dv">0</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pd.Series({</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sum of contributions plus intercept"</span>: reconstructed_score,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pipeline decision score"</span>: sentiment_pipeline.decision_function([example_review])[<span class="dv">0</span>],</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P(positive)"</span>: sentiment_pipeline.predict_proba([example_review])[<span class="dv">0</span>, <span class="dv">1</span>],</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Predicted class"</span>: sentiment_pipeline.predict([example_review])[<span class="dv">0</span>],</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>Sum of contributions plus intercept    0.497419
 Pipeline decision score                0.497419
 P(positive)                            0.621853
@@ -1097,16 +1283,16 @@ dtype: object</code></pre>
 <section id="what-happens-when-word-order-or-negation-changes" class="level4">
 <h4 class="anchored" data-anchor-id="what-happens-when-word-order-or-negation-changes">What happens when word order or negation changes?</h4>
 <p>Now consider “good” and “not good.” We would like the model to respond to the negation, but it can only use distinctions present in its features and patterns supported by training data. What do you predict will happen in this teaching example?</p>
-<div id="69785f8c" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>probe_reviews <span class="op">=</span> [<span class="st">"good"</span>, <span class="st">"not good"</span>, <span class="st">"good movie bad acting"</span>, <span class="st">"bad movie good acting"</span>]</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>probe_results <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    sentiment_pipeline.predict_proba(probe_reviews),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="ss">f"P(</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">)"</span> <span class="cf">for</span> label <span class="kw">in</span> sentiment_model.classes_],</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>probe_reviews,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>probe_results[<span class="st">"Predicted class"</span>] <span class="op">=</span> sentiment_pipeline.predict(probe_reviews)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>probe_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="69785f8c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.302291Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.302241Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.305427Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.305144Z&quot;}}" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>probe_reviews <span class="op">=</span> [<span class="st">"good"</span>, <span class="st">"not good"</span>, <span class="st">"good movie bad acting"</span>, <span class="st">"bad movie good acting"</span>]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>probe_results <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    sentiment_pipeline.predict_proba(probe_reviews),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="ss">f"P(</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">)"</span> <span class="cf">for</span> label <span class="kw">in</span> sentiment_model.classes_],</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>probe_reviews,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>probe_results[<span class="st">"Predicted class"</span>] <span class="op">=</span> sentiment_pipeline.predict(probe_reviews)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>probe_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
 
@@ -1156,38 +1342,42 @@ dtype: object</code></pre>
 </section>
 <section id="interpreting-coefficients-after-preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="interpreting-coefficients-after-preprocessing">Interpreting coefficients after preprocessing</h3>
-<p>Chapter 7 used selected numerical features from King County house sales. Now suppose we also want to use ZIP code. Its numeric labels do not measure distances or an ordered quantity, so we will treat it as categorical. Our goal is to connect a mixed-feature pipeline back to names, coefficients, and prediction mistakes.</p>
+<p>Chapter 7 used selected numerical features from King County house sales. Now suppose we also want to use ZIP code. Its numeric labels do not measure distances or an ordered quantity, so we will treat it as categorical. Our goal is to connect a mixed-feature pipeline back to feature names and coefficients.</p>
 <p>Each row records a sale of an individual house, and <code>price</code> is its sale price in dollars. We retain the same numerical features and split as Chapter 7, then add ZIP code. This random split illustrates evaluation on similar sampled sales, rather than a claim about forecasting future market conditions. A real deployment would require checking time and repeated-property structure when choosing a split.</p>
-<div id="8f18aa56" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>housing <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">"kc_house_data.csv"</span>, dtype<span class="op">=</span>{<span class="st">"zipcode"</span>: <span class="bu">str</span>})</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>numeric_features <span class="op">=</span> [<span class="st">"sqft_living"</span>, <span class="st">"bedrooms"</span>, <span class="st">"bathrooms"</span>, <span class="st">"floors"</span>, <span class="st">"yr_built"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span>]</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>categorical_features <span class="op">=</span> [<span class="st">"zipcode"</span>]</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>X_housing <span class="op">=</span> housing[numeric_features <span class="op">+</span> categorical_features]</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>y_housing <span class="op">=</span> housing[<span class="st">"price"</span>]</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>X_housing_train, X_housing_test, y_housing_train, y_housing_test <span class="op">=</span> train_test_split(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    X_housing, y_housing, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>numeric_pipeline <span class="op">=</span> make_pipeline(SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>), StandardScaler())</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>categorical_pipeline <span class="op">=</span> make_pipeline(</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    SimpleImputer(strategy<span class="op">=</span><span class="st">"most_frequent"</span>), OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">"ignore"</span>)</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>housing_preprocessor <span class="op">=</span> make_column_transformer(</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    (numeric_pipeline, numeric_features), (categorical_pipeline, categorical_features)</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>housing_pipeline <span class="op">=</span> make_pipeline(housing_preprocessor, Ridge())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8f18aa56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.306239Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.306189Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.323204Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.322869Z&quot;}}" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>housing <span class="op">=</span> pd.read_csv(DATA_DIR <span class="op">/</span> <span class="st">"kc_house_data.csv"</span>, dtype<span class="op">=</span>{<span class="st">"zipcode"</span>: <span class="bu">str</span>})</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>numeric_features <span class="op">=</span> [<span class="st">"sqft_living"</span>, <span class="st">"bedrooms"</span>, <span class="st">"bathrooms"</span>, <span class="st">"floors"</span>, <span class="st">"yr_built"</span>, <span class="st">"lat"</span>, <span class="st">"long"</span>]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>categorical_features <span class="op">=</span> [<span class="st">"zipcode"</span>]</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>X_housing <span class="op">=</span> housing[numeric_features <span class="op">+</span> categorical_features]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>y_housing <span class="op">=</span> housing[<span class="st">"price"</span>]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>X_housing_train, X_housing_test, y_housing_train, y_housing_test <span class="op">=</span> train_test_split(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    X_housing, y_housing, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">123</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>numeric_pipeline <span class="op">=</span> make_pipeline(SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>), StandardScaler())</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>categorical_pipeline <span class="op">=</span> make_pipeline(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    SimpleImputer(strategy<span class="op">=</span><span class="st">"most_frequent"</span>), OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">"ignore"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>housing_preprocessor <span class="op">=</span> make_column_transformer(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    (numeric_pipeline, numeric_features), (categorical_pipeline, categorical_features)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>housing_pipeline <span class="op">=</span> make_pipeline(housing_preprocessor, Ridge())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Fit a fixed <code>alpha=1</code> model on training data to inspect how it computes predictions. This demonstration focuses on interpreting coefficients after preprocessing; choosing and evaluating a final model follows the workflow you have practised in your labs. We leave the test data untouched here.</p>
 <section id="recover-feature-names-and-interpret-their-units" class="level4">
 <h4 class="anchored" data-anchor-id="recover-feature-names-and-interpret-their-units">Recover feature names and interpret their units</h4>
-<div id="26af7fd3" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>housing_pipeline.fit(X_housing_train, y_housing_train)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>housing_model <span class="op">=</span> housing_pipeline.named_steps[<span class="st">"ridge"</span>]</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>housing_feature_names <span class="op">=</span> housing_pipeline.named_steps[<span class="st">"columntransformer"</span>].get_feature_names_out()</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>housing_coefficients <span class="op">=</span> pd.Series(</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    housing_model.coef_, index<span class="op">=</span>housing_feature_names, name<span class="op">=</span><span class="st">"coefficient"</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>housing_coefficients.to_frame()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="26af7fd3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-10-28T03:22:40.324151Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-10-28T03:22:40.324102Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-10-28T03:22:40.346736Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-10-28T03:22:40.346383Z&quot;}}" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>housing_pipeline.fit(X_housing_train, y_housing_train)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>housing_model <span class="op">=</span> housing_pipeline.named_steps[<span class="st">"ridge"</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>housing_feature_names <span class="op">=</span> housing_pipeline.named_steps[<span class="st">"columntransformer"</span>].get_feature_names_out()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>housing_coefficients <span class="op">=</span> pd.Series(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    housing_model.coef_, index<span class="op">=</span>housing_feature_names, name<span class="op">=</span><span class="st">"coefficient"</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>selected_features <span class="op">=</span> [</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pipeline-1__sqft_living"</span>, <span class="st">"pipeline-1__bedrooms"</span>, <span class="st">"pipeline-1__bathrooms"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pipeline-2__zipcode_98188"</span>, <span class="st">"pipeline-2__zipcode_98199"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>housing_coefficients.loc[selected_features].to_frame()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -1212,32 +1402,8 @@ dtype: object</code></pre>
 <td>21071.288905</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">pipeline-1__floors</th>
-<td>-354.782233</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">pipeline-1__yr_built</th>
-<td>-25653.338977</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">...</th>
-<td>...</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">pipeline-2__zipcode_98177</th>
-<td>-12308.674954</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">pipeline-2__zipcode_98178</th>
-<td>-156173.454701</td>
-</tr>
-<tr class="odd">
 <th data-quarto-table-cell-role="th">pipeline-2__zipcode_98188</th>
 <td>-176914.513645</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">pipeline-2__zipcode_98198</th>
-<td>-157260.939889</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">pipeline-2__zipcode_98199</th>
@@ -1246,27 +1412,27 @@ dtype: object</code></pre>
 </tbody>
 </table>
 
-<p>77 rows × 1 columns</p>
 </div>
 </div>
 </div>
-<p>The transformed names link each coefficient to the feature actually received by Ridge. For standardized numerical features, a one-unit increase represents one training-set standard deviation; the coefficient is the corresponding change in predicted dollars with other represented inputs held fixed. One-hot ZIP-code indicators remain 0 or 1, so their coefficients have a different interpretation and should not be ranked alongside standardized numerical coefficients as interchangeable measures of importance.</p>
-<p>We retained all ZIP-code categories, so there is no single omitted reference ZIP code. Switching between two known ZIP codes changes two indicators: one turns off and another turns on. Their coefficient difference gives the model’s predicted change when the numerical features stay fixed. Because ZIP code and coordinates overlap in information, the individual coefficients depend on the representation and regularization. They are not causal neighbourhood effects.</p>
-<p>The negative bedroom coefficient from Chapter 7 illustrated the same issue: changing bedroom count while holding living area fixed is different from adding a bedroom by extending a house.</p>
+<p>The transformed names link each coefficient to the feature actually received by Ridge. For standardized numerical features, a one-unit increase represents one training-set standard deviation. The living-area coefficient is about $244,805: increasing living area by one training standard deviation increases the model’s predicted price by that amount, holding the other represented features fixed.</p>
+<p>The bedroom coefficient is about −$44,014. This describes increasing the bedroom count while holding living area and the other features fixed. As in Chapter 7, that is different from adding a bedroom by extending a house. It does not establish that adding a bedroom causes a house to lose value.</p>
+<p>One-hot ZIP-code indicators remain 0 or 1, so their coefficients have a different interpretation from standardized measurements. We retained all ZIP-code categories, so there is no single omitted reference ZIP code. Switching from ZIP code 98188 to 98199 turns one indicator off and another on. The difference between their coefficients gives the change in predicted price:</p>
+<p><span class="math display">\[
+123{,}094-(-176{,}915)\approx\$300{,}009.
+\]</span></p>
+<p>This is a contrast within the fitted model, with all numerical inputs—including latitude and longitude—held fixed. Such a change may not describe a realistic pair of houses. ZIP code and coordinates contain overlapping location information, so the individual coefficients depend on how we represent location. They are not causal neighbourhood effects.</p>
 </section>
 </section>
 <section id="interpreting-coefficients-with-care" class="level3">
 <h3 class="anchored" data-anchor-id="interpreting-coefficients-with-care">Interpreting coefficients with care</h3>
-<p>Coefficients explain <strong>how the fitted model makes predictions</strong>, not <strong>how the world works</strong>. Keep the following cautions in mind:</p>
+<p>Before explaining a coefficient, ask:</p>
 <ul>
-<li><strong>Prediction is not causation.</strong> A coefficient describes the model’s calculation with other represented features held fixed. It does not establish what would happen if we intervened to change that feature in the real world.</li>
-<li><strong>Units and preprocessing matter.</strong> A standardized numerical feature, a word count, and a one-hot category indicator represent different kinds of changes. Compare magnitudes only with a clear understanding of their scales and encodings.</li>
-<li><strong>Correlated features can share predictive information.</strong> Their individual coefficients can change substantially when features are added or removed, or when the training sample changes, even if predictions remain similar. Holding correlated features fixed may describe an unrealistic comparison.</li>
-<li><strong>Regularization affects the coefficients we interpret.</strong> Ridge and logistic regression balance fitting the data against a penalty on coefficients. Changing <code>alpha</code> or <code>C</code> can change their magnitudes and sometimes their signs. A small coefficient may reflect shrinkage or overlapping information; it does not prove that a feature is irrelevant.</li>
-<li><strong>Coefficient magnitude is not automatic feature importance.</strong> The contribution to one prediction also depends on the feature value. For logistic regression, a coefficient changes the raw score, not the probability by a fixed number of percentage points; check class ordering before interpreting its sign.</li>
-<li><strong>The explanation is limited by the model and its inputs.</strong> Missing predictors, discarded word order, or relationships that the linear rule cannot express can all limit predictions. A plausible-looking coefficient does not establish that the model is accurate or its assumptions are appropriate.</li>
+<li><strong>What feature does the model actually receive?</strong> Check its units, preprocessing, and, for classification, which class a positive coefficient favours.</li>
+<li><strong>What is held fixed?</strong> Overlapping features can make an isolated change unrealistic. A small coefficient does not establish that a feature is irrelevant.</li>
+<li><strong>What does this example contribute?</strong> The contribution is <span class="math inline">\(w_jx_j\)</span>, not the coefficient alone. A word absent from a review contributes zero.</li>
 </ul>
-<p>Interpret coefficients alongside the representation, regularization settings, validation results, and model mistakes. Report surprising or unstable coefficients as limitations to investigate rather than turning them into confident claims about the world.</p>
+<p>Coefficients explain the fitted calculation. Whether that calculation predicts well must be assessed separately using validation data; it cannot be established from plausible-looking coefficients alone.</p>
 </section>
 </section>
 <section id="putting-the-complete-workflow-together" class="level2">
@@ -1287,28 +1453,17 @@ dtype: object</code></pre>
 <li><strong>Communicate findings and limitations.</strong> Explain performance relative to a baseline and what the evidence can and cannot support.</li>
 </ol>
 </section>
-<section id="this-weeks-addition-interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="this-weeks-addition-interpretation">This week’s addition: interpretation</h3>
-<p>This week, we have added a more deliberate step of asking how the model makes its predictions. Linear-model coefficients and individual feature contributions let us inspect the calculations directly. Some other models, such as decision trees, provide model-specific feature importances. These summaries require care: a coefficient or importance value describes the fitted model, not a causal explanation of how the world works. Values from different methods are not interchangeable.</p>
-<p>Interpretation is a step in the <strong>analysis workflow</strong>, rather than a transformer added to a scikit-learn <code>Pipeline</code>. Use it alongside validation errors: does a regressor tend to overpredict or underpredict? Which classes does a classifier confuse? Are mistakes concentrated in particular kinds of examples, and do their consequences differ?</p>
-<p>If inspection suggests changes to the representation or model, return to training-data development and comparison. This makes the workflow iterative while preserving the test set for final assessment.</p>
-</section>
-<section id="how-the-workflow-will-grow-in-dsci-573" class="level3">
-<h3 class="anchored" data-anchor-id="how-the-workflow-will-grow-in-dsci-573">How the workflow will grow in DSCI 573</h3>
-<p>The first lecture of DSCI 573 focuses on evaluation metrics. We have already seen why this matters: accuracy and log loss answer different questions, and MAE and MSE can prefer different regression predictions. The next course will develop how to choose measures that reflect the errors and consequences relevant to an application.</p>
-<p>You will also add more deliberate <strong>feature engineering</strong> and <strong>feature selection</strong>. Feature engineering asks how to represent information in ways that help a model learn useful relationships; feature selection asks which inputs to retain. These choices belong inside model development and validation, alongside preprocessing and hyperparameter selection. They extend the workflow you already know.</p>
-</section>
-<section id="communicating-findings-and-limitations" class="level3">
-<h3 class="anchored" data-anchor-id="communicating-findings-and-limitations">Communicating findings and limitations</h3>
-<p>Report the task, the comparison with a baseline, the evaluation procedure, and the important types of mistakes. Be clear about which data and situations the results describe. A good average score does not establish that every kind of example is predicted well or that performance will remain the same in a different setting.</p>
-<p>Communicate limitations honestly, without exaggerating accuracy, reliability, or understanding. Predictive associations do not establish causal effects, and plausible-looking coefficients do not prove that a model has captured the true relationship. If final test results disappoint, report them rather than repeatedly tuning against the same test set. These habits remain essential as the workflow grows more sophisticated.</p>
+<section id="using-interpretation-during-model-development" class="level3">
+<h3 class="anchored" data-anchor-id="using-interpretation-during-model-development">Using interpretation during model development</h3>
+<p>Interpretation is a step in the <strong>analysis workflow</strong>, rather than a transformer added to a scikit-learn <code>Pipeline</code>. The sentiment example let us reconstruct a prediction and identify distinctions the representation discarded. The housing example showed why preprocessing and overlapping features matter when explaining coefficients.</p>
+<p>If inspection suggests changes to the representation or model, return to training-data development and comparison. Keep the test set for final assessment. Report the task, baseline, evaluation procedure, and limitations alongside the results. If final test results disappoint, report them rather than repeatedly tuning against the same test set.</p>
 </section>
 <section id="exercise-8.4-review-a-proposed-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-8.4-review-a-proposed-workflow">Exercise 8.4: Review a proposed workflow</h3>
-<p>A team wants to route support requests to three departments. It includes a field recording which department eventually resolved each request, builds a text vocabulary using all requests, and then creates a train/test split. It tries many values of <code>C</code>, keeps the one with the best test accuracy, and reports that accuracy as evidence that its probability predictions are reliable.</p>
+<p>Apply the workflow to a new setting: a team wants to route support requests to three departments. It includes a field recording which department eventually resolved each request, builds a text vocabulary using all requests, and then creates a train/test split. It tries many values of <code>C</code>, keeps the one with the best test accuracy, and reports that accuracy as evidence that its probability predictions are reliable.</p>
 <p>Identify the problems and propose a corrected workflow using tools from this book. Explain which choices must be settled before final test evaluation.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Solution">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1317,7 +1472,7 @@ dtype: object</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The resolving department is not available when a new request arrives and would reveal information about the outcome. Remove it and check the availability of the remaining inputs. Reserve the test set before learning a vocabulary; place <code>CountVectorizer</code> and the model in a pipeline so that each cross-validation fold learns its vocabulary only from that fold’s training portion. Use training-data cross-validation to choose <code>C</code>, and compare against a baseline. Decide whether the intended use requires hard routing decisions, probability estimates, or both, and choose evaluation measures accordingly. Accuracy alone does not assess the assigned probabilities. Evaluate the selected workflow once on the test set and explain the limits of that evidence.</p>
 </div>
@@ -1328,7 +1483,6 @@ dtype: object</code></pre>
 <section id="what-you-can-do-now-and-what-comes-next" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-can-do-now-and-what-comes-next">What you can do now and what comes next</h2>
 <p>You began this course with data tables and prediction tasks. You can now define a supervised-learning problem, represent numerical, categorical, and text features, establish baselines, compare model families, and tune a complete pipeline. You can separate development from final evaluation and inspect what a fitted model has learned.</p>
-<p>The models matter, but so do the decisions around them. Which information will actually be available? What baseline should the model improve on? Have preprocessing and model selection respected the boundaries between training and evaluation data? What does the reported score tell us? These questions remain useful as models become more complex.</p>
 <p>The curriculum map places this foundation in the wider MDS machine-learning sequence:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1367,23 +1521,25 @@ dtype: object</code></pre>
 <td>Model transparency and SHAP</td>
 </tr>
 <tr class="odd">
+<td>How could we represent the available information more usefully?</td>
+<td>Feature engineering</td>
+</tr>
+<tr class="even">
 <td>Which features should we retain?</td>
 <td>Feature selection</td>
 </tr>
 </tbody>
 </table>
-<p>These are extensions of questions you can already recognize, rather than reasons to postpone building a first model. For your next prediction problem, define the task clearly, build a simple baseline, and keep your evaluation trustworthy. Use the evidence to decide what to try next, and explain what that evidence can support.</p>
+<p>Feature engineering develops useful representations of the available information; feature selection decides which inputs to retain. Like preprocessing and hyperparameter selection, these choices belong inside model development and validation. The next courses will extend the workflow you already know.</p>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
-<li>Multiclass logistic regression computes a score for each class and uses softmax to obtain probabilities summing to 1. The largest probability determines the prediction, even when it is below 0.5.</li>
-<li>Cross-entropy measures the probability assigned to the true class. The same principle applies to binary and multiclass predictions.</li>
-<li>MAE and MSE assign different relative weight to large residuals. Accuracy evaluates class decisions, while log loss evaluates probabilities.</li>
-<li>Logistic, hinge, and exponential losses reward different behaviour of a signed classification score. Hinge loss becomes zero beyond a margin; exponential loss grows especially rapidly for strongly wrong scores.</li>
-<li>Fitting objectives learn parameters; evaluation scores compare predictions. Changing a search’s scorer does not change the estimator’s fitting objective.</li>
-<li>Coefficients describe the fitted calculation. Individual contributions also depend on feature values, and residuals can reveal patterns hidden by an aggregate score.</li>
-<li>A complete workflow combines task definition, protected evaluation data, training-data exploration, preprocessing, baselines, comparison, tuning, inspection, and clear communication of results and limitations.</li>
+<li>Multiclass logistic regression computes one score per class and uses softmax to obtain probabilities that sum to 1. The largest probability determines the prediction, even when it is below 0.5.</li>
+<li>Cross-entropy evaluates the probability assigned to the true class. Accuracy uses only the chosen class, so correct predictions can have different log losses.</li>
+<li>Squared and absolute losses place different relative weight on large prediction errors. Hinge loss becomes zero beyond a margin, while logistic and exponential losses continue decreasing for increasingly correct scores.</li>
+<li>Fitting uses a loss to learn parameters; evaluation measures assess the resulting predictions. Changing a search’s scorer changes how candidates are compared, not each estimator’s fitting loss.</li>
+<li>Interpreting a linear prediction requires both coefficients and feature values. Preprocessing, class order, and overlapping information matter; coefficients describe the fitted calculation rather than causal effects.</li>
 </ul>
 
 
