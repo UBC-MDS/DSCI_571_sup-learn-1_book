@@ -38,7 +38,7 @@ Students taking DSCI 571 should follow the schedule and assessment instructions 
 
 These notes have evolved over multiple offerings of DSCI 571 and CPSC 330 and have benefited from the contributions and feedback of instructors, teaching assistants, and students.
 
-The original course notes were developed by Mike Gelbart in 2018. Varada Kolhatkar subsequently expanded and substantially revised the notes, added examples, and created accompanying videos.
+The original course notes were developed by Mike Gelbart in 2018. Varada Kolhatkar subsequently expanded and substantially revised the notes, added new topics, and created accompanying videos.
 
 Over the years, several instructors (Tom Beuzen, Prajeet Bajpai, Kehan (Sky) Sheng, teaching assistants, and students have contributed to the course materials and provided valuable feedback that has helped improve these notes. Thank you all! 
 
@@ -65,7 +65,7 @@ license terms.
 Under the following terms:
 
 * **Attribution**---You must give appropriate credit (mentioning that
-  your work is derived from work that is Copyright © Varada Kolhatkar, Mike  Gelbart, Giulia Toti, and Firas Moosvi, where practical, linking to https://github.com/UBC-CS/cpsc330-2024W1), provide a [link to the
+  your work is derived from work that is Copyright © 2026 Varada Kolhatkar, where practical, linking to https://github.com/UBC-CS/cpsc330-2024W1), provide a [link to the
   license][cc-by-human], and indicate if changes were made. You may do
   so in any reasonable manner, but not in any way that suggests the
   licensor endorses you or your use.
